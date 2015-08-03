@@ -8,6 +8,29 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="8dip">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="设备"
+                android:layout_marginRight="8dip"/>
+
+            <View
+                android:layout_width="0dip"
+                android:layout_height="1dip"
+                android:layout_weight="1"
+                android:background="@android:color/darker_gray" />
+
+        </LinearLayout>
+
+
+
         <Button
             android:id="@+id/add_device"
             android:layout_width="match_parent"
@@ -30,11 +53,74 @@
             android:text="获取单个设备"/>
 
         <Button
+            android:id="@+id/edit_device"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="editDevice"
+            android:text="编辑设备"/>
+
+        <Button
             android:id="@+id/delete_device"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="deleteDevice"
             android:text="删除设备"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="8dip">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="数据流"
+                android:layout_marginRight="8dip"/>
+
+            <View
+                android:layout_width="0dip"
+                android:layout_height="1dip"
+                android:layout_weight="1"
+                android:background="@android:color/darker_gray" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/add_datastream"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="addDatastream"
+            android:text="添加数据流"/>
+
+        <Button
+            android:id="@+id/get_datastream"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="getDatastream"
+            android:text="读取数据流"/>
+
+        <Button
+            android:id="@+id/get_datastreams"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="getDatastreams"
+            android:text="读取数据流列表"/>
+
+        <Button
+            android:id="@+id/edit_datastream"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="editDatastream"
+            android:text="编辑数据流"/>
+
+        <Button
+            android:id="@+id/delete_datastream"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="deleteDatastream"
+            android:text="删除数据流"/>
 
     </LinearLayout>
 

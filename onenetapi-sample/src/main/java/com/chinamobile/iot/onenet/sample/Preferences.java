@@ -16,6 +16,8 @@ public class Preferences {
     private static final String KEY_USERNAME = "username";
     private static final String KEY_PASSWORD = "password";
 
+    private static final String KEY_DEVICE_ID = "device_id";
+
     private Preferences(Context context) {
         mShareferences = context.getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE);
         mEditor = mShareferences.edit();
@@ -44,5 +46,18 @@ public class Preferences {
 
     public String getPassword() {
         return mShareferences.getString(KEY_PASSWORD, "");
+    }
+
+    public void setDeviceId(String deviceId) {
+        mEditor.putString(KEY_DEVICE_ID, deviceId);
+        mEditor.commit();
+    }
+
+    public String getDeviceId() {
+        return mShareferences.getString(KEY_DEVICE_ID, "");
+    }
+
+    public void deleteDeviceId() {
+        mEditor.remove(KEY_DEVICE_ID);
     }
 }

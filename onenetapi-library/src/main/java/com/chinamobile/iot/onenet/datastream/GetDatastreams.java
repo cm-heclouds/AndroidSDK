@@ -12,7 +12,7 @@ public class GetDatastreams extends BaseStringRequest {
     private String mApiKey;
 
     public GetDatastreams(String apiKey, String deviceId, String params, ResponseListener listener) {
-        super(Method.GET, BASE_URL + "/devices/" + deviceId + "datastreams" + params, listener);
+        super(Method.GET, BASE_URL + "/devices/" + deviceId + "/datastreams" + params, listener);
         mApiKey = apiKey;
     }
 

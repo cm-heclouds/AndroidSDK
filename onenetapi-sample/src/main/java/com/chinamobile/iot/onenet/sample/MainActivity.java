@@ -3,6 +3,7 @@ package com.chinamobile.iot.onenet.sample;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.chinamobile.iot.onenet.OneNetApi;
 import com.chinamobile.iot.onenet.OneNetError;
@@ -16,11 +17,15 @@ import org.json.JSONObject;
 public class MainActivity extends Activity {
 
     private String mTempDeviceId;
+    private Preferences mPreferences;
+    private String mTempStreamId = "测试数据流";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_avtivity);
+        mPreferences = Preferences.getInstance(this);
+        mTempDeviceId = mPreferences.getDeviceId();
     }
 
     public void addDevice(View v) {
@@ -35,6 +40,7 @@ public class MainActivity extends Activity {
                         try {
                             JSONObject dataObj = new JSONObject(data);
                             mTempDeviceId = dataObj.optString("device_id");
+                            mPreferences.setDeviceId(mTempDeviceId);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -90,6 +96,10 @@ public class MainActivity extends Activity {
             @Override
             public void onResponse(OneNetResponse response) {
                 RequestLogActivity.actionLogActivity(MainActivity.this, response.getRawResponse());
+                if (0 == response.getErrno()) {
+                    mTempDeviceId = null;
+                    mPreferences.deleteDeviceId();
+                }
             }
 
             @Override
@@ -97,6 +107,111 @@ public class MainActivity extends Activity {
                 // 网络或服务器错误
             }
 
+        });
+    }
+
+    public void editDevice(View v) {
+        OneNetApi.getInstance(this).editDevice(SampleApp.sApiKey, mTempDeviceId, "OneNetApi测试1", "OneNetApi测试1", true, new ResponseListener() {
+            @Override
+            public void onResponse(OneNetResponse response) {
+                RequestLogActivity.actionLogActivity(MainActivity.this, response.getRawResponse());
+            }
+
+            @Override
+            public void onError(OneNetError error) {
+                // 网络或服务器错误
+            }
+        });
+    }
+
+    public void addDatastream(View v) {
+        if (null == mTempDeviceId) {
+            Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        OneNetApi.getInstance(this).addDatastream(SampleApp.sApiKey, mTempDeviceId, mTempStreamId, "a", "b", new ResponseListener() {
+            @Override
+            public void onResponse(OneNetResponse response) {
+                RequestLogActivity.actionLogActivity(MainActivity.this, response.getRawResponse());
+            }
+
+            @Override
+            public void onError(OneNetError error) {
+                // 网络或服务器错误
+            }
+        });
+    }
+
+    public void getDatastream(View v) {
+        if (null == mTempDeviceId) {
+            Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        OneNetApi.getInstance(this).getDatastream(SampleApp.sApiKey, mTempDeviceId, mTempStreamId, new ResponseListener() {
+            @Override
+            public void onResponse(OneNetResponse response) {
+                RequestLogActivity.actionLogActivity(MainActivity.this, response.getRawResponse());
+            }
+
+            @Override
+            public void onError(OneNetError error) {
+
+            }
+        });
+    }
+
+    public void getDatastreams(View v) {
+        if (null == mTempDeviceId) {
+            Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        OneNetApi.getInstance(this).getDatastreams(SampleApp.sApiKey, mTempDeviceId, null, new ResponseListener() {
+            @Override
+            public void onResponse(OneNetResponse response) {
+                RequestLogActivity.actionLogActivity(MainActivity.this, response.getRawResponse());
+            }
+
+            @Override
+            public void onError(OneNetError error) {
+
+            }
+        });
+    }
+
+    public void editDatastream(View v) {
+        if (null == mTempDeviceId) {
+            Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        OneNetApi.getInstance(this).editDatastream(SampleApp.sApiKey, mTempDeviceId, mTempStreamId, "c", "d", new ResponseListener() {
+            @Override
+            public void onResponse(OneNetResponse response) {
+                RequestLogActivity.actionLogActivity(MainActivity.this, response.getRawResponse());
+            }
+
+            @Override
+            public void onError(OneNetError error) {
+
+            }
+        });
+    }
+
+    public void deleteDatastream(View v) {
+        if (null == mTempDeviceId) {
+            Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        OneNetApi.getInstance(this).deleteDatastream(SampleApp.sApiKey, mTempDeviceId, mTempStreamId, new ResponseListener() {
+            @Override
+            public void onResponse(OneNetResponse response) {
+                RequestLogActivity.actionLogActivity(MainActivity.this, response.getRawResponse());
+            }
+
+            @Override
+            public void onError(OneNetError error) {
+
+            }
         });
     }
 
