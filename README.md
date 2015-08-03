@@ -1,4 +1,4 @@
-# OneNet SDK for Android #
+# SDK for Android #
 
 本项目是 **中移物联网公司** 为方便Android开发者接入 **设备云** 平台而开发的SDK。关于设备云请进入[**设备云主站**](http://open.iot.10086.cn)了解详情。如果要了解OneNet API请进入 [**开发者中心**](http://open.iot.10086.cn/develop/doc/api/restfullist "开发者中心") 参考**API文档**。
 
