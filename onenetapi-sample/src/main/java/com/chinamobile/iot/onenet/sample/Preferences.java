@@ -17,6 +17,7 @@ public class Preferences {
     private static final String KEY_PASSWORD = "password";
 
     private static final String KEY_DEVICE_ID = "device_id";
+    private static final String KEY_TRIGGER_ID = "trigger_id";
 
     private Preferences(Context context) {
         mShareferences = context.getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE);
@@ -59,5 +60,20 @@ public class Preferences {
 
     public void deleteDeviceId() {
         mEditor.remove(KEY_DEVICE_ID);
+        mEditor.commit();
+    }
+
+    public void setTriggerId(String triggerId) {
+        mEditor.putString(KEY_TRIGGER_ID, triggerId);
+        mEditor.commit();
+    }
+
+    public String getTriggerId() {
+        return mShareferences.getString(KEY_TRIGGER_ID, "");
+    }
+
+    public void deleteTriggerId() {
+        mEditor.remove(KEY_TRIGGER_ID);
+        mEditor.commit();
     }
 }

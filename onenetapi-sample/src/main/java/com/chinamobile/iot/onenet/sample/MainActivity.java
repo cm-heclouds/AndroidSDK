@@ -24,6 +24,7 @@ public class MainActivity extends Activity {
     private String mTempDeviceId;
     private Preferences mPreferences;
     private String mTempStreamId = "测试数据流";
+    private String mTempTriggerId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main_avtivity);
         mPreferences = Preferences.getInstance(this);
         mTempDeviceId = mPreferences.getDeviceId();
+        mTempTriggerId = mPreferences.getTriggerId();
     }
 
     public void addDevice(View v) {
@@ -314,6 +316,95 @@ public class MainActivity extends Activity {
 
                     }
                 });
+    }
+
+    public void addTrigger(View v) {
+        OneNetApi.getInstance(this).addTrigger(SampleApp.sApiKey, "http://www.baidu.com", ">", 10,
+                mTempStreamId, null, null, new ResponseListener() {
+
+            @Override
+            public void onResponse(OneNetResponse response) {
+                RequestLogActivity.actionLogActivity(MainActivity.this, response.getRawResponse());
+                if (0 == response.getErrno()) {
+                    String data = response.getData();
+                    if (data != null) {
+                        try {
+                            JSONObject obj = new JSONObject(data);
+                            mTempTriggerId = obj.optString("trigger_id");
+                            mPreferences.setTriggerId(mTempTriggerId);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }
+            }
+
+            @Override
+            public void onError(OneNetError error) {
+
+            }
+        });
+    }
+
+    public void editTrigger(View v) {
+        OneNetApi.getInstance(this).editTrigger(SampleApp.sApiKey, mTempTriggerId, "http://www.hao123.com", "<", 20,
+                mTempStreamId, null, null, new ResponseListener() {
+
+                    @Override
+                    public void onResponse(OneNetResponse response) {
+                        RequestLogActivity.actionLogActivity(MainActivity.this, response.getRawResponse());
+                    }
+
+                    @Override
+                    public void onError(OneNetError error) {
+
+                    }
+                });
+    }
+
+    public void getTrigger(View v) {
+        OneNetApi.getInstance(this).getTrigger(SampleApp.sApiKey, mTempTriggerId, new ResponseListener() {
+            @Override
+            public void onResponse(OneNetResponse response) {
+                RequestLogActivity.actionLogActivity(MainActivity.this, response.getRawResponse());
+            }
+
+            @Override
+            public void onError(OneNetError error) {
+
+            }
+        });
+    }
+
+    public void deleteTrigger(View v) {
+        OneNetApi.getInstance(this).deleteTrigger(SampleApp.sApiKey, mTempTriggerId, new ResponseListener() {
+            @Override
+            public void onResponse(OneNetResponse response) {
+                RequestLogActivity.actionLogActivity(MainActivity.this, response.getRawResponse());
+            }
+
+            @Override
+            public void onError(OneNetError error) {
+
+            }
+        });
+    }
+
+    public void addAPIKey(View v) {
+
+    }
+
+    public void editAPIKey(View v) {
+
+    }
+
+    public void getAPIKey(View v) {
+
+    }
+
+    public void deleteAPIKey(View v) {
+
     }
 
     public void test(View v) {

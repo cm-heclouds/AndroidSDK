@@ -169,6 +169,104 @@
             android:onClick="deleteDatapoint"
             android:text="删除数据"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="8dip">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="触发器"
+                android:layout_marginRight="8dip"/>
+
+            <View
+                android:layout_width="0dip"
+                android:layout_height="1dip"
+                android:layout_weight="1"
+                android:background="@android:color/darker_gray" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/add_trigger"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="addTrigger"
+            android:text="新增触发器"/>
+
+        <Button
+            android:id="@+id/edit_trigger"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="editTrigger"
+            android:text="编辑触发器"/>
+
+        <Button
+            android:id="@+id/get_trigger"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="getTrigger"
+            android:text="读取触发器"/>
+
+        <Button
+            android:id="@+id/delete_trigger"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="deleteTrigger"
+            android:text="删除触发器"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="8dip">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="APIKey"
+                android:layout_marginRight="8dip"/>
+
+            <View
+                android:layout_width="0dip"
+                android:layout_height="1dip"
+                android:layout_weight="1"
+                android:background="@android:color/darker_gray" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/add_apikey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="addAPIKey"
+            android:text="创建APIKey"/>
+
+        <Button
+            android:id="@+id/edit_apikey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="editAPIKey"
+            android:text="编辑APIKey"/>
+
+        <Button
+            android:id="@+id/get_apikey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="getAPIKey"
+            android:text="读取APIKey"/>
+
+        <Button
+            android:id="@+id/delete_apikey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="deleteAPIKey"
+            android:text="删除APIKey"/>
+
     </LinearLayout>
 
 
