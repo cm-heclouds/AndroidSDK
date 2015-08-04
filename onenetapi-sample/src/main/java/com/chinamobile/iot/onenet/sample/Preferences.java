@@ -18,6 +18,7 @@ public class Preferences {
 
     private static final String KEY_DEVICE_ID = "device_id";
     private static final String KEY_TRIGGER_ID = "trigger_id";
+    private static final String KEY_API_KEY = "api_key";
 
     private Preferences(Context context) {
         mShareferences = context.getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE);
@@ -74,6 +75,20 @@ public class Preferences {
 
     public void deleteTriggerId() {
         mEditor.remove(KEY_TRIGGER_ID);
+        mEditor.commit();
+    }
+
+    public void setApiKey(String apiKey) {
+        mEditor.putString(KEY_API_KEY, apiKey);
+        mEditor.commit();
+    }
+
+    public String getApiKey() {
+        return mShareferences.getString(KEY_API_KEY, "");
+    }
+
+    public void deleteApiKey() {
+        mEditor.remove(KEY_API_KEY);
         mEditor.commit();
     }
 }

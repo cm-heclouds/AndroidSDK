@@ -25,6 +25,7 @@ public class MainActivity extends Activity {
     private Preferences mPreferences;
     private String mTempStreamId = "测试数据流";
     private String mTempTriggerId;
+    private String mTempApiKey;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class MainActivity extends Activity {
         mPreferences = Preferences.getInstance(this);
         mTempDeviceId = mPreferences.getDeviceId();
         mTempTriggerId = mPreferences.getTriggerId();
+        mTempApiKey = mPreferences.getApiKey();
     }
 
     public void addDevice(View v) {
@@ -213,6 +215,9 @@ public class MainActivity extends Activity {
             @Override
             public void onResponse(OneNetResponse response) {
                 RequestLogActivity.actionLogActivity(MainActivity.this, response.getRawResponse());
+                if (0 == response.getErrno()) {
+                    mTempStreamId = null;
+                }
             }
 
             @Override
@@ -319,35 +324,43 @@ public class MainActivity extends Activity {
     }
 
     public void addTrigger(View v) {
+        if (null == mTempDeviceId) {
+            Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
+            return;
+        }
         OneNetApi.getInstance(this).addTrigger(SampleApp.sApiKey, "http://www.baidu.com", ">", 10,
                 mTempStreamId, null, null, new ResponseListener() {
 
-            @Override
-            public void onResponse(OneNetResponse response) {
-                RequestLogActivity.actionLogActivity(MainActivity.this, response.getRawResponse());
-                if (0 == response.getErrno()) {
-                    String data = response.getData();
-                    if (data != null) {
-                        try {
-                            JSONObject obj = new JSONObject(data);
-                            mTempTriggerId = obj.optString("trigger_id");
-                            mPreferences.setTriggerId(mTempTriggerId);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                    @Override
+                    public void onResponse(OneNetResponse response) {
+                        RequestLogActivity.actionLogActivity(MainActivity.this, response.getRawResponse());
+                        if (0 == response.getErrno()) {
+                            String data = response.getData();
+                            if (data != null) {
+                                try {
+                                    JSONObject obj = new JSONObject(data);
+                                    mTempTriggerId = obj.optString("trigger_id");
+                                    mPreferences.setTriggerId(mTempTriggerId);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
                         }
+                    }
+
+                    @Override
+                    public void onError(OneNetError error) {
 
                     }
-                }
-            }
-
-            @Override
-            public void onError(OneNetError error) {
-
-            }
-        });
+                });
     }
 
     public void editTrigger(View v) {
+        if (null == mTempDeviceId) {
+            Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
+            return;
+        }
         OneNetApi.getInstance(this).editTrigger(SampleApp.sApiKey, mTempTriggerId, "http://www.hao123.com", "<", 20,
                 mTempStreamId, null, null, new ResponseListener() {
 
@@ -364,6 +377,10 @@ public class MainActivity extends Activity {
     }
 
     public void getTrigger(View v) {
+        if (null == mTempDeviceId) {
+            Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
+            return;
+        }
         OneNetApi.getInstance(this).getTrigger(SampleApp.sApiKey, mTempTriggerId, new ResponseListener() {
             @Override
             public void onResponse(OneNetResponse response) {
@@ -378,7 +395,65 @@ public class MainActivity extends Activity {
     }
 
     public void deleteTrigger(View v) {
+        if (null == mTempDeviceId) {
+            Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
+            return;
+        }
         OneNetApi.getInstance(this).deleteTrigger(SampleApp.sApiKey, mTempTriggerId, new ResponseListener() {
+            @Override
+            public void onResponse(OneNetResponse response) {
+                RequestLogActivity.actionLogActivity(MainActivity.this, response.getRawResponse());
+                if (0 == response.getErrno()) {
+                    mPreferences.deleteTriggerId();
+                    mTempTriggerId = null;
+                }
+            }
+
+            @Override
+            public void onError(OneNetError error) {
+
+            }
+        });
+    }
+
+    public void addAPIKey(View v) {
+        if (null == mTempDeviceId) {
+            Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        OneNetApi.getInstance(this).addApiKey(SampleApp.sApiKey, "TestApiKey", mTempDeviceId, mTempStreamId, new ResponseListener() {
+            @Override
+            public void onResponse(OneNetResponse response) {
+                RequestLogActivity.actionLogActivity(MainActivity.this, response.getRawResponse());
+                if (0 == response.getErrno()) {
+                    String data = response.getData();
+                    if (data != null) {
+                        try {
+                            JSONObject obj = new JSONObject(data);
+                            mTempApiKey = obj.optString("key");
+                            mPreferences.setApiKey(mTempApiKey);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onError(OneNetError error) {
+
+            }
+        });
+    }
+
+    public void editAPIKey(View v) {
+        if (null == mTempDeviceId) {
+            Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        OneNetApi.getInstance(this).editApiKey(SampleApp.sApiKey, mTempApiKey, "TestApiKey2",
+                mTempDeviceId, mTempStreamId, new ResponseListener() {
+
             @Override
             public void onResponse(OneNetResponse response) {
                 RequestLogActivity.actionLogActivity(MainActivity.this, response.getRawResponse());
@@ -391,20 +466,44 @@ public class MainActivity extends Activity {
         });
     }
 
-    public void addAPIKey(View v) {
-
-    }
-
-    public void editAPIKey(View v) {
-
-    }
-
     public void getAPIKey(View v) {
+        if (null == mTempDeviceId) {
+            Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        OneNetApi.getInstance(this).getApikey(SampleApp.sApiKey, mTempDeviceId, mTempApiKey, new ResponseListener() {
+            @Override
+            public void onResponse(OneNetResponse response) {
+                RequestLogActivity.actionLogActivity(MainActivity.this, response.getRawResponse());
+            }
 
+            @Override
+            public void onError(OneNetError error) {
+
+            }
+        });
     }
 
     public void deleteAPIKey(View v) {
+        if (null == mTempDeviceId) {
+            Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        OneNetApi.getInstance(this).deleteApikey(SampleApp.sApiKey, mTempApiKey, new ResponseListener() {
+            @Override
+            public void onResponse(OneNetResponse response) {
+                RequestLogActivity.actionLogActivity(MainActivity.this, response.getRawResponse());
+                if (0 == response.getErrno()) {
+                    mPreferences.deleteApiKey();
+                    mTempApiKey = null;
+                }
+            }
 
+            @Override
+            public void onError(OneNetError error) {
+
+            }
+        });
     }
 
     public void test(View v) {
