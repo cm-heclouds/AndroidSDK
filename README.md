@@ -29,23 +29,23 @@
         @Override
         public void onResponse(OneNetResponse response) {
 
-                // 获取原始响应
-                String rawResponse = response.getRawResponse();
+            // 获取原始响应
+            String rawResponse = response.getRawResponse();
 
-                if (response.getErrno() == 0) {
-                    // 请求成功
-                    String data = response.getData();
-                } else {
-                    // 连接服务器成功，但请求发生错误
-                    String error = response.getError();
-                }
+            if (response.getErrno() == 0) {
+                // 请求成功
+                String data = response.getData();
+            } else {
+                // 连接服务器成功，但请求发生错误
+                String error = response.getError();
+            }
                 
-            }
+        }
 
-            @Override
-            public void onError(OneNetError error) {
-                // 网络或服务器错误
-                error.printStackTrace();
-            }
+        @Override
+        public void onError(OneNetError error) {
+            // 网络或服务器错误
+            error.printStackTrace();
+        }
             
     });
