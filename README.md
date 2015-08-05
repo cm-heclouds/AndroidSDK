@@ -20,7 +20,7 @@
 
 所有的请求都是通过`com.chinamobile.iot.onenet.OneNetApi.java`完成，以获取设备列表为例
 
-    // 所有请求中用到的APIKey都是调用login接口返回的
+    
     String apiKey = "xxxxxxxxxxx-xxxxxxxxxxxxxx-xxxxxxxxxxxx";
     
     OneNetApi.getInstance(context).getDevices(apiKey, null, null, null, null, null, null, new ResponseListener() {
@@ -48,3 +48,5 @@
         }
             
     });
+
+**更多示例请参考Sample中的代码，运行前请将SampleApp中的sApiKey修改为你的账户下的MasterKey**
