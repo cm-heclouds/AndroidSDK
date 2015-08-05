@@ -10,10 +10,6 @@
 
 ## 说明 ##
 
-OneNetApi的网络请求框架使用的是[**Volley**](https://android.googlesource.com/platform/frameworks/volley "Volley")，如果要以源码的形式使用，请首先从以下地址将Volley的源码clone至本地
-
-    git clone https://android.googlesource.com/platform/frameworks/volley
-
 - 将 **onenetapi-library** 导入为 Android library，并将你的主工程依赖于 **onenetapi-library**
 - 你也可以将编译好的 **jar** 文件拷贝到工程的 **libs** 目录下或者将 **onenetapi-library** 的源码拷贝到工程的 **src** 目录下
 - 如果不想自己编译，也可以直接下载对应的二进制库文件[**onenetapi-library-release.jar**](/onenetapi-library-release.jar)
