@@ -10,7 +10,6 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/android-volley" />
             <option value="$PROJECT_DIR$/onenetapi-library" />
             <option value="$PROJECT_DIR$/onenetapi-sample" />
           </set>

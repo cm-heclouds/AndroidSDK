@@ -1,1 +1,1 @@
-include ':onenetapi-sample', ':onenetapi-library', ':android-volley'
+include ':onenetapi-sample', ':onenetapi-library'

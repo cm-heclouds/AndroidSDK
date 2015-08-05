@@ -4,7 +4,7 @@ import android.app.Application;
 
 public class SampleApp extends Application {
 
-    public static String sApiKey;
+    public static String sApiKey = "xxxxxxxxxxxxxxxxxxxxxx"; // 此处填写账户的MasterKey
 
     @Override
     public void onCreate() {
