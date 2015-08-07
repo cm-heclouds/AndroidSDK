@@ -20,33 +20,34 @@
 
 所有的请求都是通过`com.chinamobile.iot.onenet.OneNetApi.java`完成，以获取设备列表为例
 
+```java
+String apiKey = "xxxxxxxxxxx-xxxxxxxxxxxxxx-xxxxxxxxxxxx";
     
-    String apiKey = "xxxxxxxxxxx-xxxxxxxxxxxxxx-xxxxxxxxxxxx";
-    
-    OneNetApi.getInstance(context).getDevices(apiKey, null, null, null, null, null, null, new ResponseListener() {
+OneNetApi.getInstance(context).getDevices(apiKey, null, null, null, null, null, null, new ResponseListener() {
 
-        @Override
-        public void onResponse(OneNetResponse response) {
+    @Override
+    public void onResponse(OneNetResponse response) {
 
-            // 获取原始响应
-            String rawResponse = response.getRawResponse();
+        // 获取原始响应
+        String rawResponse = response.getRawResponse();
 
-            if (response.getErrno() == 0) {
-                // 请求成功
-                String data = response.getData();
-            } else {
-                // 连接服务器成功，但请求发生错误
-                String error = response.getError();
-            }
+        if (response.getErrno() == 0) {
+            // 请求成功
+            String data = response.getData();
+        } else {
+            // 连接服务器成功，但请求发生错误
+            String error = response.getError();
+        }
                 
-        }
+    }
 
-        @Override
-        public void onError(OneNetError error) {
-            // 网络或服务器错误
-            error.printStackTrace();
-        }
+    @Override
+    public void onError(OneNetError error) {
+        // 网络或服务器错误
+        error.printStackTrace();
+    }
             
-    });
+});
+```
 
 **更多示例请参考Sample中的代码，运行前请将SampleApp中的sApiKey修改为你的账户下的MasterKey**
