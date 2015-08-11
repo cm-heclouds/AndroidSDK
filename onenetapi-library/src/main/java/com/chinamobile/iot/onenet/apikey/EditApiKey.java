@@ -1,38 +1,26 @@
 package com.chinamobile.iot.onenet.apikey;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import com.android.volley.AuthFailureError;
 import com.chinamobile.iot.onenet.BaseStringRequest;
 import com.chinamobile.iot.onenet.ResponseListener;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class EditApiKey extends BaseStringRequest {
 
     private static final String URL = BASE_URL + "/keys/";
 
-    private String mMasterKey;
     private String mTitle;
     private String mDeviceId;
     private String mDatastreamId;
 
     public EditApiKey(String masterKey, String keyString, String title, String deviceId, String datastreamId,
             ResponseListener listener) {
-        super(Method.PUT, URL + keyString, listener);
-        mMasterKey = masterKey;
+        super(Method.PUT, URL + keyString, masterKey, listener);
         mTitle = title;
         mDeviceId = deviceId;
         mDatastreamId = datastreamId;
-    }
-
-    @Override
-    public Map<String, String> getHeaders() throws AuthFailureError {
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put("api-key", mMasterKey);
-        return headers;
     }
 
     @Override

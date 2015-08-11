@@ -1,34 +1,22 @@
 package com.chinamobile.iot.onenet.datastream;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.json.JSONObject;
-
 import com.android.volley.AuthFailureError;
 import com.chinamobile.iot.onenet.BaseStringRequest;
 import com.chinamobile.iot.onenet.ResponseListener;
 
+import org.json.JSONObject;
+
 public class EditDatastream extends BaseStringRequest {
 
-    private String mApiKey;
     private String mUnit;
     private String mUnitSymbol;
 
     public EditDatastream(String apiKey, String deviceId, String streamId, String unit, String unitSymbol,
             ResponseListener listener) {
-        super(Method.PUT, BASE_URL + "/devices/" + deviceId + "/datastreams/" + streamId, listener);
+        super(Method.PUT, BASE_URL + "/devices/" + deviceId + "/datastreams/" + streamId, apiKey, listener);
 
-        mApiKey = apiKey;
         mUnit = unit;
         mUnitSymbol = unitSymbol;
-    }
-
-    @Override
-    public Map<String, String> getHeaders() throws AuthFailureError {
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put("api-key", mApiKey);
-        return headers;
     }
 
     @Override

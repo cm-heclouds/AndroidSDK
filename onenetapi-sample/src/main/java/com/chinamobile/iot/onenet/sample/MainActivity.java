@@ -2,6 +2,7 @@ package com.chinamobile.iot.onenet.sample;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
@@ -134,7 +135,7 @@ public class MainActivity extends Activity {
     }
 
     public void addDatastream(View v) {
-        if (null == mTempDeviceId) {
+        if (TextUtils.isEmpty(mTempDeviceId)) {
             Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -152,7 +153,7 @@ public class MainActivity extends Activity {
     }
 
     public void getDatastream(View v) {
-        if (null == mTempDeviceId) {
+        if (TextUtils.isEmpty(mTempDeviceId)) {
             Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -171,7 +172,7 @@ public class MainActivity extends Activity {
     }
 
     public void getDatastreams(View v) {
-        if (null == mTempDeviceId) {
+        if (TextUtils.isEmpty(mTempDeviceId)) {
             Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -189,7 +190,7 @@ public class MainActivity extends Activity {
     }
 
     public void editDatastream(View v) {
-        if (null == mTempDeviceId) {
+        if (TextUtils.isEmpty(mTempDeviceId)) {
             Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -207,7 +208,7 @@ public class MainActivity extends Activity {
     }
 
     public void deleteDatastream(View v) {
-        if (null == mTempDeviceId) {
+        if (TextUtils.isEmpty(mTempDeviceId)) {
             Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -228,7 +229,7 @@ public class MainActivity extends Activity {
     }
 
     public void addDatapoint(View v) {
-        if (null == mTempDeviceId) {
+        if (TextUtils.isEmpty(mTempDeviceId)) {
             Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -254,7 +255,7 @@ public class MainActivity extends Activity {
     }
 
     public void getDatapoints(View v) {
-        if (null == mTempDeviceId) {
+        if (TextUtils.isEmpty(mTempDeviceId)) {
             Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -278,7 +279,7 @@ public class MainActivity extends Activity {
     }
 
     public void getHistoryDatapoints(View v) {
-        if (null == mTempDeviceId) {
+        if (TextUtils.isEmpty(mTempDeviceId)) {
             Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -301,7 +302,7 @@ public class MainActivity extends Activity {
     }
 
     public void deleteDatapoint(View v) {
-        if (null == mTempDeviceId) {
+        if (TextUtils.isEmpty(mTempDeviceId)) {
             Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -324,7 +325,7 @@ public class MainActivity extends Activity {
     }
 
     public void addTrigger(View v) {
-        if (null == mTempDeviceId) {
+        if (TextUtils.isEmpty(mTempDeviceId)) {
             Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -357,7 +358,7 @@ public class MainActivity extends Activity {
     }
 
     public void editTrigger(View v) {
-        if (null == mTempDeviceId) {
+        if (TextUtils.isEmpty(mTempDeviceId)) {
             Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -377,7 +378,7 @@ public class MainActivity extends Activity {
     }
 
     public void getTrigger(View v) {
-        if (null == mTempDeviceId) {
+        if (TextUtils.isEmpty(mTempDeviceId)) {
             Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -395,7 +396,7 @@ public class MainActivity extends Activity {
     }
 
     public void deleteTrigger(View v) {
-        if (null == mTempDeviceId) {
+        if (TextUtils.isEmpty(mTempDeviceId)) {
             Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -417,7 +418,7 @@ public class MainActivity extends Activity {
     }
 
     public void addAPIKey(View v) {
-        if (null == mTempDeviceId) {
+        if (TextUtils.isEmpty(mTempDeviceId)) {
             Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -447,27 +448,27 @@ public class MainActivity extends Activity {
     }
 
     public void editAPIKey(View v) {
-        if (null == mTempDeviceId) {
+        if (TextUtils.isEmpty(mTempDeviceId)) {
             Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
             return;
         }
         OneNetApi.getInstance(this).editApiKey(SampleApp.sApiKey, mTempApiKey, "TestApiKey2",
                 mTempDeviceId, mTempStreamId, new ResponseListener() {
 
-            @Override
-            public void onResponse(OneNetResponse response) {
-                RequestLogActivity.actionLogActivity(MainActivity.this, response.getRawResponse());
-            }
+                    @Override
+                    public void onResponse(OneNetResponse response) {
+                        RequestLogActivity.actionLogActivity(MainActivity.this, response.getRawResponse());
+                    }
 
-            @Override
-            public void onError(OneNetError error) {
+                    @Override
+                    public void onError(OneNetError error) {
 
-            }
-        });
+                    }
+                });
     }
 
     public void getAPIKey(View v) {
-        if (null == mTempDeviceId) {
+        if (TextUtils.isEmpty(mTempDeviceId)) {
             Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -485,7 +486,7 @@ public class MainActivity extends Activity {
     }
 
     public void deleteAPIKey(View v) {
-        if (null == mTempDeviceId) {
+        if (TextUtils.isEmpty(mTempDeviceId)) {
             Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -505,6 +506,24 @@ public class MainActivity extends Activity {
             }
         });
     }
+
+//    public void getLogs(View v) {
+//        if (TextUtils.isEmpty(mTempDeviceId)) {
+//            Toast.makeText(this, "请先添加设备", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//        OneNetApi.getInstance(this).getRestAPILogs(SampleApp.sApiKey, mTempDeviceId, new ResponseListener() {
+//            @Override
+//            public void onResponse(OneNetResponse response) {
+//                RequestLogActivity.actionLogActivity(MainActivity.this, response.getRawResponse());
+//            }
+//
+//            @Override
+//            public void onError(OneNetError error) {
+//
+//            }
+//        });
+//    }
 
     public void test(View v) {
 

@@ -1,21 +1,18 @@
 package com.chinamobile.iot.onenet.trigger;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import com.android.volley.AuthFailureError;
+import com.chinamobile.iot.onenet.BaseStringRequest;
+import com.chinamobile.iot.onenet.ResponseListener;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.android.volley.AuthFailureError;
-import com.chinamobile.iot.onenet.BaseStringRequest;
-import com.chinamobile.iot.onenet.ResponseListener;
+import java.util.ArrayList;
 
 public class AddTrigger extends BaseStringRequest {
 
     private static final String URL = BASE_URL + "/triggers";
 
-    private String mApiKey;
     private String mUrl;
     private String mType;
     private double mThreshold;
@@ -26,21 +23,13 @@ public class AddTrigger extends BaseStringRequest {
     public AddTrigger(String apiKey, String url, String type, double threshold,
             String datastreamId, ArrayList<String> deviceIds, ArrayList<String> dsUUIDs,
             ResponseListener listener) {
-        super(Method.POST, URL, listener);
-        mApiKey = apiKey;
+        super(Method.POST, URL, apiKey, listener);
         mUrl = url;
         mType = type;
         mThreshold = threshold;
         mDatastreamId = datastreamId;
         mDevicesIds = deviceIds;
         mDsUUIDs = dsUUIDs;
-    }
-
-    @Override
-    public Map<String, String> getHeaders() throws AuthFailureError {
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put("api-key", mApiKey);
-        return headers;
     }
 
     @Override

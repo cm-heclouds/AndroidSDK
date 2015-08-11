@@ -5,15 +5,32 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class BaseStringRequest extends StringRequest implements IRequest {
 
-    public BaseStringRequest(int method, String url, ResponseListener listener) {
+    private String mApiKey;
+
+    public BaseStringRequest(int method, String url, String apiKey, ResponseListener listener) {
         super(method, url, ListenerWrapper.wrapListener(url, listener), ListenerWrapper.wrapError(url, listener));
+        mApiKey = apiKey;
+    }
+
+    @Override
+    public Map<String, String> getHeaders() throws AuthFailureError {
+        if (mApiKey != null) {
+            Map<String, String> headers = new HashMap<String, String>();
+            headers.put("api-key", mApiKey);
+            return headers;
+        }
+        return super.getHeaders();
     }
 
     private static class ListenerWrapper {

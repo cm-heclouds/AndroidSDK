@@ -37,6 +37,7 @@ import com.chinamobile.iot.onenet.device.DeleteDevice;
 import com.chinamobile.iot.onenet.device.EditDevice;
 import com.chinamobile.iot.onenet.device.GetDevice;
 import com.chinamobile.iot.onenet.device.GetDevices;
+import com.chinamobile.iot.onenet.logs.GetRestAPILogs;
 import com.chinamobile.iot.onenet.trigger.AddTrigger;
 import com.chinamobile.iot.onenet.trigger.DeleteTrigger;
 import com.chinamobile.iot.onenet.trigger.EditTrigger;
@@ -80,14 +81,6 @@ public class OneNetApi {
 
     public void setDebugEnable(boolean debugEnable) {
         mDebugEable = debugEnable;
-    }
-
-    /**
-     * 登录
-     */
-    public void login(String username, String password, ResponseListener listener) {
-        StringRequest request = new Login(username, password, listener);
-        mRequestQueue.add(request);
     }
 
     /**
@@ -523,6 +516,13 @@ public class OneNetApi {
         StringRequest request = new DeleteBinData(apiKey, index, listener);
         mRequestQueue.add(request);
     }
+
+    /**
+     * RestAPI日志查询
+     */
+//    public void getRestAPILogs(String apiKey, String deviceId, ResponseListener listener) {
+//        mRequestQueue.add(new GetRestAPILogs(apiKey, deviceId, listener));
+//    }
 
     private String buildUrlParams(Map<String, String> params) {
         StringBuilder sb = new StringBuilder();

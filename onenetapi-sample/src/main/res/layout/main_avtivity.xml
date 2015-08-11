@@ -267,7 +267,37 @@
             android:onClick="deleteAPIKey"
             android:text="删除APIKey"/>
 
+     <!--   <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="8dip">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="其他"
+                android:layout_marginRight="8dip"/>
+
+            <View
+                android:layout_width="0dip"
+                android:layout_height="1dip"
+                android:layout_weight="1"
+                android:background="@android:color/darker_gray" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/get_logs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="getLogs"
+            android:text="RestAPI日志查询"/>-->
+
     </LinearLayout>
+
+
 
 
 </ScrollView>
