@@ -9,7 +9,7 @@ import java.io.InputStream;
 
 public class SendToEdp extends BaseBinRequest {
 
-    private static final String URL = BASE_URL + "/cmds/";
+    private static final String URL = BASE_URL + "/cmds?device_id=";
 
     private String mDeviceId;
     private AsyncHttpClient mAsyncHttpClient;
@@ -32,6 +32,10 @@ public class SendToEdp extends BaseBinRequest {
 
     public void send(String text) {
         execute(mAsyncHttpClient, URL + mDeviceId, text);
+    }
+
+    public void send(byte[] bytes) {
+        execute(mAsyncHttpClient, URL + mDeviceId, bytes);
     }
 
 }

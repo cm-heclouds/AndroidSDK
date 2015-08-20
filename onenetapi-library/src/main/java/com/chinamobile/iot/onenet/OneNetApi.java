@@ -450,6 +450,14 @@ public class OneNetApi {
     }
 
     /**
+     * 发送二进制字节数组到EDP设备
+     */
+    public void sendToEdp(String apiKey, String deviceId, byte[] bytes, ResponseListener listener) {
+        SendToEdp request = new SendToEdp(apiKey, deviceId, listener);
+        request.send(bytes);
+    }
+
+    /**
      * 上传文件
      */
     public void addBinData(String apiKey, String deviceId, String datastreamId, String desc, String at, File file, ResponseListener listener) {

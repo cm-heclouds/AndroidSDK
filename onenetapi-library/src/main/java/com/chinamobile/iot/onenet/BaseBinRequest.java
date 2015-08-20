@@ -46,6 +46,12 @@ public class BaseBinRequest implements IRequest {
         post(client, url, params);
     }
 
+    protected void execute(AsyncHttpClient client, String url, byte[] value) {
+        RequestParams params = new RequestParams();
+        params.put("text", value);
+        post(client, url, params);
+    }
+
     private void post(AsyncHttpClient client, final String url, RequestParams params) {
         client.post(url, params, new AsyncHttpResponseHandler() {
             @Override
