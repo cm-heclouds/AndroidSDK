@@ -1,6 +1,9 @@
 package com.chinamobile.iot.onenet;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -429,32 +432,61 @@ public class OneNetApi {
      * 发送字符串到EDP设备
      */
     public void sendToEdp(String apiKey, String deviceId, String text, ResponseListener listener) {
-        SendToEdp request = new SendToEdp(apiKey, deviceId, listener);
-        request.send(text);
+        StringRequest request = new SendToEdp(apiKey, deviceId, text, listener);
+        mRequestQueue.add(request);
     }
 
     /**
      * 发送文件到EDP设备
+     *
+     * @deprecated 该方法已废弃，后续版本中可能移除。<br/>
+     * 请使用 {@link #sendToEdp(String, String, byte[], ResponseListener)} or
+     * {@link #sendToEdp(String, String, String, ResponseListener)} 替代。<br/>
+     * 由于发送内容限制为小于64KB，所以不必使用缓存，可以直接以字符串或二进制数组的形式发送。
+     *
      */
+    @Deprecated
     public void sendToEdp(String apiKey, String deviceId, File file, ResponseListener listener) {
-        SendToEdp request = new SendToEdp(apiKey, deviceId, listener);
-        request.send(file);
+        byte[] bytes = new byte[1024 * 64];
+        try {
+            InputStream stream = new FileInputStream(file);
+            stream.read(bytes, 0, stream.available());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        StringRequest request = new SendToEdp(apiKey, deviceId, bytes, listener);
+        mRequestQueue.add(request);
     }
 
     /**
      * 发送二进制字节流到EDP设备
+     *
+     * @deprecated 该方法已废弃，后续版本中可能移除。<br/>
+     * 请使用 {@link #sendToEdp(String, String, byte[], ResponseListener)} or
+     * {@link #sendToEdp(String, String, String, ResponseListener)} 替代。<br/>
+     * 由于发送内容限制为小于64KB，所以不必使用缓存，可以直接以字符串或二进制数组的形式发送。
+     *
      */
+    @Deprecated
     public void sendToEdp(String apiKey, String deviceId, InputStream stream, ResponseListener listener) {
-        SendToEdp request = new SendToEdp(apiKey, deviceId, listener);
-        request.send(stream);
+        byte[] bytes = new byte[1024 * 64];
+        try {
+            stream.read(bytes, 0, stream.available());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        StringRequest request = new SendToEdp(apiKey, deviceId, bytes, listener);
+        mRequestQueue.add(request);
     }
 
     /**
      * 发送二进制字节数组到EDP设备
      */
     public void sendToEdp(String apiKey, String deviceId, byte[] bytes, ResponseListener listener) {
-        SendToEdp request = new SendToEdp(apiKey, deviceId, listener);
-        request.send(bytes);
+        StringRequest request = new SendToEdp(apiKey, deviceId, bytes, listener);
+        mRequestQueue.add(request);
     }
 
     /**
@@ -528,9 +560,9 @@ public class OneNetApi {
     /**
      * RestAPI日志查询
      */
-//    public void getRestAPILogs(String apiKey, String deviceId, ResponseListener listener) {
-//        mRequestQueue.add(new GetRestAPILogs(apiKey, deviceId, listener));
-//    }
+    public void getRestAPILogs(String apiKey, String deviceId, ResponseListener listener) {
+        mRequestQueue.add(new GetRestAPILogs(apiKey, deviceId, listener));
+    }
 
     private String buildUrlParams(Map<String, String> params) {
         StringBuilder sb = new StringBuilder();
