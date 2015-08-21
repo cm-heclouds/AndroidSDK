@@ -7,10 +7,16 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.entity.FileEntity;
+import org.apache.http.entity.StringEntity;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
@@ -22,38 +28,42 @@ public class BaseBinRequest implements IRequest {
         mListener = listener;
     }
 
+    @Deprecated
     protected void execute(AsyncHttpClient client, String url, File file) {
-
-        RequestParams params = new RequestParams();
-        try {
-            params.put("file", file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        post(client, url, params);
+        HttpEntity entity = new FileEntity(file, "application/octet-stream");
+        post(client, url, entity, "application/octet-stream");
     }
 
+    @Deprecated
     protected void execute(AsyncHttpClient client, String url, InputStream stream) {
-        RequestParams params = new RequestParams();
-        params.put("file", stream);
-        post(client, url, params);
+        byte[] bytes = new byte[1024 * 64];
+        try {
+            stream.read(bytes, 0, stream.available());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        HttpEntity entity = new ByteArrayEntity(bytes);
+        post(client, url, entity, "application/octet-stream");
     }
 
     protected void execute(AsyncHttpClient client, String url, String value) {
-        RequestParams params = new RequestParams();
-        params.put("text", value);
-        post(client, url, params);
+        HttpEntity entity = null;
+        try {
+            entity = new StringEntity(value, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        post(client, url, entity, "text/plain");
     }
 
     protected void execute(AsyncHttpClient client, String url, byte[] value) {
-        RequestParams params = new RequestParams();
-        params.put("text", value);
-        post(client, url, params);
+        ByteArrayEntity entity = new ByteArrayEntity(value);
+        entity.setContentEncoding("utf-8");
+        post(client, url, entity, "application/octet-stream");
     }
 
-    private void post(AsyncHttpClient client, final String url, RequestParams params) {
-        client.post(url, params, new AsyncHttpResponseHandler() {
+    private void post(AsyncHttpClient client, final String url, HttpEntity entity, String contentType) {
+        client.post(null, url, entity, contentType, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int i, Header[] headers, byte[] bytes) {
 
