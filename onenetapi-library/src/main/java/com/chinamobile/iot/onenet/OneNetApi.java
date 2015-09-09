@@ -143,7 +143,7 @@ public class OneNetApi {
      * 增加设备
      *
      * @param body
-     *          请参考OneNET API文档中请求内容部分 http://open.iot.10086.cn/develop/doc/api/device/post.md
+     *          请参考OneNET API文档中请求内容部分 http://open.iot.10086.cn/apidoc/device/create.html
      */
     public void addDevice(String apiKey, JSONObject body, ResponseListener listener) {
         StringRequest request = new AddDevice(apiKey, body, listener);
