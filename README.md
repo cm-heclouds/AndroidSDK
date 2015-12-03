@@ -50,4 +50,4 @@
 	});
 ```
 
-**更多示例请参考Sample中的代码，运行前请将SampleApp中的sApiKey修改为你的账户下的MasterKey**
+**更多示例请参考Sample中的代码，运行前请将SampleApp中的sApiKey修改为你的项目下的APIKey**
