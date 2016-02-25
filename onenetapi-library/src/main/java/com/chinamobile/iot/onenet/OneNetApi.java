@@ -51,8 +51,6 @@ import android.content.Context;
 /**
  * <p>ChinaMobile OneNet API<p>
  *
- * <i>注：请求中需要用到的apikey都是必须通过login请求得到的apikey<i>
- *
  * @author chenglei
  *
  */
