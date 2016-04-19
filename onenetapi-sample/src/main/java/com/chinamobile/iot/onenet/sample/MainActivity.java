@@ -287,7 +287,7 @@ public class MainActivity extends Activity {
         Calendar c = Calendar.getInstance();
         c.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY) - 5);
         OneNetApi.getInstance(this).getHistoryDatapoints(SampleApp.sApiKey, sdf.format(c.getTime()),
-                null, null, null, null, null, null, new ResponseListener() {
+                mTempDeviceId, mTempStreamId, null, null, null, null, new ResponseListener() {
 
                     @Override
                     public void onResponse(OneNetResponse response) {
