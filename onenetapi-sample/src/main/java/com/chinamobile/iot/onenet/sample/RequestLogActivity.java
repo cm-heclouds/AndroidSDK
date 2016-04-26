@@ -27,7 +27,7 @@ public class RequestLogActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.request_log_activity);
 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB_MR2) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB_MR2 && getActionBar() != null) {
             getActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
