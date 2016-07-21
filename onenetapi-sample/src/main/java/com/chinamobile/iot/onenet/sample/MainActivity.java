@@ -264,7 +264,7 @@ public class MainActivity extends Activity {
         c.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY) - 5);
         OneNetApi.getInstance(this).getDatapoints(
                 SampleApp.sApiKey, mTempDeviceId, mTempStreamId, sdf.format(c.getTime()),
-                null, null, null, String.valueOf(6 * 3600), new ResponseListener() {
+                null, null, null, null, null, null, new ResponseListener() {
 
                     @Override
                     public void onResponse(OneNetResponse response) {
@@ -287,7 +287,7 @@ public class MainActivity extends Activity {
         Calendar c = Calendar.getInstance();
         c.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY) - 5);
         OneNetApi.getInstance(this).getHistoryDatapoints(SampleApp.sApiKey, sdf.format(c.getTime()),
-                mTempDeviceId, mTempStreamId, null, null, null, null, new ResponseListener() {
+                mTempDeviceId, mTempStreamId, null, null, null, null, null, new ResponseListener() {
 
                     @Override
                     public void onResponse(OneNetResponse response) {

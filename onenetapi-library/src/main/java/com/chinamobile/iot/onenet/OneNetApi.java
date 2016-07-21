@@ -303,7 +303,7 @@ public class OneNetApi {
      * @param start （必选）指定开始时间，时间格式ISO 8601 示例:2012-06-02T14:01:46
      */
     public void getHistoryDatapoints(String apiKey, String start, String deviceId, String datastreamId,
-            String end, String limit, String cursor, String duration, ResponseListener listener) {
+            String end, String limit, String cursor, String duration, String page, ResponseListener listener) {
 
         Map<String, String> params = new HashMap<String, String>();
         if (start != null) params.put("start", start);
@@ -319,6 +319,7 @@ public class OneNetApi {
         if (limit != null) params.put("limit", limit);
         if (cursor != null) params.put("cursor", cursor);
         if (duration != null) params.put("duration", duration);
+        if (page != null) params.put("page", page);
 
         String urlParams = buildUrlParams(params);
         StringRequest request = new GetHistoryDatapoints(apiKey, urlParams, listener);
