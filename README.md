@@ -21,7 +21,7 @@ allprojects {
 ```
 ```groovy
 dependencies {
-    compile 'com.github.cm-heclouds:AndroidSDK:1.0'
+    compile 'com.github.cm-heclouds:AndroidSDK:1.1'
 }
 ```
 
