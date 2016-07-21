@@ -276,7 +276,7 @@ public class OneNetApi {
      * 读取数据点
      */
     public void getDatapoints(String apiKey, String deviceId, String datastreamId, String start, String end,
-            String limit, String cursor, String duration, ResponseListener listener) {
+            String limit, String cursor, String interval, String method, String first, ResponseListener listener) {
 
         Map<String, String> params = new HashMap<String, String>();
         if (datastreamId != null)
@@ -289,7 +289,9 @@ public class OneNetApi {
         if (end != null) params.put("end", end);
         if (limit != null) params.put("limit", limit);
         if (cursor != null) params.put("cursor", cursor);
-        if (duration != null) params.put("duration", duration);
+        if (interval != null) params.put("interval", interval);
+        if (method != null) params.put("method", method);
+        if (first != null) params.put("first", first);
         String urlParams = buildUrlParams(params);
 
         StringRequest request = new GetDatapoints(apiKey, deviceId, urlParams, listener);
