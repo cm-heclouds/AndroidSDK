@@ -15,12 +15,12 @@ public class AddTrigger extends BaseStringRequest {
 
     private String mUrl;
     private String mType;
-    private double mThreshold;
+    private Object mThreshold;
     private String mDatastreamId;
     private ArrayList<String> mDevicesIds;
     private ArrayList<String> mDsUUIDs;
 
-    public AddTrigger(String apiKey, String url, String type, double threshold,
+    public AddTrigger(String apiKey, String url, String type, Object threshold,
             String datastreamId, ArrayList<String> deviceIds, ArrayList<String> dsUUIDs,
             ResponseListener listener) {
         super(Method.POST, URL, apiKey, listener);

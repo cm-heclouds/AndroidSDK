@@ -15,12 +15,12 @@ public class EditTrigger extends BaseStringRequest {
 
     private String mUrl;
     private String mType;
-    private double mThreshold;
+    private Object mThreshold;
     private String mDatastreamId;
     private ArrayList<String> mDevicesIds;
     private ArrayList<String> mDsUUIDs;
 
-    public EditTrigger(String apiKey, String triggerId, String url, String type, double threshold,
+    public EditTrigger(String apiKey, String triggerId, String url, String type, Object threshold,
             String datastreamId, ArrayList<String> deviceIds, ArrayList<String> dsUUIDs,
             ResponseListener listener) {
         super(Method.PUT, URL + triggerId, apiKey, listener);
