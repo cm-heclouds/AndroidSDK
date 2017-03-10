@@ -1,1 +1,1 @@
-include ':onenetapi-sample', ':onenetapi-library'
+include ':app', ':onenet-sdk'
