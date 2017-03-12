@@ -5,16 +5,21 @@ import android.content.pm.PackageManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.chinamobile.iot.onenet.http.HttpExecutor;
 import com.chinamobile.iot.onenet.util.Meta;
 import com.chinamobile.iot.onenet.util.OneNetLogger;
+import com.chinamobile.iot.onenet.util.RequestBodyBuilder;
 
 import java.io.IOException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -25,7 +30,7 @@ public class OneNetApi {
 
     private static String sApiKey;
     private static boolean sDebug;
-    private static OkHttpClient sOkHttpClient;
+    private static HttpExecutor sHttpExecutor;
 
     public static void init(Application application, boolean debug) {
         try {
@@ -34,13 +39,14 @@ public class OneNetApi {
             e.printStackTrace();
         }
         sDebug = debug;
-        sOkHttpClient = new OkHttpClient();
+        OkHttpClient okHttpClient = new OkHttpClient();
         if (sDebug) {
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new OneNetLogger());
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-            sOkHttpClient.networkInterceptors().add(loggingInterceptor);
+            okHttpClient.networkInterceptors().add(loggingInterceptor);
         }
-        sOkHttpClient.interceptors().add(sApiKeyInterceptor);
+        okHttpClient.interceptors().add(sApiKeyInterceptor);
+        sHttpExecutor = new HttpExecutor(okHttpClient);
     }
 
     private static Interceptor sApiKeyInterceptor = new Interceptor() {
@@ -60,11 +66,12 @@ public class OneNetApi {
         sApiKey = apiKey;
     }
 
-    public static void registerDevice(String registerCode) {
-        Request.Builder requestBuilder = new Request.Builder().url("http://api.heclouds.com/register_de");
-        requestBuilder.method("GET",null);
-        Call call = sOkHttpClient.newCall(requestBuilder.build());
-        call.enqueue(new Callback() {
+    public static void registerDevice(String registerCode, String body) {
+        HttpUrl.Builder builder = new HttpUrl.Builder()
+                .scheme("http").host("api.heclouds.com").addPathSegment("register_de")
+                .addQueryParameter("register_code", registerCode);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), body);
+        sHttpExecutor.post(builder.toString(), requestBody, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
 
@@ -72,7 +79,7 @@ public class OneNetApi {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                ResponseBody body = response.body();
+
             }
         });
     }
