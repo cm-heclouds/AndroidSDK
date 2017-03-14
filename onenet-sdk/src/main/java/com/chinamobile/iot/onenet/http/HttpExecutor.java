@@ -17,46 +17,46 @@ public class HttpExecutor {
     public void get(String url, Callback callback) {
         Request.Builder requestBuilder = new Request.Builder().url(url);
         requestBuilder.get();
-        execute(url, requestBuilder.build(), callback);
+        execute(requestBuilder.build(), callback);
     }
 
     public void post(String url, RequestBody requestBody, Callback callback) {
         Request.Builder requestBuilder = new Request.Builder().url(url);
         requestBuilder.post(requestBody);
-        execute(url, requestBuilder.build(), callback);
+        execute(requestBuilder.build(), callback);
     }
 
     public void put(String url, RequestBody requestBody, Callback callback) {
         Request.Builder requestBuilder = new Request.Builder().url(url);
         requestBuilder.put(requestBody);
-        execute(url, requestBuilder.build(), callback);
+        execute(requestBuilder.build(), callback);
     }
 
     public void delete(String url, Callback callback) {
         Request.Builder requestBuilder = new Request.Builder().url(url);
         requestBuilder.delete();
-        execute(url, requestBuilder.build(), callback);
+        execute(requestBuilder.build(), callback);
     }
 
     public void delete(String url, RequestBody requestBody, Callback callback) {
         Request.Builder requestBuilder = new Request.Builder().url(url);
         requestBuilder.delete(requestBody);
-        execute(url, requestBuilder.build(), callback);
+        execute(requestBuilder.build(), callback);
     }
 
     public void patch(String url, RequestBody requestBody, Callback callback) {
         Request.Builder requestBuilder = new Request.Builder().url(url);
         requestBuilder.patch(requestBody);
-        execute(url, requestBuilder.build(), callback);
+        execute(requestBuilder.build(), callback);
     }
 
     public void head(String url, Callback callback) {
         Request.Builder requestBuilder = new Request.Builder().url(url);
         requestBuilder.head();
-        execute(url, requestBuilder.build(), callback);
+        execute(requestBuilder.build(), callback);
     }
 
-    private void execute(String url, Request request, Callback callback) {
+    private void execute(Request request, Callback callback) {
         Call call = mOkHttpClient.newCall(request);
         call.enqueue(callback);
     }
