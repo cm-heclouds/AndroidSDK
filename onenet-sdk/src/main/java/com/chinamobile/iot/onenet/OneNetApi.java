@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.chinamobile.iot.onenet.http.HttpExecutor;
+import com.chinamobile.iot.onenet.http.Urls;
 import com.chinamobile.iot.onenet.util.Assertions;
 import com.chinamobile.iot.onenet.util.Meta;
 import com.chinamobile.iot.onenet.util.OneNetLogger;
@@ -77,7 +78,7 @@ public class OneNetApi {
     public static void registerDevice(String registerCode, String requestBodyString, OneNetApiCallback callback) {
         assertInitialized();
         HttpUrl.Builder builder = new HttpUrl.Builder()
-                .scheme("http").host("api.heclouds.com").addPathSegment("register_de")
+                .scheme(Urls.SCHEME).host(Urls.HOST).addPathSegment("register_de")
                 .addQueryParameter("register_code", registerCode);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), requestBodyString);
         sHttpExecutor.post(builder.toString(), requestBody, new OneNetApiCallbackAdapter(callback));
@@ -86,7 +87,7 @@ public class OneNetApi {
     public static void addDevice(String requestBodyString, OneNetApiCallback callback) {
         assertInitialized();
         HttpUrl.Builder builder = new HttpUrl.Builder()
-                .scheme("http").host("api.heclouds.com").addPathSegment("devices");
+                .scheme(Urls.SCHEME).host(Urls.HOST).addPathSegment("devices");
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), requestBodyString);
         sHttpExecutor.post(builder.toString(), requestBody, new OneNetApiCallbackAdapter(callback));
     }
@@ -94,7 +95,7 @@ public class OneNetApi {
     public static void fuzzyQueryDevices(Map<String, String> params, OneNetApiCallback callback) {
         assertInitialized();
         HttpUrl.Builder builder = new HttpUrl.Builder()
-                .scheme("http").host("api.heclouds.com").addPathSegment("devices");
+                .scheme(Urls.SCHEME).host(Urls.HOST).addPathSegment("devices");
         if (params != null) {
             Iterator iterator = params.entrySet().iterator();
             while (iterator.hasNext()) {
