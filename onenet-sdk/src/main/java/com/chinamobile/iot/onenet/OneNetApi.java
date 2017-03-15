@@ -9,15 +9,18 @@ import com.chinamobile.iot.onenet.http.HttpExecutor;
 import com.chinamobile.iot.onenet.module.DataPoint;
 import com.chinamobile.iot.onenet.module.DataStream;
 import com.chinamobile.iot.onenet.module.Device;
+import com.chinamobile.iot.onenet.module.Trigger;
 import com.chinamobile.iot.onenet.util.Assertions;
 import com.chinamobile.iot.onenet.util.Meta;
 import com.chinamobile.iot.onenet.util.OneNetLogger;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -80,6 +83,16 @@ public class OneNetApi {
 
     private static void post(String url, String requestBodyString, OneNetApiCallback callback) {
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), requestBodyString);
+        sHttpExecutor.post(url, requestBody, new OneNetApiCallbackAdapter(callback));
+    }
+
+    private static void post(String url, File file, OneNetApiCallback callback) {
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/octet-stream"), file);
+        sHttpExecutor.post(url, requestBody, new OneNetApiCallbackAdapter(callback));
+    }
+
+    private static void post(String url, byte[] content, OneNetApiCallback callback) {
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/octet-stream"), content);
         sHttpExecutor.post(url, requestBody, new OneNetApiCallbackAdapter(callback));
     }
 
@@ -278,4 +291,36 @@ public class OneNetApi {
 
     /******************** END ********************/
 
+    /******************** 触发器相关api ********************/
+
+    public static void addTrigger(String requestBodyString, OneNetApiCallback callback) {
+        assertInitialized();
+        post(Trigger.urlForAdding(), requestBodyString, callback);
+    }
+
+    public static void updateTrigger(String triggerId, String requestBodyString, OneNetApiCallback callback) {
+        assertInitialized();
+        put(Trigger.urlForUpdating(triggerId), requestBodyString, callback);
+    }
+
+    public static void querySingleTrigger(String triggerId, OneNetApiCallback callback) {
+        assertInitialized();
+        get(Trigger.urlForQueryingSingle(triggerId), callback);
+    }
+
+    public static void fuzzyQueryTriggers(String name, int page, int perPager, OneNetApiCallback callback) {
+        assertInitialized();
+        get(Trigger.urlForfuzzyQuerying(name, page, perPager), callback);
+    }
+
+    public static void deleteTrigger(String triggerId, OneNetApiCallback callback) {
+        assertInitialized();
+        delete(Trigger.urlForDeleting(triggerId), callback);
+    }
+
+    /******************** END ********************/
+
+    /******************** 二进制相关api ********************/
+
+    /******************** END ********************/
 }
