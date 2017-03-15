@@ -2,21 +2,20 @@ package com.chinamobile.iot.onenet;
 
 import android.app.Application;
 import android.content.pm.PackageManager;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.chinamobile.iot.onenet.http.HttpExecutor;
-import com.chinamobile.iot.onenet.http.Urls;
+import com.chinamobile.iot.onenet.module.DataPoint;
+import com.chinamobile.iot.onenet.module.DataStream;
+import com.chinamobile.iot.onenet.module.Device;
 import com.chinamobile.iot.onenet.util.Assertions;
 import com.chinamobile.iot.onenet.util.Meta;
 import com.chinamobile.iot.onenet.util.OneNetLogger;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Map;
 
-import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -75,37 +74,208 @@ public class OneNetApi {
         Assertions.assertCondition(isInitialized(), "You should call OneNetApi.init() in your Application!");
     }
 
+    private static void get(String url, OneNetApiCallback callback) {
+        sHttpExecutor.get(url, new OneNetApiCallbackAdapter(callback));
+    }
+
+    private static void post(String url, String requestBodyString, OneNetApiCallback callback) {
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), requestBodyString);
+        sHttpExecutor.post(url, requestBody, new OneNetApiCallbackAdapter(callback));
+    }
+
+    private static void put(String url, String requestBodyString, OneNetApiCallback callback) {
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), requestBodyString);
+        sHttpExecutor.put(url, requestBody, new OneNetApiCallbackAdapter(callback));
+    }
+
+    private static void delete(String url, OneNetApiCallback callback) {
+        sHttpExecutor.delete(url, new OneNetApiCallbackAdapter(callback));
+    }
+
+    /******************** 设备相关api ********************/
+
+    /**
+     * 注册设备
+     *
+     * @param registerCode      设备注册码
+     * @param requestBodyString HTTP内容 详见<a href="http://www.heclouds.com/doc/art262.html#68">
+     *                          http://www.heclouds.com/doc/art262.html#68</a>
+     * @param callback          回调函数
+     */
     public static void registerDevice(String registerCode, String requestBodyString, OneNetApiCallback callback) {
         assertInitialized();
-        HttpUrl.Builder builder = new HttpUrl.Builder()
-                .scheme(Urls.SCHEME).host(Urls.HOST).addPathSegment("register_de")
-                .addQueryParameter("register_code", registerCode);
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), requestBodyString);
-        sHttpExecutor.post(builder.toString(), requestBody, new OneNetApiCallbackAdapter(callback));
+        post(Device.urlForRegistering(registerCode), requestBodyString, callback);
     }
 
+    /**
+     * 新增设备
+     *
+     * @param requestBodyString HTTP内容 详见<a href="http://www.heclouds.com/doc/art262.html#68">
+     *                          http://www.heclouds.com/doc/art262.html#68</a>
+     * @param callback          回调函数
+     */
     public static void addDevice(String requestBodyString, OneNetApiCallback callback) {
         assertInitialized();
-        HttpUrl.Builder builder = new HttpUrl.Builder()
-                .scheme(Urls.SCHEME).host(Urls.HOST).addPathSegment("devices");
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), requestBodyString);
-        sHttpExecutor.post(builder.toString(), requestBody, new OneNetApiCallbackAdapter(callback));
+        post(Device.urlForAdding(), requestBodyString, callback);
     }
 
+    /**
+     * 更新设备
+     *
+     * @param deviceId          设备ID
+     * @param requestBodyString HTTP内容 详见<a href="http://www.heclouds.com/doc/art262.html#68">
+     *                          http://www.heclouds.com/doc/art262.html#68</a>
+     * @param callback          回调函数
+     */
+    public static void updateDevice(String deviceId, String requestBodyString, OneNetApiCallback callback) {
+        assertInitialized();
+        put(Device.urlForUpdating(deviceId), requestBodyString, callback);
+    }
+
+    /**
+     * 精确查询单个设备
+     *
+     * @param deviceId 设备ID
+     * @param callback 回调函数
+     */
+    public static void querySingleDevice(String deviceId, OneNetApiCallback callback) {
+        assertInitialized();
+        get(Device.urlForQueryingSingle(deviceId), callback);
+    }
+
+    /**
+     * 模糊查询设备
+     *
+     * @param params   URL参数 详见<a href="http://www.heclouds.com/doc/art262.html#68">
+     *                 http://www.heclouds.com/doc/art262.html#68</a>
+     * @param callback 回调函数
+     */
     public static void fuzzyQueryDevices(Map<String, String> params, OneNetApiCallback callback) {
         assertInitialized();
-        HttpUrl.Builder builder = new HttpUrl.Builder()
-                .scheme(Urls.SCHEME).host(Urls.HOST).addPathSegment("devices");
-        if (params != null) {
-            Iterator iterator = params.entrySet().iterator();
-            while (iterator.hasNext()) {
-                Map.Entry entry = (Map.Entry) iterator.next();
-                String key = (String) entry.getKey();
-                String value = (String) entry.getValue();
-                builder.addQueryParameter(key, value);
-            }
-        }
-        sHttpExecutor.get(builder.toString(), new OneNetApiCallbackAdapter(callback));
+        get(Device.urlForfuzzyQuerying(params), callback);
     }
+
+    /**
+     * 删除设备
+     *
+     * @param deviceId 设备ID
+     * @param callback 回调函数
+     */
+    public static void deleteDevice(String deviceId, OneNetApiCallback callback) {
+        assertInitialized();
+        delete(Device.urlForDeleting(deviceId), callback);
+    }
+
+    /******************** END ********************/
+
+    /******************** 数据流相关api ********************/
+
+    /**
+     * 新增数据流
+     *
+     * @param deviceId          设备ID
+     * @param requestBodyString HTTP内容 详见 <a href="http://www.heclouds.com/doc/art261.html#68">
+     *                          http://www.heclouds.com/doc/art261.html#68</a>
+     * @param callback          回调函数
+     */
+    public static void addDataStream(String deviceId, String requestBodyString, OneNetApiCallback callback) {
+        assertInitialized();
+        post(DataStream.urlForAdding(deviceId), requestBodyString, callback);
+    }
+
+    /**
+     * 更新数据流
+     *
+     * @param deviceId          设备ID
+     * @param dataStreamId      数据流ID
+     * @param requestBodyString HTTP内容 详见 <a href="http://www.heclouds.com/doc/art261.html#68">
+     *                          http://www.heclouds.com/doc/art261.html#68</a>
+     * @param callback          回调函数
+     */
+    public static void updateDataStream(String deviceId, String dataStreamId, String requestBodyString, OneNetApiCallback callback) {
+        assertInitialized();
+        put(DataStream.urlForUpdating(deviceId, dataStreamId), requestBodyString, callback);
+    }
+
+    /**
+     * 查询单个数据流
+     *
+     * @param deviceId     设备ID
+     * @param dataStreamId 数据流ID
+     * @param callback     回调函数
+     */
+    public static void querySingleDataStream(String deviceId, String dataStreamId, OneNetApiCallback callback) {
+        assertInitialized();
+        get(DataStream.urlForQueryingSingle(deviceId, dataStreamId), callback);
+    }
+
+    /**
+     * 查询多个数据流
+     *
+     * @param deviceId 设备ID
+     * @param callback 回调函数
+     */
+    public static void queryMultiDataStreams(String deviceId, OneNetApiCallback callback) {
+        assertInitialized();
+        get(DataStream.urlForQueryingMulti(deviceId), callback);
+    }
+
+    /**
+     * 删除数据流
+     *
+     * @param deviceId     设备ID
+     * @param dataStreamId 数据流ID
+     * @param callback     回调函数
+     */
+    public static void deleteDatastream(String deviceId, String dataStreamId, OneNetApiCallback callback) {
+        assertInitialized();
+        delete(DataStream.urlForDeleting(deviceId, dataStreamId), callback);
+    }
+
+    /******************** END ********************/
+
+    /******************** 数据点相关api ********************/
+
+    /**
+     * 新增数据点(数据点类型为3)
+     *
+     * @param deviceId          设备ID
+     * @param requestBodyString HTTP内容 详见<a href="http://www.heclouds.com/doc/art260.html#68">
+     *                          http://www.heclouds.com/doc/art260.html#68</a>
+     * @param callback          回调函数
+     */
+    public static void addDataPoints(String deviceId, String requestBodyString, OneNetApiCallback callback) {
+        assertInitialized();
+        post(DataPoint.urlForAdding(deviceId, null), requestBodyString, callback);
+    }
+
+    /**
+     * 新增数据点
+     *
+     * @param deviceId          设备ID
+     * @param type              数据点类型
+     * @param requestBodyString HTTP内容 详见<a href="http://www.heclouds.com/doc/art260.html#68">
+     *                          http://www.heclouds.com/doc/art260.html#68</a>
+     * @param callback          回调函数
+     */
+    public static void addDataPoints(String deviceId, String type, String requestBodyString, OneNetApiCallback callback) {
+        assertInitialized();
+        post(DataPoint.urlForAdding(deviceId, type), requestBodyString, callback);
+    }
+
+    /**
+     * 查询数据点
+     *
+     * @param deviceId 设备ID
+     * @param params   URL参数 详见<a href="http://www.heclouds.com/doc/art260.html#68">
+     *                 http://www.heclouds.com/doc/art260.html#68</a>
+     * @param callback 回调函数
+     */
+    public static void queryDataPoints(String deviceId, Map<String, String> params, OneNetApiCallback callback) {
+        assertInitialized();
+        get(DataPoint.urlForQuerying(deviceId, params), callback);
+    }
+
+    /******************** END ********************/
 
 }
