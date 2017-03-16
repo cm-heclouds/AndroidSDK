@@ -18,7 +18,7 @@ public class Mqtt {
                 .addQueryParameter("per_page", String.valueOf(perPage)).toString();
     }
 
-    public static String urlForQueryingTopicList(String deviceId) {
+    public static String urlForQueryingDeviceTopics(String deviceId) {
         return new HttpUrl.Builder().scheme(Urls.SCHEME).host(Urls.HOST).addPathSegment("mqtt")
                 .addPathSegment("device_topic").addPathSegment(deviceId).toString();
     }
@@ -33,7 +33,7 @@ public class Mqtt {
                 .addPathSegment("topic").addEncodedQueryParameter("name", topic).toString();
     }
 
-    public static String urlForQueryingProductTopic() {
+    public static String urlForQueryingTopics() {
         return new HttpUrl.Builder().scheme(Urls.SCHEME).host(Urls.HOST).addPathSegment("mqtt")
                 .addPathSegment("topic").toString();
     }

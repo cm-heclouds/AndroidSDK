@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
 import com.chinamobile.iot.onenet.OneNetApi;
 import com.chinamobile.iot.onenet.OneNetApiCallback;
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         OneNetApi.fuzzyQueryDevices(null, new OneNetApiCallback() {
             @Override
             public void onSuccess(int errno, String error, String data) {
-
+                Toast.makeText(getApplicationContext(), data, Toast.LENGTH_SHORT).show();
             }
 
             @Override

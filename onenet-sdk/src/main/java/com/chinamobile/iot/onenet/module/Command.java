@@ -6,7 +6,7 @@ import okhttp3.HttpUrl;
 
 public class Command {
 
-    enum CommandType {
+    public enum CommandType {
         TYPE_CMD_REQ, TYPE_PUSH_DATA
     }
 

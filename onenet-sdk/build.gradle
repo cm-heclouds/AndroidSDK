@@ -19,7 +19,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.squareup.okhttp3:okhttp:latest.integration'
     compile 'com.squareup.okhttp3:logging-interceptor:latest.integration'
 }
