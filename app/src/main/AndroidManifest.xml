@@ -16,12 +16,16 @@
             android:name="api-key"
             android:value="TO5AOPtJipNsoAAYn1WhWWo0Fto="/>
 
-        <activity android:name=".activity.MainActivity">
+        <activity
+            android:name=".activity.MainActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity android:name=".activity.EditApiKeyActivity"/>
 
     </application>
 

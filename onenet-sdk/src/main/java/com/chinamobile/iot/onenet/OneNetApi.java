@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.chinamobile.iot.onenet.http.HttpExecutor;
+import com.chinamobile.iot.onenet.module.ApiKey;
 import com.chinamobile.iot.onenet.module.Binary;
 import com.chinamobile.iot.onenet.module.Command;
 import com.chinamobile.iot.onenet.module.DataPoint;
@@ -70,6 +71,10 @@ public class OneNetApi {
 
     public static void setApiKey(String apiKey) {
         sApiKey = apiKey;
+    }
+
+    public static String getApiKey() {
+        return sApiKey;
     }
 
     private static boolean isInitialized() {
@@ -455,6 +460,30 @@ public class OneNetApi {
 
     public static void queryTopics(OneNetApiCallback callback) {
         get(Mqtt.urlForQueryingTopics(), callback);
+    }
+
+    /******************** END ********************/
+
+    /******************** ApiKey相关api ********************/
+
+    public static void addApiKey(String requestBodyString, OneNetApiCallback callback) {
+        post(ApiKey.urlForAdding(), requestBodyString, callback);
+    }
+
+    public static void updateApiKey(String key, String requestBodyString, OneNetApiCallback callback) {
+        put(ApiKey.urlForUpdating(key), requestBodyString, callback);
+    }
+
+    public static void queryApiKey(String key, OneNetApiCallback callback) {
+        get(ApiKey.urlForQuerying(key, 0, 0, null), callback);
+    }
+
+    public static void queryApiKey(String key, int page, int perPage, String deviceId, OneNetApiCallback callback) {
+        get(ApiKey.urlForQuerying(key, page, perPage, deviceId), callback);
+    }
+
+    public static void deleteApiKey(String key, OneNetApiCallback callback) {
+        delete(ApiKey.urlForDeleting(key), callback);
     }
 
     /******************** END ********************/
