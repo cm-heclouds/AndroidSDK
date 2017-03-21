@@ -14,13 +14,13 @@ public class DataPoint {
     public static final String DEFAULT_TYPE = "3";
 
     public static String urlForAdding(String deviceId, String type) {
-        return new HttpUrl.Builder().scheme(Urls.SCHEME).host(Urls.HOST).addPathSegment("devices")
+        return new HttpUrl.Builder().scheme(Urls.SCHEME).host(Urls.sHost).addPathSegment("devices")
                 .addPathSegment(deviceId).addPathSegment("datapoints")
                 .addQueryParameter("type", TextUtils.isEmpty(type) ? DEFAULT_TYPE : type).toString();
     }
 
     public static String urlForQuerying(String deviceId, Map<String, String> params) {
-        HttpUrl.Builder builder = new HttpUrl.Builder().scheme(Urls.SCHEME).host(Urls.HOST)
+        HttpUrl.Builder builder = new HttpUrl.Builder().scheme(Urls.SCHEME).host(Urls.sHost)
                 .addPathSegment("devices");
         if (params != null) {
             Iterator iterator = params.entrySet().iterator();

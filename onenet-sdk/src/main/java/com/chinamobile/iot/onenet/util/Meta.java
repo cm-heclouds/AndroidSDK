@@ -8,11 +8,18 @@ import android.content.pm.PackageManager.NameNotFoundException;
 public class Meta {
 
     public static final String META_APIKEY = "app-key";
+    public static final String META_HOST = "host";
 
     public static String readAppKey(Application application) throws NameNotFoundException {
         ApplicationInfo applicationInfo = application.getPackageManager()
                 .getApplicationInfo(application.getPackageName(), PackageManager.GET_META_DATA);
         return applicationInfo.metaData.getString(META_APIKEY);
+    }
+
+    public static String readHost(Application application) throws NameNotFoundException {
+        ApplicationInfo applicationInfo = application.getPackageManager()
+                .getApplicationInfo(application.getPackageName(), PackageManager.GET_META_DATA);
+        return applicationInfo.metaData.getString(META_HOST);
     }
 
 }

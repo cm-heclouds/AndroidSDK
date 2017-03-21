@@ -16,6 +16,10 @@
             android:name="app-key"
             android:value="TO5AOPtJipNsoAAYn1WhWWo0Fto="/>
 
+        <meta-data
+            android:name="host"
+            android:value="api.heclouds.com"/>
+
         <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTask">

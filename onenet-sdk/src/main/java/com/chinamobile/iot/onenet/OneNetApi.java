@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.chinamobile.iot.onenet.http.HttpExecutor;
+import com.chinamobile.iot.onenet.http.Urls;
 import com.chinamobile.iot.onenet.module.ApiKey;
 import com.chinamobile.iot.onenet.module.Binary;
 import com.chinamobile.iot.onenet.module.Command;
@@ -42,6 +43,7 @@ public class OneNetApi {
     public static void init(Application application, boolean debug) {
         try {
             sAppKey = Meta.readAppKey(application);
+            Urls.sHost = Meta.readHost(application);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
