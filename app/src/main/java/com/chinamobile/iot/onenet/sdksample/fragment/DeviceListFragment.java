@@ -120,6 +120,9 @@ public class DeviceListFragment extends Fragment implements SwipeRefreshLayout.O
     }
 
     private void parseData(String data) {
+        if (null == data) {
+            return;
+        }
         try {
             JSONObject dataObj = new JSONObject(data);
             mTotalCount = dataObj.optInt("total_count");
