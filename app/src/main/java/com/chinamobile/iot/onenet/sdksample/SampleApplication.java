@@ -14,7 +14,7 @@ public class SampleApplication extends Application {
 
         String savedApiKey = Preferences.getInstance(this).getString(Preferences.API_KEY, null);
         if (savedApiKey != null) {
-            OneNetApi.setApiKey(savedApiKey);
+            OneNetApi.setAppKey(savedApiKey);
         }
     }
 }

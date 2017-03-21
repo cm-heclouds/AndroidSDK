@@ -6,5 +6,7 @@
     <color name="colorPrimaryDark">#2B2B2B</color>
     <color name="colorAccent">#3C3F41</color>
     <color name="textColorPrimary">#333333</color>
+    <color name="textColorSecondary">#666666</color>
     <color name="textColorHint">#999999</color>
+    <color name="windowBackground">#F2F2F2</color>
 </resources>

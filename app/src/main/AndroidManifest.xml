@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme">
 
         <meta-data
-            android:name="api-key"
+            android:name="app-key"
             android:value="TO5AOPtJipNsoAAYn1WhWWo0Fto="/>
 
         <activity

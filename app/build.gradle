@@ -26,5 +26,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.3.0'
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.8.7'
+    compile 'com.github.clans:fab:1.6.4'
     compile project(':onenet-sdk')
 }

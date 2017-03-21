@@ -7,9 +7,9 @@ import android.content.pm.PackageManager.NameNotFoundException;
 
 public class Meta {
 
-    public static final String META_APIKEY = "api-key";
+    public static final String META_APIKEY = "app-key";
 
-    public static String readApiKey(Application application) throws NameNotFoundException {
+    public static String readAppKey(Application application) throws NameNotFoundException {
         ApplicationInfo applicationInfo = application.getPackageManager()
                 .getApplicationInfo(application.getPackageName(), PackageManager.GET_META_DATA);
         return applicationInfo.metaData.getString(META_APIKEY);

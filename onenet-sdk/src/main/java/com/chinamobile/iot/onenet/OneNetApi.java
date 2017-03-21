@@ -35,13 +35,13 @@ public class OneNetApi {
 
     public static final String LOG_TAG = "OneNetApi";
 
-    private static String sApiKey;
+    private static String sAppKey;
     static boolean sDebug;
     private static HttpExecutor sHttpExecutor;
 
     public static void init(Application application, boolean debug) {
         try {
-            sApiKey = Meta.readApiKey(application);
+            sAppKey = Meta.readAppKey(application);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -61,20 +61,20 @@ public class OneNetApi {
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request.Builder builder = chain.request().newBuilder();
-            builder.addHeader("api-key", sApiKey);
-            if (TextUtils.isEmpty(sApiKey)) {
-                Log.e(LOG_TAG, "api-key is messing, please config in the meta-data or call setApiKey()");
+            builder.addHeader("api-key", sAppKey);
+            if (TextUtils.isEmpty(sAppKey)) {
+                Log.e(LOG_TAG, "app-key is messing, please config in the meta-data or call setAppKey()");
             }
             return chain.proceed(builder.build());
         }
     };
 
-    public static void setApiKey(String apiKey) {
-        sApiKey = apiKey;
+    public static void setAppKey(String apiKey) {
+        sAppKey = apiKey;
     }
 
-    public static String getApiKey() {
-        return sApiKey;
+    public static String getAppKey() {
+        return sAppKey;
     }
 
     private static boolean isInitialized() {
