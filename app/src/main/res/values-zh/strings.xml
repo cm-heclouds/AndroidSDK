@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OneNET RESTful SDK</string>
+    <string name="apikey_edit_text_error">Apikey不能为空</string>
+    <string name="apikey_edit_text_hint">请输入apikey</string>
+    <string name="debug_online">在线调试</string>
+    <string name="device">设备</string>
+    <string name="trigger">触发器</string>
+    <string name="add_device">新增设备</string>
+    <string name="add_device_title_hint">请输入设备名称</string>
+</resources>

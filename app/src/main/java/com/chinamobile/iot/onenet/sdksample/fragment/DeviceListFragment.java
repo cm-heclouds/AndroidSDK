@@ -1,5 +1,6 @@
 package com.chinamobile.iot.onenet.sdksample.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.chinamobile.iot.onenet.OneNetApi;
 import com.chinamobile.iot.onenet.OneNetApiCallback;
 import com.chinamobile.iot.onenet.sdksample.R;
+import com.chinamobile.iot.onenet.sdksample.activity.AddDeviceActivity;
 import com.chinamobile.iot.onenet.sdksample.model.DeviceItem;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.gson.Gson;
@@ -53,6 +55,7 @@ public class DeviceListFragment extends Fragment implements SwipeRefreshLayout.O
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new DeviceListAdapter();
         mRecyclerView.setAdapter(mAdapter);
+        mSwipeRefreshLayout.setColorSchemeColors(0xFFDA4336);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         getDevices(false);
         mSwipeRefreshLayout.setRefreshing(true);
@@ -70,6 +73,7 @@ public class DeviceListFragment extends Fragment implements SwipeRefreshLayout.O
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab_add_device:
+                startActivity(new Intent(getActivity(), AddDeviceActivity.class));
                 break;
         }
     }
@@ -86,7 +90,12 @@ public class DeviceListFragment extends Fragment implements SwipeRefreshLayout.O
             helper.setText(R.id.id, "设备ID：" + item.getId());
             helper.setText(R.id.protocol, "设备接入协议：" + item.getProtocol());
             helper.setText(R.id.create_time, "创建时间：" + item.getCreateTime());
-            helper.setText(R.id.online, item.isOnline() ? "在线" : "离线");
+            if ("HTTP".equalsIgnoreCase(item.getProtocol())) {
+                helper.setVisible(R.id.online, false);
+            } else {
+                helper.setVisible(R.id.online, true);
+                helper.setText(R.id.online, item.isOnline() ? "在线" : "离线");
+            }
         }
     }
 

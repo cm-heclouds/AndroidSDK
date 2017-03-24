@@ -18,9 +18,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import com.chinamobile.iot.onenet.OneNetApi;
 import com.chinamobile.iot.onenet.sdksample.R;
+import com.chinamobile.iot.onenet.sdksample.fragment.DebugToolsFragment;
 import com.chinamobile.iot.onenet.sdksample.fragment.DeviceListFragment;
 import com.chinamobile.iot.onenet.sdksample.fragment.TriggerListFragment;
 import com.chinamobile.iot.onenet.sdksample.utils.Preferences;
@@ -30,15 +32,13 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TabLayout mTabLayout;
-    private ViewPager mViewPager;
-
-    private List<Fragment> mFragmentList = new ArrayList<>(2);
-    private List<String> mPagerTitles = new ArrayList<>(2);
-
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
+
+    private DeviceListFragment mDeviceListFragment = DeviceListFragment.newInstance();
+    private TriggerListFragment mTriggerListFragment = TriggerListFragment.newInstance();
+    private DebugToolsFragment mDebugToolsFragment = DebugToolsFragment.newInstance();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,15 +46,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-
-        mFragmentList.add(DeviceListFragment.newInstance());
-        mFragmentList.add(TriggerListFragment.newInstance());
-        mPagerTitles.add(getResources().getString(R.string.device));
-        mPagerTitles.add(getResources().getString(R.string.trigger));
-        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        mViewPager = (ViewPager) findViewById(R.id.view_pager);
-        mViewPager.setAdapter(mAdapter);
-        mTabLayout.setupWithViewPager(mViewPager, true);
 
         String apikey = Preferences.getInstance(this).getString(Preferences.API_KEY, "");
         if (0 == apikey.length()) {
@@ -81,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigationView.setCheckedItem(R.id.device);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment, mDeviceListFragment).commit();
     }
 
     @Override
@@ -99,40 +92,43 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private FragmentPagerAdapter mAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mPagerTitles.get(position);
-        }
-    };
-
     NavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new NavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
 
             Fragment fragment = null;
+            int titleResId = R.string.device;
             final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             switch (item.getItemId()) {
-                case R.id.home:
+                case R.id.device:
+                    fragment = mDeviceListFragment;
+                    titleResId = R.string.device;
                     break;
-                case R.id.debug:
+
+                case R.id.trigger:
+                    fragment = mTriggerListFragment;
+                    titleResId = R.string.trigger;
+                    break;
+
+                case R.id.debug_online:
+                    fragment = mDebugToolsFragment;
+                    titleResId = R.string.debug_online;
                     break;
             }
 
-            //ft.replace(R.id.fragment, fragment).commit();
+            ft.replace(R.id.fragment, fragment).commit();
+            getSupportActionBar().setTitle(titleResId);
             return true;
         }
     };
 
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

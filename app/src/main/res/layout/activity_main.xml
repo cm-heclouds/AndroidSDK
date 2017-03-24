@@ -24,24 +24,16 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 app:theme="@style/ToolbarStyle"
-                app:title="@string/app_name"/>
-
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tab_layout"
-                style="@style/TabLayoutStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </android.support.design.widget.TabLayout>
+                app:title="@string/device"/>
 
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/view_pager"
+        <FrameLayout
+            android:id="@+id/fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        </android.support.v4.view.ViewPager>
+        </FrameLayout>
 
     </LinearLayout>
 
@@ -53,6 +45,7 @@
         android:background="#fff"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/sliding_menu_left_header"
-        app:menu="@menu/menu_drawer"/>
+        app:menu="@menu/menu_drawer"
+        app:itemTextColor="@color/textColorSecondary"/>
 
 </android.support.v4.widget.DrawerLayout>

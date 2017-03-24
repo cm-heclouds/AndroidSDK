@@ -8,15 +8,18 @@
 
         <item
             android:id="@+id/device"
-            android:icon="@drawable/ic_action_done"
-            android:title="done"
-            app:showAsAction="always"/>
+            android:icon="@drawable/ic_devices"
+            android:title="@string/device"/>
 
         <item
-            android:id="@+id/debug"
-            android:icon="@drawable/ic_action_done"
-            android:title="done"
-            app:showAsAction="always"/>
+            android:id="@+id/trigger"
+            android:icon="@drawable/ic_trigger"
+            android:title="@string/trigger"/>
+
+        <item
+            android:id="@+id/debug_online"
+            android:icon="@drawable/ic_debug_tools"
+            android:title="@string/debug_online"/>
 
     </group>
 

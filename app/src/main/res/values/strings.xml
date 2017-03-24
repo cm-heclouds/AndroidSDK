@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">OneNET RESTful SDK</string>
-
     <string name="apikey_edit_text_hint">Please input your apikey</string>
     <string name="apikey_edit_text_error">Apikey can not be empty!</string>
-
     <string name="device">Device</string>
     <string name="trigger">Trigger</string>
+    <string name="debug_online">Debug online</string>
+    <string name="add_device">Add device</string>
+    <string name="add_device_title_hint">Please input device title</string>
 </resources>

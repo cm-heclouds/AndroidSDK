@@ -61,7 +61,7 @@ public class EditApiKeyActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_edit_apikey, menu);
+        getMenuInflater().inflate(R.menu.menu_done, menu);
         return super.onCreateOptionsMenu(menu);
     }
 }

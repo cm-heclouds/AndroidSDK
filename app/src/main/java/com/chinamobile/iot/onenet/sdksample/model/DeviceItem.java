@@ -8,7 +8,7 @@ public class DeviceItem {
     private String desc;
     @SerializedName("private")
     private boolean isPrivate;
-    private String protocol;
+    private String protocol = "HTTP";
     private boolean online;
     private Location location;
     @SerializedName("create_time")
