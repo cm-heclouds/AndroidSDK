@@ -13,7 +13,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:title="编辑ApiKey"/>
+        app:title="@string/edit_apikey"/>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/text_input_layout"

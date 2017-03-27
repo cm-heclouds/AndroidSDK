@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">OneNET RESTful SDK</string>
-    <string name="apikey_edit_text_hint">Apikey</string>
+    <string name="apikey_edit_text_hint">这是你产品的Apikey</string>
     <string name="apikey_edit_text_error">Apikey不能为空</string>
     <string name="debug_online">在线调试</string>
     <string name="device">设备</string>
@@ -23,4 +23,5 @@
     <string name="dtu_password_empty_error">DTU密码不能为空</string>
     <string name="device_model_empty_drror">终端型号不能为空</string>
     <string name="device_id_empty_error">终端ID不能为空</string>
+    <string name="edit_apikey">编辑ApiKey</string>
 </resources>

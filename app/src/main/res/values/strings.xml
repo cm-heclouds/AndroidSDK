@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">OneNET RESTful SDK</string>
-    <string name="apikey_edit_text_hint">Apikey</string>
+    <string name="apikey_edit_text_hint">This is your product apikey</string>
     <string name="apikey_edit_text_error">Apikey can not be empty!</string>
     <string name="device">Device</string>
     <string name="trigger">Trigger</string>
@@ -22,4 +22,5 @@
     <string name="dtu_password_empty_error">DTU password can not be empty!</string>
     <string name="device_model_empty_drror">Device model can not be empty!</string>
     <string name="device_id_empty_error">Device ID can not be empty!</string>
+    <string name="edit_apikey">Edit ApiKey</string>
 </resources>

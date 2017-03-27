@@ -60,6 +60,7 @@ public class DeviceListFragment extends Fragment implements SwipeRefreshLayout.O
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new DeviceListAdapter();
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnLoadMoreListener(mLoadMoreListener, mRecyclerView);
         mSwipeRefreshLayout.setColorSchemeColors(0xFFDA4336);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         getDevices(false);
@@ -183,6 +184,17 @@ public class DeviceListFragment extends Fragment implements SwipeRefreshLayout.O
         public void onReceive(Context context, Intent intent) {
             mSwipeRefreshLayout.setRefreshing(true);
             getDevices(false);
+        }
+    };
+
+    private BaseQuickAdapter.RequestLoadMoreListener mLoadMoreListener = new BaseQuickAdapter.RequestLoadMoreListener() {
+        @Override
+        public void onLoadMoreRequested() {
+            if (mDeviceItems.size() >= mTotalCount) {
+                mAdapter.loadMoreEnd();
+            } else {
+                getDevices(true);
+            }
         }
     };
 }
