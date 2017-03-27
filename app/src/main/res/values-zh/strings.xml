@@ -1,11 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">OneNET RESTful SDK</string>
+    <string name="apikey_edit_text_hint">Apikey</string>
     <string name="apikey_edit_text_error">Apikey不能为空</string>
-    <string name="apikey_edit_text_hint">请输入apikey</string>
     <string name="debug_online">在线调试</string>
     <string name="device">设备</string>
     <string name="trigger">触发器</string>
     <string name="add_device">新增设备</string>
-    <string name="add_device_title_hint">请输入设备名称</string>
+    <string name="add_device_title_hint">设备名称</string>
+    <string name="add_device_auth_info_hint">鉴权信息</string>
+    <string name="add_device_dtu_number_hint">DTU序列号</string>
+    <string name="add_device_dtu_password_hint">DTU密码</string>
+    <string name="add_device_model_hint">终端型号</string>
+    <string name="add_device_id_hint">终端ID</string>
+    <string name="radio_private">私有</string>
+    <string name="radio_public">公开</string>
+    <string name="device_access_protocol">设备接入协议</string>
+    <string name="data_confidentiality">数据保密性</string>
+    <string name="device_title_empty_error">设备名称不能为空</string>
+    <string name="auth_info_empty_error">鉴权信息不能为空</string>
+    <string name="dtu_serial_number_empty_error">DTU序列号不能为空</string>
+    <string name="dtu_password_empty_error">DTU密码不能为空</string>
+    <string name="device_model_empty_drror">终端型号不能为空</string>
+    <string name="device_id_empty_error">终端ID不能为空</string>
 </resources>

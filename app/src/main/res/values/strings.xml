@@ -1,10 +1,25 @@
 <resources>
     <string name="app_name">OneNET RESTful SDK</string>
-    <string name="apikey_edit_text_hint">Please input your apikey</string>
+    <string name="apikey_edit_text_hint">Apikey</string>
     <string name="apikey_edit_text_error">Apikey can not be empty!</string>
     <string name="device">Device</string>
     <string name="trigger">Trigger</string>
     <string name="debug_online">Debug online</string>
     <string name="add_device">Add device</string>
-    <string name="add_device_title_hint">Please input device title</string>
+    <string name="add_device_title_hint">Device name</string>
+    <string name="add_device_auth_info_hint">Auth info</string>
+    <string name="add_device_dtu_number_hint">DTU serial number</string>
+    <string name="add_device_dtu_password_hint">DTU password</string>
+    <string name="add_device_model_hint">Device model</string>
+    <string name="add_device_id_hint">Device ID</string>
+    <string name="radio_private">Private</string>
+    <string name="radio_public">Public</string>
+    <string name="device_access_protocol">Device access protocol</string>
+    <string name="data_confidentiality">Data confidentiality</string>
+    <string name="device_title_empty_error">Device name can not be empty!</string>
+    <string name="auth_info_empty_error">Auth info can not be empty!</string>
+    <string name="dtu_serial_number_empty_error">DTU serial number can not be empty!</string>
+    <string name="dtu_password_empty_error">DTU password can not be empty!</string>
+    <string name="device_model_empty_drror">Device model can not be empty!</string>
+    <string name="device_id_empty_error">Device ID can not be empty!</string>
 </resources>

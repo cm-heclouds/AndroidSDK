@@ -15,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,12 +48,14 @@ public class MainActivity extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
-        String apikey = Preferences.getInstance(this).getString(Preferences.API_KEY, "");
-        if (0 == apikey.length()) {
-            apikey = OneNetApi.getAppKey();
+        String apikey = OneNetApi.getAppKey();
+        if (TextUtils.isEmpty(apikey)) {
+            apikey = Preferences.getInstance(this).getString(Preferences.API_KEY, null);
         }
-        if (0 == apikey.length()) {
+        if (TextUtils.isEmpty(apikey)) {
             startActivity(new Intent(this, EditApiKeyActivity.class));
+        } else {
+            OneNetApi.setAppKey(apikey);
         }
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -131,4 +134,5 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
 }

@@ -1,9 +1,13 @@
 package com.chinamobile.iot.onenet.sdksample.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +23,7 @@ import com.chinamobile.iot.onenet.OneNetApiCallback;
 import com.chinamobile.iot.onenet.sdksample.R;
 import com.chinamobile.iot.onenet.sdksample.activity.AddDeviceActivity;
 import com.chinamobile.iot.onenet.sdksample.model.DeviceItem;
+import com.chinamobile.iot.onenet.sdksample.utils.IntentActions;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.gson.Gson;
 
@@ -61,7 +66,16 @@ public class DeviceListFragment extends Fragment implements SwipeRefreshLayout.O
         mSwipeRefreshLayout.setRefreshing(true);
 
         mFabAddDevice.setOnClickListener(this);
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(mUpdateApiKeyReceiver, new IntentFilter(IntentActions.ACTION_UPDATE_APIKEY));
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(mUpdateDeviceListReceiver, new IntentFilter(IntentActions.ACTION_UPDATE_DEVICE_LIST));
         return contentView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(mUpdateApiKeyReceiver);
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(mUpdateDeviceListReceiver);
+        super.onDestroyView();
     }
 
     @Override
@@ -155,4 +169,20 @@ public class DeviceListFragment extends Fragment implements SwipeRefreshLayout.O
             this.devices = devices;
         }
     }
+
+    private BroadcastReceiver mUpdateApiKeyReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            mSwipeRefreshLayout.setRefreshing(true);
+            getDevices(false);
+        }
+    };
+
+    private BroadcastReceiver mUpdateDeviceListReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            mSwipeRefreshLayout.setRefreshing(true);
+            getDevices(false);
+        }
+    };
 }

@@ -1,88 +1,229 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:title="@string/add_device"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        app:hintAnimationEnabled="true"
-        app:hintEnabled="true">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:title="@string/add_device"/>
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/title"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/add_device_title_hint"
-            android:textColor="@color/textColorPrimary"
-            android:textColorHint="@color/textColorHint"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/add_device_title_hint"
+                android:textColor="@color/textColorPrimary"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:text="设备接入协议"
+            android:textColor="@color/textColorSecondary"
             android:textSize="14sp"/>
 
-    </android.support.design.widget.TextInputLayout>
-
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:checkedButton="@+id/radio_http"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp">
-
-        <android.support.v7.widget.AppCompatRadioButton
-            android:id="@+id/radio_http"
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/protocol_spinner"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="HTTP"
-            android:textSize="12sp"
-            app:buttonTint="@color/red"/>
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:entries="@array/protocols"
+            android:spinnerMode="dropdown"
+            app:theme="@style/AddDeviceSpinnerStyle">
 
-        <android.support.v7.widget.AppCompatRadioButton
-            android:id="@+id/radio_edp"
-            android:layout_width="wrap_content"
+        </android.support.v7.widget.AppCompatSpinner>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/auth_info_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="EDP"
-            android:textSize="12sp"
-            app:buttonTint="@color/red"/>
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true">
 
-        <android.support.v7.widget.AppCompatRadioButton
-            android:id="@+id/radio_mqtt"
-            android:layout_width="wrap_content"
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/auth_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/add_device_auth_info_hint"
+                android:textColor="@color/textColorPrimary"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:id="@+id/modbus_auth_info"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="MQTT"
-            android:textSize="12sp"
-            app:buttonTint="@color/red"/>
+            android:orientation="vertical"
+            android:visibility="gone">
 
-        <android.support.v7.widget.AppCompatRadioButton
-            android:id="@+id/radio_modbus"
-            android:layout_width="wrap_content"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/dtu_number_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                app:hintAnimationEnabled="true"
+                app:hintEnabled="true">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/dtu_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/add_device_dtu_number_hint"
+                    android:textColor="@color/textColorPrimary"
+                    android:textColorHint="@color/textColorHint"
+                    android:textSize="14sp"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/dtu_password_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                app:hintAnimationEnabled="true"
+                app:hintEnabled="true">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/dtu_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/add_device_dtu_password_hint"
+                    android:textColor="@color/textColorPrimary"
+                    android:textColorHint="@color/textColorHint"
+                    android:textSize="14sp"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/jtext_auth_info"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="MODBUS"
-            android:textSize="12sp"
-            app:buttonTint="@color/red"/>
+            android:orientation="vertical"
+            android:visibility="gone">
 
-        <android.support.v7.widget.AppCompatRadioButton
-            android:id="@+id/radio_jtext"
-            android:layout_width="wrap_content"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/model_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                app:hintAnimationEnabled="true"
+                app:hintEnabled="true">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/model"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/add_device_model_hint"
+                    android:textColor="@color/textColorPrimary"
+                    android:textColorHint="@color/textColorHint"
+                    android:textSize="14sp"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/id_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                app:hintAnimationEnabled="true"
+                app:hintEnabled="true">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/add_device_id_hint"
+                    android:textColor="@color/textColorPrimary"
+                    android:textColorHint="@color/textColorHint"
+                    android:textSize="14sp"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="JTEXT"
-            android:textSize="12sp"
-            app:buttonTint="@color/red"/>
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/data_confidentiality"
+            android:textColor="@color/textColorSecondary"
+            android:textSize="14sp"/>
 
-    </RadioGroup>
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:checkedButton="@+id/radio_private"
+            android:orientation="horizontal">
 
-</LinearLayout>
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/radio_private"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/radio_private"
+                android:textColor="@color/textColorSecondary"
+                android:textSize="14sp"
+                app:buttonTint="@color/colorAccent"/>
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/radio_public"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/radio_public"
+                android:textColor="@color/textColorSecondary"
+                android:textSize="14sp"
+                app:buttonTint="@color/colorAccent"/>
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+</ScrollView>

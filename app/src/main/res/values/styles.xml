@@ -35,4 +35,9 @@
         <item name="android:textColor">#99FFFFFF</item>
     </style>
 
+    <style name="AddDeviceSpinnerStyle" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:textColor">@color/textColorSecondary</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
 </resources>

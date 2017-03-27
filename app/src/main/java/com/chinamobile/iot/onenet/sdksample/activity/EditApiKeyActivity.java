@@ -1,8 +1,10 @@
 package com.chinamobile.iot.onenet.sdksample.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -10,6 +12,7 @@ import android.view.MenuItem;
 
 import com.chinamobile.iot.onenet.OneNetApi;
 import com.chinamobile.iot.onenet.sdksample.R;
+import com.chinamobile.iot.onenet.sdksample.utils.IntentActions;
 import com.chinamobile.iot.onenet.sdksample.utils.Preferences;
 
 public class EditApiKeyActivity extends AppCompatActivity {
@@ -50,6 +53,7 @@ public class EditApiKeyActivity extends AppCompatActivity {
                 if (apiKey.trim().length() > 0) {
                     OneNetApi.setAppKey(apiKey);
                     mPreferences.putString(Preferences.API_KEY, apiKey);
+                    LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(IntentActions.ACTION_UPDATE_APIKEY));
                     finish();
                 } else {
                     mTextInputLayout.setError(getResources().getString(R.string.apikey_edit_text_error));
