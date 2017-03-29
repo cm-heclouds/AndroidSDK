@@ -1,5 +1,7 @@
 package com.chinamobile.iot.onenet.module;
 
+import android.text.TextUtils;
+
 import com.chinamobile.iot.onenet.http.Urls;
 
 import okhttp3.HttpUrl;
@@ -22,9 +24,17 @@ public class Trigger {
     }
 
     public static String urlForfuzzyQuerying(String name, int page, int perPage) {
-        return new HttpUrl.Builder().scheme(Urls.SCHEME).host(Urls.sHost).addPathSegment("triggers")
-                .addEncodedQueryParameter("title", name).addQueryParameter("page", String.valueOf(page))
-                .addQueryParameter("per_page", String.valueOf(perPage)).toString();
+        HttpUrl.Builder builder = new HttpUrl.Builder().scheme(Urls.SCHEME).host(Urls.sHost).addPathSegment("triggers");
+        if (!TextUtils.isEmpty(name)) {
+            builder.addEncodedQueryParameter("title", name);
+        }
+        if (page > 0) {
+            builder.addQueryParameter("page", String.valueOf(page));
+        }
+        if (perPage > 0) {
+            builder.addQueryParameter("per_page", String.valueOf(perPage));
+        }
+        return builder.toString();
     }
 
     public static String urlForDeleting(String triggerId) {

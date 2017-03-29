@@ -18,10 +18,12 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chinamobile.iot.onenet.OneNetApi;
 import com.chinamobile.iot.onenet.OneNetApiCallback;
 import com.chinamobile.iot.onenet.sdksample.R;
 import com.chinamobile.iot.onenet.sdksample.activity.AddDeviceActivity;
+import com.chinamobile.iot.onenet.sdksample.activity.DeviceActivity;
 import com.chinamobile.iot.onenet.sdksample.model.DeviceItem;
 import com.chinamobile.iot.onenet.sdksample.utils.IntentActions;
 import com.github.clans.fab.FloatingActionButton;
@@ -59,8 +61,14 @@ public class DeviceListFragment extends Fragment implements SwipeRefreshLayout.O
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new DeviceListAdapter();
-        mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnLoadMoreListener(mLoadMoreListener, mRecyclerView);
+        mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                DeviceActivity.actionDevice(getContext(), mDeviceItems.get(position).getId());
+            }
+        });
+        mRecyclerView.setAdapter(mAdapter);
         mSwipeRefreshLayout.setColorSchemeColors(0xFFDA4336);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         getDevices(false);
@@ -101,6 +109,7 @@ public class DeviceListFragment extends Fragment implements SwipeRefreshLayout.O
 
         @Override
         protected void convert(BaseViewHolder helper, DeviceItem item) {
+            //helper.addOnClickListener()
             helper.setText(R.id.title, item.getTitle());
             helper.setText(R.id.id, "设备ID：" + item.getId());
             helper.setText(R.id.protocol, "设备接入协议：" + item.getProtocol());

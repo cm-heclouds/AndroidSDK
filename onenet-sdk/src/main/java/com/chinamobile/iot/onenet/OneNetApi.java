@@ -355,6 +355,15 @@ public class OneNetApi {
     }
 
     /**
+     * 查询当前产品的所有触发器
+     *
+     * @param callback 回调函数
+     */
+    public static void fuzzyQueryTriggers(OneNetApiCallback callback) {
+        get(Trigger.urlForfuzzyQuerying(null, 0, 0), callback);
+    }
+
+    /**
      * 删除触发器
      *
      * @param triggerId 触发器ID

@@ -66,8 +66,7 @@ class OneNetApiCallbackAdapter implements Callback {
                 JSONObject jsonObject = new JSONObject(responseString);
                 final int errno = jsonObject.optInt("errno");
                 final String error = jsonObject.optString("error");
-                JSONObject dataObject = jsonObject.optJSONObject("data");
-                final String data = dataObject != null ? dataObject.toString() : null;
+                String data = jsonObject.optString("data");
                 sendSuccessMessage(errno, error, data);
             } catch (final JSONException e) {
                 e.printStackTrace();
