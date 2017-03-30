@@ -1,5 +1,6 @@
 package com.chinamobile.iot.onenet.sdksample.utils;
 
+import com.chinamobile.iot.onenet.sdksample.model.ActivateCode;
 import com.chinamobile.iot.onenet.sdksample.model.DeviceItem;
 import com.chinamobile.iot.onenet.sdksample.model.Location;
 import com.google.gson.JsonDeserializationContext;
@@ -23,11 +24,11 @@ public class DeviceItemDeserializer implements JsonDeserializer<DeviceItem> {
         JsonElement protocol = jsonObject.get("protocol");
         deviceItem.setProtocol(protocol != null ? protocol.getAsString() : "HTTP");
         deviceItem.setOnline(jsonObject.get("online").getAsBoolean());
-        Location location = new Location();
         JsonElement locationElement = jsonObject.get("location");
         if (locationElement != null) {
             JsonObject locationObject = locationElement.getAsJsonObject();
             if (locationObject != null) {
+                Location location = new Location();
                 location.setLat(locationObject.get("lat").getAsString());
                 location.setLon(locationObject.get("lon").getAsString());
                 deviceItem.setLocation(location);
@@ -40,6 +41,16 @@ public class DeviceItemDeserializer implements JsonDeserializer<DeviceItem> {
                 deviceItem.setAuthInfo(authInfo.getAsJsonObject().toString());
             } else {
                 deviceItem.setAuthInfo(authInfo.getAsString());
+            }
+        }
+        JsonElement activateCodeElement = jsonObject.get("activate_code");
+        if (activateCodeElement != null) {
+            JsonObject activateCodeObject = activateCodeElement.getAsJsonObject();
+            if (activateCodeObject != null) {
+                ActivateCode activateCode = new ActivateCode();
+                activateCode.setMt(activateCodeObject.get("mt").getAsString());
+                activateCode.setMid(activateCodeObject.get("mid").getAsString());
+                deviceItem.setActivateCode(activateCode);
             }
         }
         return deviceItem;

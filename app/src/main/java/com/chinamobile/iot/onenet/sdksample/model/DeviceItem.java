@@ -17,6 +17,8 @@ public class DeviceItem implements Serializable {
     private String createTime;
     @SerializedName("auth_info")
     private String authInfo;
+    @SerializedName("activite_code")
+    private ActivateCode activateCode;
 
     public String getId() {
         return id;
@@ -88,5 +90,13 @@ public class DeviceItem implements Serializable {
 
     public void setAuthInfo(String authInfo) {
         this.authInfo = authInfo;
+    }
+
+    public ActivateCode getActivateCode() {
+        return activateCode;
+    }
+
+    public void setActivateCode(ActivateCode activateCode) {
+        this.activateCode = activateCode;
     }
 }
