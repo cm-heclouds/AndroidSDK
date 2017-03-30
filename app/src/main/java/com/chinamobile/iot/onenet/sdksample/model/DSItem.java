@@ -2,8 +2,6 @@ package com.chinamobile.iot.onenet.sdksample.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.json.JSONObject;
-
 public class DSItem {
 
     private String id;
@@ -15,7 +13,7 @@ public class DSItem {
     @SerializedName("create_time")
     private String createTime;
     @SerializedName("current_value")
-    private JSONObject currentValue;
+    private Object currentValue;
     @SerializedName("update_at")
     private String updateTime;
 
@@ -67,11 +65,11 @@ public class DSItem {
         this.createTime = createTime;
     }
 
-    public JSONObject getCurrentValue() {
+    public Object getCurrentValue() {
         return currentValue;
     }
 
-    public void setCurrentValue(JSONObject currentValue) {
+    public void setCurrentValue(Object currentValue) {
         this.currentValue = currentValue;
     }
 

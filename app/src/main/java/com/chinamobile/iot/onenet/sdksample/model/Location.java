@@ -1,6 +1,8 @@
 package com.chinamobile.iot.onenet.sdksample.model;
 
-public class Location {
+import java.io.Serializable;
+
+public class Location implements Serializable {
 
     private String lon;
     private String lat;

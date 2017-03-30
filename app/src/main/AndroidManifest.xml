@@ -43,6 +43,10 @@
             android:name=".activity.DeviceActivity"
             android:screenOrientation="portrait"/>
 
+        <activity
+            android:name=".activity.SendCommandActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

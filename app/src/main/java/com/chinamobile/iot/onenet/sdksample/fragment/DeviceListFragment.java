@@ -26,8 +26,13 @@ import com.chinamobile.iot.onenet.sdksample.activity.AddDeviceActivity;
 import com.chinamobile.iot.onenet.sdksample.activity.DeviceActivity;
 import com.chinamobile.iot.onenet.sdksample.model.DeviceItem;
 import com.chinamobile.iot.onenet.sdksample.utils.IntentActions;
+import com.chinamobile.iot.onenet.sdksample.utils.DeviceItemDeserializer;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -65,7 +70,7 @@ public class DeviceListFragment extends Fragment implements SwipeRefreshLayout.O
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                DeviceActivity.actionDevice(getContext(), mDeviceItems.get(position).getId());
+                DeviceActivity.actionDevice(getContext(), mDeviceItems.get(position));
             }
         });
         mRecyclerView.setAdapter(mAdapter);
@@ -159,8 +164,14 @@ public class DeviceListFragment extends Fragment implements SwipeRefreshLayout.O
         try {
             JSONObject dataObj = new JSONObject(data);
             mTotalCount = dataObj.optInt("total_count");
-            Gson gson = new Gson();
-            List<DeviceItem> devices = gson.fromJson(data, Data.class).getDevices();
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.registerTypeAdapter(DeviceItem.class, new DeviceItemDeserializer());
+            Gson gson = gsonBuilder.create();
+            JsonArray jsonArray = new JsonParser().parse(dataObj.optString("devices")).getAsJsonArray();
+            List<DeviceItem> devices = new ArrayList<>();
+            for (JsonElement element : jsonArray) {
+                devices.add(gson.fromJson(element, DeviceItem.class));
+            }
             mDeviceItems.addAll(devices);
             mAdapter.setNewData(mDeviceItems);
         } catch (JSONException e) {

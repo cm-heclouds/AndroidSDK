@@ -1,14 +1,19 @@
 package com.chinamobile.iot.onenet.sdksample.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -18,30 +23,29 @@ import com.chinamobile.iot.onenet.OneNetApi;
 import com.chinamobile.iot.onenet.OneNetApiCallback;
 import com.chinamobile.iot.onenet.sdksample.R;
 import com.chinamobile.iot.onenet.sdksample.model.DSItem;
+import com.chinamobile.iot.onenet.sdksample.model.DeviceItem;
+import com.chinamobile.iot.onenet.sdksample.utils.IntentActions;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.google.gson.internal.bind.CollectionTypeAdapterFactory;
-import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class DeviceActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
-    public static final String EXTRA_DEVICE_ID = "extra_device_id";
+    public static final String EXTRA_DEVICE_ITEM = "extra_device_item";
     private Toolbar mToolbar;
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private DSListAdapter mAdapter;
     private FloatingActionButton mFabAddDataStream;
-    private String mDeviceId;
+    private DeviceItem mDeviceItem;
 
-    public static void actionDevice(Context context, String deviceId) {
+    public static void actionDevice(Context context, DeviceItem deviceItem) {
         Intent intent = new Intent(context, DeviceActivity.class);
-        intent.putExtra(EXTRA_DEVICE_ID, deviceId);
+        intent.putExtra(EXTRA_DEVICE_ITEM, deviceItem);
         context.startActivity(intent);
     }
 
@@ -52,11 +56,51 @@ public class DeviceActivity extends AppCompatActivity implements SwipeRefreshLay
         initViews();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        switch (mDeviceItem.getProtocol().toUpperCase()) {
+            case "HTTP":
+            case "JTEXT":
+                getMenuInflater().inflate(R.menu.menu_device_activity_http, menu);
+                break;
+            case "EDP":
+            case "MQTT":
+            case "MODBUS":
+                getMenuInflater().inflate(R.menu.menu_device_activity_edp, menu);
+                break;
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+
+            case R.id.menu_edit_device:
+                break;
+
+            case R.id.menu_delete_device:
+                showDeleteDeviceDialog();
+                break;
+
+            case R.id.menu_send_command:
+                SendCommandActivity.actionSendCommand(this, mDeviceItem);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void initViews() {
-        mDeviceId = getIntent().getStringExtra(EXTRA_DEVICE_ID);
+        mDeviceItem = (DeviceItem) getIntent().getSerializableExtra(EXTRA_DEVICE_ITEM);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle(mDeviceItem.getTitle());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(android.support.v7.appcompat.R.drawable.abc_ic_ab_back_material);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyler_view);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
@@ -97,7 +141,7 @@ public class DeviceActivity extends AppCompatActivity implements SwipeRefreshLay
     }
 
     private void getDataStreams() {
-        OneNetApi.queryMultiDataStreams(mDeviceId, new OneNetApiCallback() {
+        OneNetApi.queryMultiDataStreams(mDeviceItem.getId(), new OneNetApiCallback() {
             @Override
             public void onSuccess(int errno, String error, String data) {
                 mSwipeRefreshLayout.setRefreshing(false);
@@ -117,13 +161,48 @@ public class DeviceActivity extends AppCompatActivity implements SwipeRefreshLay
     }
 
     private void parseData(String data) {
-//        if (null == data) {
-//            return;
-//        }
-//        Gson gson = new Gson();
-//        Collection<DSItem> dsItems = gson.fromJson(data, Collection.class);
-//        ArrayList<DSItem> dsItems1 = new ArrayList<>();
-//        dsItems1.addAll(dsItems);
-//        mAdapter.setNewData(dsItems1);
+        if (null == data) {
+            return;
+        }
+        JsonArray jsonArray = new JsonParser().parse(data).getAsJsonArray();
+        ArrayList<DSItem> dsItems = new ArrayList<>();
+        Gson gson = new Gson();
+        for (JsonElement element : jsonArray) {
+            dsItems.add(gson.fromJson(element, DSItem.class));
+        }
+        mAdapter.setNewData(dsItems);
+    }
+
+    private void showDeleteDeviceDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.delete_device)
+                .setMessage(R.string.delete_device_dialog_content)
+                .setPositiveButton(R.string.action_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteDevice();
+                    }
+                })
+                .setNegativeButton(R.string.action_cancel, null)
+                .show();
+    }
+
+    private void deleteDevice() {
+        OneNetApi.deleteDevice(mDeviceItem.getId(), new OneNetApiCallback() {
+            @Override
+            public void onSuccess(int errno, String error, String data) {
+                if (0 == errno) {
+                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(new Intent(IntentActions.ACTION_UPDATE_DEVICE_LIST));
+                    finish();
+                } else {
+                    Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

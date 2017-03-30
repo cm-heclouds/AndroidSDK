@@ -2,7 +2,9 @@ package com.chinamobile.iot.onenet.sdksample.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class DeviceItem {
+import java.io.Serializable;
+
+public class DeviceItem implements Serializable {
     private String id;
     private String title;
     private String desc;
@@ -14,7 +16,7 @@ public class DeviceItem {
     @SerializedName("create_time")
     private String createTime;
     @SerializedName("auth_info")
-    private Object authInfo;
+    private String authInfo;
 
     public String getId() {
         return id;
@@ -80,7 +82,7 @@ public class DeviceItem {
         this.createTime = createTime;
     }
 
-    public Object getAuthInfo() {
+    public String getAuthInfo() {
         return authInfo;
     }
 

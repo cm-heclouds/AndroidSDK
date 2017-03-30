@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="http://schemas.android.com/tools">
     <string name="app_name">OneNET RESTful SDK</string>
     <string name="apikey_edit_text_hint">这是你产品的Apikey</string>
     <string name="apikey_edit_text_error">Apikey不能为空</string>
@@ -24,4 +24,16 @@
     <string name="device_model_empty_drror">终端型号不能为空</string>
     <string name="device_id_empty_error">终端ID不能为空</string>
     <string name="edit_apikey">编辑ApiKey</string>
+    <string name="edit_device">编辑设备</string>
+    <string name="delete_device">删除设备</string>
+    <string name="send_command">发送命令</string>
+    <string name="action_ok">确定</string>
+    <string name="action_cancel">取消</string>
+    <string name="delete_device_dialog_content">确定删除设备？</string>
+    <string name="send_cmd_activity_title"><xliff:g id="PROTOCOL">%s</xliff:g>协议下发命令</string>
+    <string name="command_content">命令内容</string>
+    <string name="need_resp">需要响应</string>
+    <string name="no_need_resp">不需要响应</string>
+    <string name="valid_period">有效期（秒）</string>
+    <string name="send_cmd_succ">发送命令成功</string>
 </resources>
