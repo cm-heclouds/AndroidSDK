@@ -7,8 +7,8 @@ import android.content.pm.PackageManager.NameNotFoundException;
 
 public class Meta {
 
-    public static final String META_APIKEY = "app-key";
-    public static final String META_HOST = "host";
+    public static final String META_APIKEY = "com.chinamobile.iot.onenet.APP-KEY";
+    public static final String META_HOST = "com.chinamobile.iot.onenet.HOST";
 
     public static String readAppKey(Application application) throws NameNotFoundException {
         ApplicationInfo applicationInfo = application.getPackageManager()

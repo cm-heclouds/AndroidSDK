@@ -13,11 +13,11 @@
         android:theme="@style/AppTheme">
 
         <meta-data
-            android:name="app-key"
+            android:name="com.chinamobile.iot.onenet.APP-KEY"
             android:value="TO5AOPtJipNsoAAYn1WhWWo0Fto="/>
 
         <meta-data
-            android:name="host"
+            android:name="com.chinamobile.iot.onenet.HOST"
             android:value="api.heclouds.com"/>
 
         <activity

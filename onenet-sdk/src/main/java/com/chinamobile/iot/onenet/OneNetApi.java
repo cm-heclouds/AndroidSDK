@@ -65,7 +65,7 @@ public class OneNetApi {
             Request.Builder builder = chain.request().newBuilder();
             builder.addHeader("api-key", sAppKey);
             if (TextUtils.isEmpty(sAppKey)) {
-                Log.e(LOG_TAG, "app-key is messing, please config in the meta-data or call setAppKey()");
+                Log.e(LOG_TAG, "APP-KEY is messing, please config in the meta-data or call setAppKey()");
             }
             return chain.proceed(builder.build());
         }
@@ -427,20 +427,49 @@ public class OneNetApi {
 
     /******************** 命令相关api ********************/
 
+    /**
+     * 发送命令
+     *
+     * @param deviceId          设备ID
+     * @param requestBodyString HTTP内容
+     * @param callback          回调函数
+     */
     public static void sendCmdToDevice(String deviceId, String requestBodyString, OneNetApiCallback callback) {
         post(Command.urlForSending(deviceId), requestBodyString, callback);
     }
 
+    /**
+     * 发送命令
+     *
+     * @param deviceId          设备ID
+     * @param needResponse      是否需要响应
+     * @param timeout           命令有效时间
+     * @param type              命令类型，有CMD_REQ和PUSH_DATA
+     * @param requestBodyString HTTP内容
+     * @param callback          回调函数
+     */
     public static void sendCmdToDevice(String deviceId, boolean needResponse, int timeout,
                                        Command.CommandType type, String requestBodyString,
                                        OneNetApiCallback callback) {
         post(Command.urlForSending(deviceId, needResponse, timeout, type), requestBodyString, callback);
     }
 
+    /**
+     * 查询命令状态
+     *
+     * @param cmdUuid  命令的UUID
+     * @param callback 回调函数
+     */
     public static void queryCmdStatus(String cmdUuid, OneNetApiCallback callback) {
         get(Command.urlForQueryingStatus(cmdUuid), callback);
     }
 
+    /**
+     * 查询命令响应
+     *
+     * @param cmdUuid  命令的UUID
+     * @param callback 回调函数
+     */
     public static void queryCmdResponse(String cmdUuid, OneNetApiCallback callback) {
         get(Command.urlForQueryingResponse(cmdUuid), callback);
     }
@@ -449,26 +478,65 @@ public class OneNetApi {
 
     /******************** MQTT相关api ********************/
 
+    /**
+     * 按Topic发送命令
+     *
+     * @param topic             设备订阅的主题
+     * @param requestBodyString 用户自定义数据：json、string、二进制数据（小于64K）
+     * @param callback          回调函数
+     */
     public static void sendCmdByTopic(String topic, String requestBodyString, OneNetApiCallback callback) {
         post(Mqtt.urlForSendingCmdByTopic(topic), requestBodyString, callback);
     }
 
+    /**
+     * 查询订阅指定Topic设备的列表
+     *
+     * @param topic    设备订阅的主题
+     * @param page     指定页码
+     * @param perPage  指定每页输出个数，最多1000
+     * @param callback 回调函数
+     */
     public static void queryDevicesByTopic(String topic, int page, int perPage, OneNetApiCallback callback) {
         get(Mqtt.urlForQueryingDevicesByTopic(topic, page, perPage), callback);
     }
 
+    /**
+     * 查询设备订阅的Topic列表
+     *
+     * @param deviceId 设备ID
+     * @param callback 回调函数
+     */
     public static void queryDeviceTopics(String deviceId, OneNetApiCallback callback) {
         get(Mqtt.urlForQueryingDeviceTopics(deviceId), callback);
     }
 
+    /**
+     * 创建产品的Topic
+     *
+     * @param requestBodyString HTTP内容 详见<a href="http://www.heclouds.com/doc/art256.html#68">
+     *                          http://www.heclouds.com/doc/art256.html#68</a>
+     * @param callback          回调函数
+     */
     public static void addTopic(String requestBodyString, OneNetApiCallback callback) {
         post(Mqtt.urlForAddingTopic(), requestBodyString, callback);
     }
 
+    /**
+     * 删除产品的Topic
+     *
+     * @param topic    主题名称
+     * @param callback 回调函数
+     */
     public static void deleteTopic(String topic, OneNetApiCallback callback) {
         delete(Mqtt.urlForDeletingTopic(topic), callback);
     }
 
+    /**
+     * 查询产品Topic
+     *
+     * @param callback 回调函数
+     */
     public static void queryTopics(OneNetApiCallback callback) {
         get(Mqtt.urlForQueryingTopics(), callback);
     }
@@ -477,22 +545,58 @@ public class OneNetApi {
 
     /******************** ApiKey相关api ********************/
 
+    /**
+     * 新增API key
+     *
+     * @param requestBodyString HTTP内容 详见<a href="http://www.heclouds.com/doc/art296.html#68">
+     *                          http://www.heclouds.com/doc/art296.html#68</a>
+     * @param callback          回调函数
+     */
     public static void addApiKey(String requestBodyString, OneNetApiCallback callback) {
         post(ApiKey.urlForAdding(), requestBodyString, callback);
     }
 
+    /**
+     * 更新API key
+     *
+     * @param key               API key内容
+     * @param requestBodyString HTTP内容 详见<a href="http://www.heclouds.com/doc/art296.html#68">
+     *                          http://www.heclouds.com/doc/art296.html#68</a>
+     * @param callback          回调函数
+     */
     public static void updateApiKey(String key, String requestBodyString, OneNetApiCallback callback) {
         put(ApiKey.urlForUpdating(key), requestBodyString, callback);
     }
 
+    /**
+     * 查询API key
+     *
+     * @param key      API key内容
+     * @param callback 回调函数
+     */
     public static void queryApiKey(String key, OneNetApiCallback callback) {
         get(ApiKey.urlForQuerying(key, 0, 0, null), callback);
     }
 
+    /**
+     * 查询API key
+     *
+     * @param key      API key内容
+     * @param page     指定页码
+     * @param perPage  指定每页输出个数，最多100
+     * @param deviceId 设备ID
+     * @param callback 回调函数
+     */
     public static void queryApiKey(String key, int page, int perPage, String deviceId, OneNetApiCallback callback) {
         get(ApiKey.urlForQuerying(key, page, perPage, deviceId), callback);
     }
 
+    /**
+     * 删除API key
+     *
+     * @param key      API key内容
+     * @param callback 回调函数
+     */
     public static void deleteApiKey(String key, OneNetApiCallback callback) {
         delete(ApiKey.urlForDeleting(key), callback);
     }
