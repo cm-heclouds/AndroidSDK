@@ -11,6 +11,14 @@
 
 请参考[wiki文档](https://github.com/cm-heclouds/AndroidSDK/wiki)
 
+## 示例
+
+v2.0版本提供了更加美观和丰富的示例App供开发者参考，遵循Google Material Design风格，完全开源，开发者可以Clone项目源码查看详细内容。
+
+![](screenshots/1.png) ![](screenshots/2.png)
+![](screenshots/3.png) ![](screenshots/4.png)
+![](screenshots/5.png) ![](screenshots/6.png)
+
 ## 依赖库
 
 - [OkHttp](https://github.com/square/okhttp)
