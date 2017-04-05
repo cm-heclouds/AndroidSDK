@@ -143,7 +143,7 @@ public class OneNetApi {
      * @param registerCode      设备注册码
      * @param requestBodyString HTTP内容 详见<a href="http://www.heclouds.com/doc/art262.html#68">
      *                          http://www.heclouds.com/doc/art262.html#68</a>
-     * @param callback          回调函数
+     * @param callback          回调接口对象
      */
     public static void registerDevice(String registerCode, String requestBodyString, OneNetApiCallback callback) {
         post(Device.urlForRegistering(registerCode), requestBodyString, callback);
@@ -154,7 +154,7 @@ public class OneNetApi {
      *
      * @param requestBodyString HTTP内容 详见<a href="http://www.heclouds.com/doc/art262.html#68">
      *                          http://www.heclouds.com/doc/art262.html#68</a>
-     * @param callback          回调函数
+     * @param callback          回调接口对象
      */
     public static void addDevice(String requestBodyString, OneNetApiCallback callback) {
         post(Device.urlForAdding(), requestBodyString, callback);
@@ -166,7 +166,7 @@ public class OneNetApi {
      * @param deviceId          设备ID
      * @param requestBodyString HTTP内容 详见<a href="http://www.heclouds.com/doc/art262.html#68">
      *                          http://www.heclouds.com/doc/art262.html#68</a>
-     * @param callback          回调函数
+     * @param callback          回调接口对象
      */
     public static void updateDevice(String deviceId, String requestBodyString, OneNetApiCallback callback) {
         put(Device.urlForUpdating(deviceId), requestBodyString, callback);
@@ -176,7 +176,7 @@ public class OneNetApi {
      * 精确查询单个设备
      *
      * @param deviceId 设备ID
-     * @param callback 回调函数
+     * @param callback 回调接口对象
      */
     public static void querySingleDevice(String deviceId, OneNetApiCallback callback) {
         get(Device.urlForQueryingSingle(deviceId), callback);
@@ -187,7 +187,7 @@ public class OneNetApi {
      *
      * @param params   URL参数 详见<a href="http://www.heclouds.com/doc/art262.html#68">
      *                 http://www.heclouds.com/doc/art262.html#68</a>
-     * @param callback 回调函数
+     * @param callback 回调接口对象
      */
     public static void fuzzyQueryDevices(Map<String, String> params, OneNetApiCallback callback) {
         get(Device.urlForfuzzyQuerying(params), callback);
@@ -197,7 +197,7 @@ public class OneNetApi {
      * 删除设备
      *
      * @param deviceId 设备ID
-     * @param callback 回调函数
+     * @param callback 回调接口对象
      */
     public static void deleteDevice(String deviceId, OneNetApiCallback callback) {
         delete(Device.urlForDeleting(deviceId), callback);
@@ -213,7 +213,7 @@ public class OneNetApi {
      * @param deviceId          设备ID
      * @param requestBodyString HTTP内容 详见 <a href="http://www.heclouds.com/doc/art261.html#68">
      *                          http://www.heclouds.com/doc/art261.html#68</a>
-     * @param callback          回调函数
+     * @param callback          回调接口对象
      */
     public static void addDataStream(String deviceId, String requestBodyString, OneNetApiCallback callback) {
         post(DataStream.urlForAdding(deviceId), requestBodyString, callback);
@@ -226,7 +226,7 @@ public class OneNetApi {
      * @param dataStreamId      数据流ID
      * @param requestBodyString HTTP内容 详见 <a href="http://www.heclouds.com/doc/art261.html#68">
      *                          http://www.heclouds.com/doc/art261.html#68</a>
-     * @param callback          回调函数
+     * @param callback          回调接口对象
      */
     public static void updateDataStream(String deviceId, String dataStreamId, String requestBodyString, OneNetApiCallback callback) {
         put(DataStream.urlForUpdating(deviceId, dataStreamId), requestBodyString, callback);
@@ -237,7 +237,7 @@ public class OneNetApi {
      *
      * @param deviceId     设备ID
      * @param dataStreamId 数据流ID
-     * @param callback     回调函数
+     * @param callback     回调接口对象
      */
     public static void querySingleDataStream(String deviceId, String dataStreamId, OneNetApiCallback callback) {
         get(DataStream.urlForQueryingSingle(deviceId, dataStreamId), callback);
@@ -247,7 +247,7 @@ public class OneNetApi {
      * 查询多个数据流
      *
      * @param deviceId 设备ID
-     * @param callback 回调函数
+     * @param callback 回调接口对象
      */
     public static void queryMultiDataStreams(String deviceId, OneNetApiCallback callback) {
         get(DataStream.urlForQueryingMulti(deviceId), callback);
@@ -258,7 +258,7 @@ public class OneNetApi {
      *
      * @param deviceId     设备ID
      * @param dataStreamId 数据流ID
-     * @param callback     回调函数
+     * @param callback     回调接口对象
      */
     public static void deleteDatastream(String deviceId, String dataStreamId, OneNetApiCallback callback) {
         delete(DataStream.urlForDeleting(deviceId, dataStreamId), callback);
@@ -274,7 +274,7 @@ public class OneNetApi {
      * @param deviceId          设备ID
      * @param requestBodyString HTTP内容 详见<a href="http://www.heclouds.com/doc/art260.html#68">
      *                          http://www.heclouds.com/doc/art260.html#68</a>
-     * @param callback          回调函数
+     * @param callback          回调接口对象
      */
     public static void addDataPoints(String deviceId, String requestBodyString, OneNetApiCallback callback) {
         post(DataPoint.urlForAdding(deviceId, null), requestBodyString, callback);
@@ -287,7 +287,7 @@ public class OneNetApi {
      * @param type              数据点类型
      * @param requestBodyString HTTP内容 详见<a href="http://www.heclouds.com/doc/art260.html#68">
      *                          http://www.heclouds.com/doc/art260.html#68</a>
-     * @param callback          回调函数
+     * @param callback          回调接口对象
      */
     public static void addDataPoints(String deviceId, String type, String requestBodyString, OneNetApiCallback callback) {
         post(DataPoint.urlForAdding(deviceId, type), requestBodyString, callback);
@@ -299,7 +299,7 @@ public class OneNetApi {
      * @param deviceId 设备ID
      * @param params   URL参数 详见<a href="http://www.heclouds.com/doc/art260.html#68">
      *                 http://www.heclouds.com/doc/art260.html#68</a>
-     * @param callback 回调函数
+     * @param callback 回调接口对象
      */
     public static void queryDataPoints(String deviceId, Map<String, String> params, OneNetApiCallback callback) {
         get(DataPoint.urlForQuerying(deviceId, params), callback);
@@ -314,7 +314,7 @@ public class OneNetApi {
      *
      * @param requestBodyString HTTP内容 详见<a href="http://www.heclouds.com/doc/art259.html#68">
      *                          http://www.heclouds.com/doc/art259.html#68</a>
-     * @param callback          回调函数
+     * @param callback          回调接口对象
      */
     public static void addTrigger(String requestBodyString, OneNetApiCallback callback) {
         post(Trigger.urlForAdding(), requestBodyString, callback);
@@ -326,7 +326,7 @@ public class OneNetApi {
      * @param triggerId         触发器ID
      * @param requestBodyString HTTP内容 详见<a href="http://www.heclouds.com/doc/art259.html#68">
      *                          http://www.heclouds.com/doc/art259.html#68</a>
-     * @param callback          回调函数
+     * @param callback          回调接口对象
      */
     public static void updateTrigger(String triggerId, String requestBodyString, OneNetApiCallback callback) {
         put(Trigger.urlForUpdating(triggerId), requestBodyString, callback);
@@ -336,7 +336,7 @@ public class OneNetApi {
      * 查询单个触发器
      *
      * @param triggerId 触发器ID
-     * @param callback  回调函数
+     * @param callback  回调接口对象
      */
     public static void querySingleTrigger(String triggerId, OneNetApiCallback callback) {
         get(Trigger.urlForQueryingSingle(triggerId), callback);
@@ -348,7 +348,7 @@ public class OneNetApi {
      * @param name     指定触发器名称
      * @param page     指定页码
      * @param perPager 指定每页输出个数，最多100
-     * @param callback 回调函数
+     * @param callback 回调接口对象
      */
     public static void fuzzyQueryTriggers(String name, int page, int perPager, OneNetApiCallback callback) {
         get(Trigger.urlForfuzzyQuerying(name, page, perPager), callback);
@@ -357,7 +357,7 @@ public class OneNetApi {
     /**
      * 查询当前产品的所有触发器
      *
-     * @param callback 回调函数
+     * @param callback 回调接口对象
      */
     public static void fuzzyQueryTriggers(OneNetApiCallback callback) {
         get(Trigger.urlForfuzzyQuerying(null, 0, 0), callback);
@@ -367,7 +367,7 @@ public class OneNetApi {
      * 删除触发器
      *
      * @param triggerId 触发器ID
-     * @param callback  回调函数
+     * @param callback  回调接口对象
      */
     public static void deleteTrigger(String triggerId, OneNetApiCallback callback) {
         delete(Trigger.urlForDeleting(triggerId), callback);
@@ -383,7 +383,7 @@ public class OneNetApi {
      * @param deviceId         设备ID
      * @param dataStreamId     数据流ID
      * @param requestBodyBytes HTTP内容，普通二进制数据、文件、图像等（最大限制为800k）
-     * @param callback         回调函数
+     * @param callback         回调接口对象
      */
     public static void addBinaryData(String deviceId, String dataStreamId, byte[] requestBodyBytes, OneNetApiCallback callback) {
         post(Binary.urlForAdding(deviceId, dataStreamId), requestBodyBytes, callback);
@@ -395,7 +395,7 @@ public class OneNetApi {
      * @param deviceId        设备ID
      * @param dataStreamId    数据流ID
      * @param requestBodyFile HTTP内容，文件、图像等（最大限制为800k）
-     * @param callback        回调函数
+     * @param callback        回调接口对象
      */
     public static void addBinaryData(String deviceId, String dataStreamId, File requestBodyFile, OneNetApiCallback callback) {
         post(Binary.urlForAdding(deviceId, dataStreamId), requestBodyFile, callback);
@@ -407,7 +407,7 @@ public class OneNetApi {
      * @param deviceId          设备ID
      * @param dataStreamId      数据流ID
      * @param requestBodyString HTTP内容，普通二进制数据、文件、图像等（最大限制为800k）
-     * @param callback          回调函数
+     * @param callback          回调接口对象
      */
     public static void addBinaryData(String deviceId, String dataStreamId, String requestBodyString, OneNetApiCallback callback) {
         post(Binary.urlForAdding(deviceId, dataStreamId), requestBodyString, callback);
@@ -417,7 +417,7 @@ public class OneNetApi {
      * 查询二进制数据
      *
      * @param index    二进制数据索引号
-     * @param callback 回调函数
+     * @param callback 回调接口对象
      */
     public static void queryBinaryData(String index, OneNetApiCallback callback) {
         get(Binary.urlForQuerying(index), callback);
@@ -432,7 +432,7 @@ public class OneNetApi {
      *
      * @param deviceId          设备ID
      * @param requestBodyString HTTP内容
-     * @param callback          回调函数
+     * @param callback          回调接口对象
      */
     public static void sendCmdToDevice(String deviceId, String requestBodyString, OneNetApiCallback callback) {
         post(Command.urlForSending(deviceId), requestBodyString, callback);
@@ -446,7 +446,7 @@ public class OneNetApi {
      * @param timeout           命令有效时间
      * @param type              命令类型，有CMD_REQ和PUSH_DATA
      * @param requestBodyString HTTP内容
-     * @param callback          回调函数
+     * @param callback          回调接口对象
      */
     public static void sendCmdToDevice(String deviceId, boolean needResponse, int timeout,
                                        Command.CommandType type, String requestBodyString,
@@ -458,7 +458,7 @@ public class OneNetApi {
      * 查询命令状态
      *
      * @param cmdUuid  命令的UUID
-     * @param callback 回调函数
+     * @param callback 回调接口对象
      */
     public static void queryCmdStatus(String cmdUuid, OneNetApiCallback callback) {
         get(Command.urlForQueryingStatus(cmdUuid), callback);
@@ -468,7 +468,7 @@ public class OneNetApi {
      * 查询命令响应
      *
      * @param cmdUuid  命令的UUID
-     * @param callback 回调函数
+     * @param callback 回调接口对象
      */
     public static void queryCmdResponse(String cmdUuid, OneNetApiCallback callback) {
         get(Command.urlForQueryingResponse(cmdUuid), callback);
@@ -483,7 +483,7 @@ public class OneNetApi {
      *
      * @param topic             设备订阅的主题
      * @param requestBodyString 用户自定义数据：json、string、二进制数据（小于64K）
-     * @param callback          回调函数
+     * @param callback          回调接口对象
      */
     public static void sendCmdByTopic(String topic, String requestBodyString, OneNetApiCallback callback) {
         post(Mqtt.urlForSendingCmdByTopic(topic), requestBodyString, callback);
@@ -495,7 +495,7 @@ public class OneNetApi {
      * @param topic    设备订阅的主题
      * @param page     指定页码
      * @param perPage  指定每页输出个数，最多1000
-     * @param callback 回调函数
+     * @param callback 回调接口对象
      */
     public static void queryDevicesByTopic(String topic, int page, int perPage, OneNetApiCallback callback) {
         get(Mqtt.urlForQueryingDevicesByTopic(topic, page, perPage), callback);
@@ -505,7 +505,7 @@ public class OneNetApi {
      * 查询设备订阅的Topic列表
      *
      * @param deviceId 设备ID
-     * @param callback 回调函数
+     * @param callback 回调接口对象
      */
     public static void queryDeviceTopics(String deviceId, OneNetApiCallback callback) {
         get(Mqtt.urlForQueryingDeviceTopics(deviceId), callback);
@@ -516,7 +516,7 @@ public class OneNetApi {
      *
      * @param requestBodyString HTTP内容 详见<a href="http://www.heclouds.com/doc/art256.html#68">
      *                          http://www.heclouds.com/doc/art256.html#68</a>
-     * @param callback          回调函数
+     * @param callback          回调接口对象
      */
     public static void addTopic(String requestBodyString, OneNetApiCallback callback) {
         post(Mqtt.urlForAddingTopic(), requestBodyString, callback);
@@ -526,7 +526,7 @@ public class OneNetApi {
      * 删除产品的Topic
      *
      * @param topic    主题名称
-     * @param callback 回调函数
+     * @param callback 回调接口对象
      */
     public static void deleteTopic(String topic, OneNetApiCallback callback) {
         delete(Mqtt.urlForDeletingTopic(topic), callback);
@@ -535,7 +535,7 @@ public class OneNetApi {
     /**
      * 查询产品Topic
      *
-     * @param callback 回调函数
+     * @param callback 回调接口对象
      */
     public static void queryTopics(OneNetApiCallback callback) {
         get(Mqtt.urlForQueryingTopics(), callback);
@@ -550,7 +550,7 @@ public class OneNetApi {
      *
      * @param requestBodyString HTTP内容 详见<a href="http://www.heclouds.com/doc/art296.html#68">
      *                          http://www.heclouds.com/doc/art296.html#68</a>
-     * @param callback          回调函数
+     * @param callback          回调接口对象
      */
     public static void addApiKey(String requestBodyString, OneNetApiCallback callback) {
         post(ApiKey.urlForAdding(), requestBodyString, callback);
@@ -562,7 +562,7 @@ public class OneNetApi {
      * @param key               API key内容
      * @param requestBodyString HTTP内容 详见<a href="http://www.heclouds.com/doc/art296.html#68">
      *                          http://www.heclouds.com/doc/art296.html#68</a>
-     * @param callback          回调函数
+     * @param callback          回调接口对象
      */
     public static void updateApiKey(String key, String requestBodyString, OneNetApiCallback callback) {
         put(ApiKey.urlForUpdating(key), requestBodyString, callback);
@@ -572,7 +572,7 @@ public class OneNetApi {
      * 查询API key
      *
      * @param key      API key内容
-     * @param callback 回调函数
+     * @param callback 回调接口对象
      */
     public static void queryApiKey(String key, OneNetApiCallback callback) {
         get(ApiKey.urlForQuerying(key, 0, 0, null), callback);
@@ -585,7 +585,7 @@ public class OneNetApi {
      * @param page     指定页码
      * @param perPage  指定每页输出个数，最多100
      * @param deviceId 设备ID
-     * @param callback 回调函数
+     * @param callback 回调接口对象
      */
     public static void queryApiKey(String key, int page, int perPage, String deviceId, OneNetApiCallback callback) {
         get(ApiKey.urlForQuerying(key, page, perPage, deviceId), callback);
@@ -595,7 +595,7 @@ public class OneNetApi {
      * 删除API key
      *
      * @param key      API key内容
-     * @param callback 回调函数
+     * @param callback 回调接口对象
      */
     public static void deleteApiKey(String key, OneNetApiCallback callback) {
         delete(ApiKey.urlForDeleting(key), callback);
