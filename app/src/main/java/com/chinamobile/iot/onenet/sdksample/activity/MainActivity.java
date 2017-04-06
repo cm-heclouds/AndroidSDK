@@ -37,10 +37,6 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
 
-    private DeviceListFragment mDeviceListFragment = DeviceListFragment.newInstance();
-    private TriggerListFragment mTriggerListFragment = TriggerListFragment.newInstance();
-    private DebugToolsFragment mDebugToolsFragment = DebugToolsFragment.newInstance();
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigationView.setCheckedItem(R.id.device);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment, mDeviceListFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment, DeviceListFragment.newInstance()).commit();
     }
 
     @Override
@@ -105,17 +101,17 @@ public class MainActivity extends AppCompatActivity {
             final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             switch (item.getItemId()) {
                 case R.id.device:
-                    fragment = mDeviceListFragment;
+                    fragment = DeviceListFragment.newInstance();
                     titleResId = R.string.device;
                     break;
 
                 case R.id.trigger:
-                    fragment = mTriggerListFragment;
+                    fragment = TriggerListFragment.newInstance();
                     titleResId = R.string.trigger;
                     break;
 
                 case R.id.debug_online:
-                    fragment = mDebugToolsFragment;
+                    fragment = DebugToolsFragment.newInstance();
                     titleResId = R.string.debug_online;
                     break;
             }

@@ -4,6 +4,7 @@
     <string name="apikey_edit_text_hint">This is your product apikey</string>
     <string name="apikey_edit_text_error">Apikey can not be empty!</string>
     <string name="device">Device</string>
+    <string name="device_id">Device ID</string>
     <string name="trigger">Trigger</string>
     <string name="debug_online">Debug online</string>
     <string name="add_device">Add device</string>
@@ -36,4 +37,24 @@
     <string name="no_need_resp">No need response</string>
     <string name="valid_period">Valid period (s)</string>
     <string name="send_cmd_succ">Send command success</string>
+    <string name="data_simulator">Data simulator</string>
+    <string name="map_simulator">Map simulator</string>
+    <string name="api_debug_tool">API debug tool</string>
+    <string name="datastream">Data stream</string>
+    <string name="data_range">Data range</string>
+    <string name="time_interval">Period (s)</string>
+    <string name="min_value">Min value</string>
+    <string name="max_value">Max value</string>
+    <string name="send_onece">Send onece</string>
+    <string name="send_continuous">Send continuous</string>
+    <string name="stop_sending">Stop sending</string>
+    <string name="api_url">Api Url</string>
+    <string name="request_method">Request method</string>
+    <string name="request_params">Request params</string>
+    <string name="add_request_params">Add</string>
+    <string name="clear_request_params">Clear</string>
+    <string name="request_content">Request content</string>
+    <string name="send_request">Send request</string>
+    <string name="param_name">Param name</string>
+    <string name="param_value">Param value</string>
 </resources>

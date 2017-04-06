@@ -57,7 +57,7 @@
             android:layout_marginTop="16dp"
             android:entries="@array/protocols"
             android:spinnerMode="dropdown"
-            app:theme="@style/AddDeviceSpinnerStyle">
+            app:theme="@style/SpinnerStyle">
 
         </android.support.v7.widget.AppCompatSpinner>
 

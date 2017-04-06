@@ -7,4 +7,11 @@
         <item>MODBUS</item>
         <item>JTEXT</item>
     </string-array>
+
+    <string-array name="request_method">
+        <item>GET</item>
+        <item>POST</item>
+        <item>PUT</item>
+        <item>DELETE</item>
+    </string-array>
 </resources>

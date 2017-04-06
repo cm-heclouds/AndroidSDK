@@ -5,6 +5,7 @@
     <string name="apikey_edit_text_error">Apikey不能为空</string>
     <string name="debug_online">在线调试</string>
     <string name="device">设备</string>
+    <string name="device_id">设备ID</string>
     <string name="trigger">触发器</string>
     <string name="add_device">新增设备</string>
     <string name="add_device_title_hint">设备名称</string>
@@ -36,4 +37,24 @@
     <string name="no_need_resp">不需要响应</string>
     <string name="valid_period">有效期（秒）</string>
     <string name="send_cmd_succ">发送命令成功</string>
+    <string name="data_simulator">数据模拟器</string>
+    <string name="map_simulator">地图数据模拟器</string>
+    <string name="api_debug_tool">API调试工具</string>
+    <string name="datastream">数据流</string>
+    <string name="data_range">数据范围</string>
+    <string name="time_interval">时间间隔（秒）</string>
+    <string name="min_value">最小值</string>
+    <string name="max_value">最大值</string>
+    <string name="send_onece">发送一次</string>
+    <string name="send_continuous">连续发送</string>
+    <string name="stop_sending">停止发送</string>
+    <string name="api_url">Api Url地址</string>
+    <string name="request_method">请求方法</string>
+    <string name="request_params">请求参数</string>
+    <string name="add_request_params">添加</string>
+    <string name="clear_request_params">清除</string>
+    <string name="request_content">请求内容</string>
+    <string name="send_request">执行请求</string>
+    <string name="param_name">参数名</string>
+    <string name="param_value">参数值</string>
 </resources>
