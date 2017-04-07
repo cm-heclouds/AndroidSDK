@@ -11,7 +11,7 @@
 
 ## 使用方法
 
-请参考[wiki文档](https://github.com/cm-heclouds/AndroidSDK/wiki)
+**请参考[wiki文档](https://github.com/cm-heclouds/AndroidSDK/wiki)**
 
 ## 示例
 
