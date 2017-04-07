@@ -3,6 +3,17 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
+    <!-- amap permissions -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS"/>
+
     <application
         android:name=".SampleApplication"
         android:allowBackup="true"
@@ -11,13 +22,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!-- OneNET product api-key -->
         <meta-data
             android:name="com.chinamobile.iot.onenet.APP-KEY"
             android:value="TO5AOPtJipNsoAAYn1WhWWo0Fto="/>
 
+        <!-- OneNET server host -->
         <meta-data
             android:name="com.chinamobile.iot.onenet.HOST"
             android:value="api.heclouds.com"/>
+
+        <!-- amap key -->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="4e2fe593c634eadd057ce8da84f3d638"/>
 
         <activity
             android:name=".activity.MainActivity"
@@ -45,6 +63,8 @@
         <activity
             android:name=".activity.SendCommandActivity"
             android:screenOrientation="portrait"/>
+
+        <service android:name="com.amap.api.location.APSService"></service>
 
     </application>
 

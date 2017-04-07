@@ -57,4 +57,7 @@
     <string name="send_request">Send request</string>
     <string name="param_name">Param name</string>
     <string name="param_value">Param value</string>
+    <string name="pick_location">Pick location</string>
+    <string name="rationale_message_amap">The map function may not work properly as the necessary permissions are missing</string>
+    <string name="locating">Locating...</string>
 </resources>

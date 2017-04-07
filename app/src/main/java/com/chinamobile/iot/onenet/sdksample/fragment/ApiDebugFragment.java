@@ -220,4 +220,12 @@ public class ApiDebugFragment extends Fragment implements View.OnClickListener {
             });
         }
     };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mAddParamsDialog != null && mAddParamsDialog.isShowing()) {
+            mAddParamsDialog.dismiss();
+        }
+    }
 }

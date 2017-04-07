@@ -1,7 +1,5 @@
 package com.chinamobile.iot.onenet.module;
 
-import android.text.TextUtils;
-
 import com.chinamobile.iot.onenet.http.Urls;
 
 import java.util.Iterator;
@@ -11,12 +9,13 @@ import okhttp3.HttpUrl;
 
 public class DataPoint {
 
-    public static final String DEFAULT_TYPE = "3";
-
     public static String urlForAdding(String deviceId, String type) {
-        return new HttpUrl.Builder().scheme(Urls.SCHEME).host(Urls.sHost).addPathSegment("devices")
-                .addPathSegment(deviceId).addPathSegment("datapoints")
-                .addQueryParameter("type", TextUtils.isEmpty(type) ? DEFAULT_TYPE : type).toString();
+        HttpUrl.Builder builder = new HttpUrl.Builder().scheme(Urls.SCHEME).host(Urls.sHost)
+                .addPathSegment("devices").addPathSegment(deviceId).addPathSegment("datapoints");
+        if (type != null) {
+            builder.addQueryParameter("type", type);
+        }
+        return builder.toString();
     }
 
     public static String urlForQuerying(String deviceId, Map<String, String> params) {

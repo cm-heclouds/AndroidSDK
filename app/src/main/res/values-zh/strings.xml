@@ -57,4 +57,7 @@
     <string name="send_request">执行请求</string>
     <string name="param_name">参数名</string>
     <string name="param_value">参数值</string>
+    <string name="pick_location">选择位置</string>
+    <string name="rationale_message_amap">缺少必要权限，地图功能可能无法正常使用</string>
+    <string name="locating">定位中...</string>
 </resources>
