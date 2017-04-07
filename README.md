@@ -1,6 +1,7 @@
 # OneNET RESTful SDK for Android
 
 [ ![Download](https://api.bintray.com/packages/darren/maven/onenet-sdk/images/download.svg) ](https://bintray.com/darren/maven/onenet-sdk/_latestVersion)
+[![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)]()
 
 ![](app/src/main/res/mipmap-xxxhdpi/ic_launcher.png)
 
