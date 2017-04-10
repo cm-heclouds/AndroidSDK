@@ -40,7 +40,13 @@ v2.0版本提供了更加美观和丰富的示例App供开发者参考，遵循G
 
 ### Sample App
 
-- 
+- Android AppCompat v7
+- Android Design Support Library
+- Android CardView v7
+- Android RecyclerView v7
+- [Gson](https://github.com/google/gson)
+- [BaseRecyclerViewAdapterHelper](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)
+- [FloatingActionButton](https://github.com/Clans/FloatingActionButton)
 
 ## 说明
 
