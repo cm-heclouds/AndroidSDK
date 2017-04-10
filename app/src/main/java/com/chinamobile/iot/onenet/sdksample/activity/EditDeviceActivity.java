@@ -1,5 +1,6 @@
 package com.chinamobile.iot.onenet.sdksample.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -22,12 +23,15 @@ import android.widget.Toast;
 import com.chinamobile.iot.onenet.OneNetApi;
 import com.chinamobile.iot.onenet.OneNetApiCallback;
 import com.chinamobile.iot.onenet.sdksample.R;
+import com.chinamobile.iot.onenet.sdksample.model.DeviceItem;
 import com.chinamobile.iot.onenet.sdksample.utils.IntentActions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class EditDeviceActivity extends AppCompatActivity {
+
+    public static final String EXTRA_DEVICE_ITEM = "extra_device_item";
 
     private Toolbar mToolbar;
 
@@ -42,17 +46,25 @@ public class EditDeviceActivity extends AppCompatActivity {
     private TextInputEditText mDtuPasswordEditText;
     private TextInputEditText mDeviceModelEditText;
     private TextInputEditText mDeviceIdEditText;
-    private AppCompatSpinner mProtocolSpinner;
     private RadioGroup mRadioGroup;
     private boolean mPrivate;
 
     private String[] mProtocols;
     private String mProtocol;
 
+    private DeviceItem mDeviceItem;
+
+    public static void actionEditDevice(Context context, DeviceItem deviceItem) {
+        Intent intent = new Intent(context, EditDeviceActivity.class);
+        intent.putExtra(EXTRA_DEVICE_ITEM, deviceItem);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_device);
+        mDeviceItem = (DeviceItem) getIntent().getSerializableExtra(EXTRA_DEVICE_ITEM);
         initViews();
     }
 
@@ -71,26 +83,46 @@ public class EditDeviceActivity extends AppCompatActivity {
         mDtuPasswordEditText = (TextInputEditText) findViewById(R.id.dtu_password);
         mDeviceModelEditText = (TextInputEditText) findViewById(R.id.model);
         mDeviceIdEditText = (TextInputEditText) findViewById(R.id.id);
-        mProtocolSpinner = (AppCompatSpinner) findViewById(R.id.protocol_spinner);
         mRadioGroup = (RadioGroup) findViewById(R.id.radio_group);
 
         mProtocols = getResources().getStringArray(R.array.protocols);
-        mProtocol = mProtocols[0];
+        mProtocol = mDeviceItem.getProtocol();
 
-        mProtocolSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mProtocol = mProtocols[position];
-                mAuthInfoLayout.setVisibility(position < 3 ? View.VISIBLE : View.GONE);
-                mModbusAuthInfoLayout.setVisibility(3 == position ? View.VISIBLE : View.GONE);
-                mJTextAuthInfoLayout.setVisibility(4 == position ? View.VISIBLE : View.GONE);
-            }
+        mDeviceTitleEditText.setText(mDeviceItem.getTitle());
+        mRadioGroup.check(mDeviceItem.isPrivate() ? R.id.radio_private : R.id.radio_public);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+        switch (mProtocol.toUpperCase()) {
+            case "HTTP":
+            case "EDP":
+            case "MQTT":
+                mAuthInfoLayout.setVisibility(View.VISIBLE);
+                mModbusAuthInfoLayout.setVisibility(View.GONE);
+                mJTextAuthInfoLayout.setVisibility(View.GONE);
+                mAuthInfoEditText.setText(mDeviceItem.getAuthInfo());
+                break;
 
-            }
-        });
+            case "MODBUS":
+                mAuthInfoLayout.setVisibility(View.GONE);
+                mModbusAuthInfoLayout.setVisibility(View.VISIBLE);
+                mJTextAuthInfoLayout.setVisibility(View.GONE);
+                try {
+                    JSONObject object = new JSONObject(mDeviceItem.getAuthInfo());
+                    String key = object.keys().next();
+                    mDtuNumberEditText.setText(key);
+                    mDtuPasswordEditText.setText(object.optString(key));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            case "JTEXT":
+                mAuthInfoLayout.setVisibility(View.GONE);
+                mModbusAuthInfoLayout.setVisibility(View.GONE);
+                mJTextAuthInfoLayout.setVisibility(View.VISIBLE);
+                mDeviceModelEditText.setText(mDeviceItem.getActivateCode().getMt());
+                mDeviceIdEditText.setText(mDeviceItem.getActivateCode().getMid());
+                break;
+        }
 
         mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -125,18 +157,26 @@ public class EditDeviceActivity extends AppCompatActivity {
     private boolean checkValid() {
         boolean valid = checkInput(mDeviceTitleEditText, R.string.device_title_empty_error);
         if (valid) {
-            if (mProtocolSpinner.getSelectedItemPosition() < 3) {
-                valid = checkInput(mAuthInfoEditText, R.string.auth_info_empty_error);
-            } else if (mProtocolSpinner.getSelectedItemPosition() == 3) {
-                valid = checkInput(mDtuNumberEditText, R.string.dtu_serial_number_empty_error);
-                if (valid) {
-                    valid = checkInput(mDtuPasswordEditText, R.string.dtu_password_empty_error);
-                }
-            } else if (mProtocolSpinner.getSelectedItemPosition() == 4) {
-                valid = checkInput(mDeviceModelEditText, R.string.device_model_empty_drror);
-                if (valid) {
-                    valid = checkInput(mDeviceIdEditText, R.string.device_id_empty_error);
-                }
+            switch (mProtocol.toUpperCase()) {
+                case "HTTP":
+                case "EDP":
+                case "MQTT":
+                    valid = checkInput(mAuthInfoEditText, R.string.auth_info_empty_error);
+                    break;
+
+                case "MODBUS":
+                    valid = checkInput(mDtuNumberEditText, R.string.dtu_serial_number_empty_error);
+                    if (valid) {
+                        valid = checkInput(mDtuPasswordEditText, R.string.dtu_password_empty_error);
+                    }
+                    break;
+
+                case "JTEXT":
+                    valid = checkInput(mDeviceModelEditText, R.string.device_model_empty_drror);
+                    if (valid) {
+                        valid = checkInput(mDeviceIdEditText, R.string.device_id_empty_error);
+                    }
+                    break;
             }
         }
         return valid;
@@ -156,25 +196,39 @@ public class EditDeviceActivity extends AppCompatActivity {
         JSONObject requestContent = new JSONObject();
         try {
             requestContent.putOpt("title", mDeviceTitleEditText.getText().toString());
-            requestContent.putOpt("protocol", mProtocol);
             requestContent.putOpt("private", mPrivate);
-            if (mProtocolSpinner.getSelectedItemPosition() < 3) {
-                requestContent.putOpt("auth_info", mAuthInfoEditText.getText().toString());
-            } else if (mProtocolSpinner.getSelectedItemPosition() == 3) {
-                JSONObject authInfo = new JSONObject();
-                authInfo.putOpt(mDtuNumberEditText.getText().toString(), mDtuPasswordEditText.getText().toString());
-                requestContent.putOpt("auth_info", authInfo);
-            } else if (mProtocolSpinner.getSelectedItemPosition() == 4) {
-                JSONObject activateCode = new JSONObject();
-                activateCode.putOpt("mt", mDeviceModelEditText.getText().toString());
-                activateCode.putOpt("mid", mDeviceIdEditText.getText().toString());
-                requestContent.putOpt("activate_code", activateCode);
+            switch (mProtocol.toUpperCase()) {
+                case "HTTP":
+                case "EDP":
+                case "MQTT": {
+                    String authInfoString = mAuthInfoEditText.getText().toString();
+                    if (!authInfoString.equals(mDeviceItem.getAuthInfo())) {
+                        requestContent.putOpt("auth_info", authInfoString);
+                    }
+                    break;
+                }
+                case "MODBUS": {
+                    JSONObject authInfo = new JSONObject();
+                    authInfo.putOpt(mDtuNumberEditText.getText().toString(), mDtuPasswordEditText.getText().toString());
+                    if (!authInfo.toString().equals(mDeviceItem.getAuthInfo())) {
+                        requestContent.putOpt("auth_info", authInfo);
+                    }
+                    break;
+                }
+
+                case "JTEXT":
+                    JSONObject activateCode = new JSONObject();
+                    activateCode.putOpt("mt", mDeviceModelEditText.getText().toString());
+                    activateCode.putOpt("mid", mDeviceIdEditText.getText().toString());
+                    requestContent.putOpt("activate_code", activateCode);
+                    break;
             }
-            OneNetApi.addDevice(requestContent.toString(), new OneNetApiCallback() {
+            OneNetApi.updateDevice(mDeviceItem.getId(), requestContent.toString(), new OneNetApiCallback() {
                 @Override
                 public void onSuccess(int errno, String error, String data) {
                     if (0 == errno) {
-                        Toast.makeText(getApplicationContext(), "添加成功", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "修改成功", Toast.LENGTH_SHORT).show();
+                        LocalBroadcastManager.getInstance(EditDeviceActivity.this).sendBroadcast(new Intent(IntentActions.ACTION_UPDATE_DEVICE));
                         LocalBroadcastManager.getInstance(EditDeviceActivity.this).sendBroadcast(new Intent(IntentActions.ACTION_UPDATE_DEVICE_LIST));
                         finish();
                     } else {
@@ -184,7 +238,7 @@ public class EditDeviceActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailed(Exception e) {
-
+                    e.printStackTrace();
                 }
             });
         } catch (JSONException e) {

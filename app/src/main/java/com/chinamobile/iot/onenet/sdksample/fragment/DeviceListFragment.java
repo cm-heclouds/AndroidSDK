@@ -64,6 +64,7 @@ public class DeviceListFragment extends Fragment implements SwipeRefreshLayout.O
         mSwipeRefreshLayout = (SwipeRefreshLayout) contentView.findViewById(R.id.swipe_refresh_layout);
         mFabAddDevice = (FloatingActionButton) contentView.findViewById(R.id.fab_add_device);
 
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new DeviceListAdapter();
         mAdapter.setOnLoadMoreListener(mLoadMoreListener, mRecyclerView);
@@ -128,12 +129,11 @@ public class DeviceListFragment extends Fragment implements SwipeRefreshLayout.O
         }
     }
 
-    private void getDevices(boolean loadMore) {
+    private void getDevices(final boolean loadMore) {
         if (loadMore) {
             mCurrentPage++;
         } else {
             mCurrentPage = 1;
-            mDeviceItems.clear();
         }
         Map<String, String> urlParams = new HashMap<>();
         urlParams.put("page", String.valueOf(mCurrentPage));
@@ -143,7 +143,7 @@ public class DeviceListFragment extends Fragment implements SwipeRefreshLayout.O
             public void onSuccess(int errno, String error, String data) {
                 mSwipeRefreshLayout.setRefreshing(false);
                 if (0 == errno) {
-                    parseData(data);
+                    parseData(data, loadMore);
                 } else {
                     Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
                 }
@@ -157,7 +157,7 @@ public class DeviceListFragment extends Fragment implements SwipeRefreshLayout.O
         });
     }
 
-    private void parseData(String data) {
+    private void parseData(String data, boolean loadMore) {
         if (null == data) {
             return;
         }
@@ -171,6 +171,9 @@ public class DeviceListFragment extends Fragment implements SwipeRefreshLayout.O
             List<DeviceItem> devices = new ArrayList<>();
             for (JsonElement element : jsonArray) {
                 devices.add(gson.fromJson(element, DeviceItem.class));
+            }
+            if (!loadMore) {
+                mDeviceItems.clear();
             }
             mDeviceItems.addAll(devices);
             mAdapter.setNewData(mDeviceItems);

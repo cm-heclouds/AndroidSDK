@@ -20,14 +20,4 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/fab_add_trigger"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_marginBottom="12dp"
-        android:layout_marginRight="16dp"
-        android:src="@drawable/ic_add"
-        app:fab_elevationCompat="4dp"/>
-
 </FrameLayout>

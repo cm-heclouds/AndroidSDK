@@ -57,11 +57,19 @@
             android:screenOrientation="portrait"/>
 
         <activity
+            android:name=".activity.EditDeviceActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
             android:name=".activity.DeviceActivity"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.SendCommandActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".activity.AddDataStreamActivity"
             android:screenOrientation="portrait"/>
 
         <service android:name="com.amap.api.location.APSService"></service>

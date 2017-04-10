@@ -1,8 +1,10 @@
 package com.chinamobile.iot.onenet.sdksample.activity;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
@@ -12,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,9 +27,11 @@ import com.chinamobile.iot.onenet.OneNetApiCallback;
 import com.chinamobile.iot.onenet.sdksample.R;
 import com.chinamobile.iot.onenet.sdksample.model.DSItem;
 import com.chinamobile.iot.onenet.sdksample.model.DeviceItem;
+import com.chinamobile.iot.onenet.sdksample.utils.DeviceItemDeserializer;
 import com.chinamobile.iot.onenet.sdksample.utils.IntentActions;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -53,7 +58,16 @@ public class DeviceActivity extends AppCompatActivity implements SwipeRefreshLay
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mUpdateDeviceReceiver, new IntentFilter(IntentActions.ACTION_UPDATE_DEVICE));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mUpdateDsList, new IntentFilter(IntentActions.ACTION_UPDATE_DS_LIST));
         initViews();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mUpdateDeviceReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mUpdateDsList);
     }
 
     @Override
@@ -80,6 +94,7 @@ public class DeviceActivity extends AppCompatActivity implements SwipeRefreshLay
                 break;
 
             case R.id.menu_edit_device:
+                EditDeviceActivity.actionEditDevice(this, mDeviceItem);
                 break;
 
             case R.id.menu_delete_device:
@@ -124,7 +139,7 @@ public class DeviceActivity extends AppCompatActivity implements SwipeRefreshLay
 
     @Override
     public void onClick(View v) {
-
+        AddDataStreamActivity.actionAddDataStream(this, mDeviceItem.getId());
     }
 
     class DSListAdapter extends BaseQuickAdapter<DSItem, BaseViewHolder> {
@@ -135,8 +150,16 @@ public class DeviceActivity extends AppCompatActivity implements SwipeRefreshLay
         @Override
         protected void convert(BaseViewHolder helper, DSItem item) {
             helper.setText(R.id.id, item.getId());
-            helper.setText(R.id.current_value, item.getCurrentValue().toString());
-            helper.setText(R.id.update_time, item.getUpdateTime());
+            if (item.getCurrentValue() != null) {
+                helper.setText(R.id.current_value, getResources().getString(R.string.latest_data) + ": " + item.getCurrentValue().toString());
+            } else {
+                helper.setText(R.id.current_value, getResources().getString(R.string.latest_data) + ": " + getResources().getString(R.string.no_data));
+            }
+            if (!TextUtils.isEmpty(item.getUpdateTime())) {
+                helper.setText(R.id.update_time, getResources().getString(R.string.update_time) + ": " + item.getUpdateTime());
+            } else {
+                helper.setText(R.id.update_time, getResources().getString(R.string.update_time) + ": " + getResources().getString(R.string.no_data));
+            }
         }
     }
 
@@ -205,4 +228,36 @@ public class DeviceActivity extends AppCompatActivity implements SwipeRefreshLay
             }
         });
     }
+
+    private BroadcastReceiver mUpdateDeviceReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            OneNetApi.querySingleDevice(mDeviceItem.getId(), new OneNetApiCallback() {
+                @Override
+                public void onSuccess(int errno, String error, String data) {
+                    if (0 == errno) {
+                        GsonBuilder gsonBuilder = new GsonBuilder();
+                        gsonBuilder.registerTypeAdapter(DeviceItem.class, new DeviceItemDeserializer());
+                        Gson gson = gsonBuilder.create();
+                        mDeviceItem = gson.fromJson(data, DeviceItem.class);
+                        getSupportActionBar().setTitle(mDeviceItem.getTitle());
+                    } else {
+                        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailed(Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+    };
+
+    private BroadcastReceiver mUpdateDsList = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            getDataStreams();
+        }
+    };
 }

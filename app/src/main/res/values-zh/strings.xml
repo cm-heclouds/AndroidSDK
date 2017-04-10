@@ -60,4 +60,14 @@
     <string name="pick_location">选择位置</string>
     <string name="rationale_message_amap">缺少必要权限，地图功能可能无法正常使用</string>
     <string name="locating">定位中...</string>
+    <string name="add_datastream">新增数据流</string>
+    <string name="ds_id">数据流ID</string>
+    <string name="ds_unit_name">单位名称</string>
+    <string name="ds_unit_symbol">单位符号</string>
+    <string name="added_successfully">添加成功</string>
+    <string name="create_time">创建时间</string>
+    <string name="url_address">URL地址</string>
+    <string name="latest_data">最新数据</string>
+    <string name="update_time">更新时间</string>
+    <string name="no_data">暂无数据</string>
 </resources>

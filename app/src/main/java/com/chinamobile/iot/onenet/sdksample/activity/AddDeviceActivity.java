@@ -174,7 +174,7 @@ public class AddDeviceActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(int errno, String error, String data) {
                     if (0 == errno) {
-                        Toast.makeText(getApplicationContext(), "添加成功", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.added_successfully, Toast.LENGTH_SHORT).show();
                         LocalBroadcastManager.getInstance(AddDeviceActivity.this).sendBroadcast(new Intent(IntentActions.ACTION_UPDATE_DEVICE_LIST));
                         finish();
                     } else {

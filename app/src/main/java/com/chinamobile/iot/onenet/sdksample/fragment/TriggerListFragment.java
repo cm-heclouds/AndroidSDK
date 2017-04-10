@@ -23,7 +23,6 @@ import com.chinamobile.iot.onenet.OneNetApiCallback;
 import com.chinamobile.iot.onenet.sdksample.R;
 import com.chinamobile.iot.onenet.sdksample.model.TriggerItem;
 import com.chinamobile.iot.onenet.sdksample.utils.IntentActions;
-import com.github.clans.fab.FloatingActionButton;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -32,7 +31,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TriggerListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+public class TriggerListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -40,7 +39,6 @@ public class TriggerListFragment extends Fragment implements SwipeRefreshLayout.
     private int mCurrentPage = 1;
     private int mTotalCount;
     private List<TriggerItem> mTriggerItems = new ArrayList<>();
-    private FloatingActionButton mFabAddTrigger;
 
     public static TriggerListFragment newInstance() {
         return new TriggerListFragment();
@@ -52,7 +50,6 @@ public class TriggerListFragment extends Fragment implements SwipeRefreshLayout.
         View contentView = inflater.inflate(R.layout.fragment_trigger_list, container, false);
         mRecyclerView = (RecyclerView) contentView.findViewById(R.id.recyler_view);
         mSwipeRefreshLayout = (SwipeRefreshLayout) contentView.findViewById(R.id.swipe_refresh_layout);
-        mFabAddTrigger = (FloatingActionButton) contentView.findViewById(R.id.fab_add_trigger);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new TriggerListAdapter();
@@ -63,7 +60,6 @@ public class TriggerListFragment extends Fragment implements SwipeRefreshLayout.
         getTriggers(false);
         mSwipeRefreshLayout.setRefreshing(true);
 
-        mFabAddTrigger.setOnClickListener(this);
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(mUpdateApiKeyReceiver, new IntentFilter(IntentActions.ACTION_UPDATE_APIKEY));
         return contentView;
     }
@@ -79,11 +75,6 @@ public class TriggerListFragment extends Fragment implements SwipeRefreshLayout.
         getTriggers(false);
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
-
     class TriggerListAdapter extends BaseQuickAdapter<TriggerItem, BaseViewHolder> {
 
         public TriggerListAdapter() {
@@ -93,25 +84,24 @@ public class TriggerListFragment extends Fragment implements SwipeRefreshLayout.
         @Override
         protected void convert(BaseViewHolder helper, TriggerItem item) {
             helper.setText(R.id.title, item.getTitle());
-            helper.setText(R.id.ds_id, "数据流名称：" + item.getDsId());
-            helper.setText(R.id.create_time, "创建时间：" + item.getCreateTime());
-            helper.setText(R.id.url, "URL地址：" + item.getUrl());
+            helper.setText(R.id.ds_id, getResources().getString(R.string.ds_id) + "：" + item.getDsId());
+            helper.setText(R.id.create_time, getResources().getString(R.string.create_time) + "：" + item.getCreateTime());
+            helper.setText(R.id.url, getResources().getString(R.string.url_address) + "：" + item.getUrl());
         }
     }
 
-    private void getTriggers(boolean loadMore) {
+    private void getTriggers(final boolean loadMore) {
         if (loadMore) {
             mCurrentPage++;
         } else {
             mCurrentPage = 1;
-            mTriggerItems.clear();
         }
         OneNetApi.fuzzyQueryTriggers(null, mCurrentPage, 10, new OneNetApiCallback() {
             @Override
             public void onSuccess(int errno, String error, String data) {
                 mSwipeRefreshLayout.setRefreshing(false);
                 if (0 == errno) {
-                    parseData(data);
+                    parseData(data, loadMore);
                 } else {
                     Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
                 }
@@ -125,7 +115,7 @@ public class TriggerListFragment extends Fragment implements SwipeRefreshLayout.
         });
     }
 
-    private void parseData(String data) {
+    private void parseData(String data, boolean loadMore) {
         if (null == data) {
             return;
         }
@@ -134,6 +124,9 @@ public class TriggerListFragment extends Fragment implements SwipeRefreshLayout.
             mTotalCount = dataObj.optInt("total_count");
             Gson gson = new Gson();
             List<TriggerItem> triggers = gson.fromJson(data, TriggerListFragment.Data.class).getTriggers();
+            if (!loadMore) {
+                mTriggerItems.clear();
+            }
             mTriggerItems.addAll(triggers);
             mAdapter.setNewData(mTriggerItems);
         } catch (JSONException e) {

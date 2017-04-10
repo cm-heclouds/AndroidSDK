@@ -60,4 +60,14 @@
     <string name="pick_location">Pick location</string>
     <string name="rationale_message_amap">The map function may not work properly as the necessary permissions are missing</string>
     <string name="locating">Locating...</string>
+    <string name="add_datastream">Add datastream</string>
+    <string name="ds_id">DataStream ID</string>
+    <string name="ds_unit_name">Unit name</string>
+    <string name="ds_unit_symbol">Unit symbol</string>
+    <string name="added_successfully">Added successfully</string>
+    <string name="create_time">Create time</string>
+    <string name="url_address">URL address</string>
+    <string name="latest_data">Latest data</string>
+    <string name="update_time">Update time</string>
+    <string name="no_data">No data</string>
 </resources>
