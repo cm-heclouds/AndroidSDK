@@ -25,7 +25,7 @@
         <!-- OneNET product api-key -->
         <meta-data
             android:name="com.chinamobile.iot.onenet.APP-KEY"
-            android:value="TO5AOPtJipNsoAAYn1WhWWo0Fto="/>
+            android:value="Your OneNET product api-key here"/>
 
         <!-- OneNET server host -->
         <meta-data

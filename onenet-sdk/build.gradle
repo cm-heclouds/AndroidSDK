@@ -47,7 +47,7 @@ install {
                 }
                 developers {
                     developer {
-                        id 'chenglei'        //填写的一些基本信息
+                        id 'chenglei'
                         name 'chenglei'
                         email 'chenglei.1986@163.com'
                     }
