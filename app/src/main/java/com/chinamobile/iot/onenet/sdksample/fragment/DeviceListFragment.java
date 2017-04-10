@@ -117,14 +117,14 @@ public class DeviceListFragment extends Fragment implements SwipeRefreshLayout.O
         protected void convert(BaseViewHolder helper, DeviceItem item) {
             //helper.addOnClickListener()
             helper.setText(R.id.title, item.getTitle());
-            helper.setText(R.id.id, "设备ID：" + item.getId());
-            helper.setText(R.id.protocol, "设备接入协议：" + item.getProtocol());
-            helper.setText(R.id.create_time, "创建时间：" + item.getCreateTime());
+            helper.setText(R.id.id, getResources().getString(R.string.device_id) + "：" + item.getId());
+            helper.setText(R.id.protocol, getResources().getString(R.string.device_access_protocol) + "：" + item.getProtocol());
+            helper.setText(R.id.create_time, getResources().getString(R.string.create_time) + "：" + item.getCreateTime());
             if ("HTTP".equalsIgnoreCase(item.getProtocol())) {
                 helper.setVisible(R.id.online, false);
             } else {
                 helper.setVisible(R.id.online, true);
-                helper.setText(R.id.online, item.isOnline() ? "在线" : "离线");
+                helper.setText(R.id.online, item.isOnline() ? R.string.online : R.string.offline);
             }
         }
     }

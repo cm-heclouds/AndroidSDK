@@ -70,4 +70,7 @@
     <string name="latest_data">最新数据</string>
     <string name="update_time">更新时间</string>
     <string name="no_data">暂无数据</string>
+    <string name="modified_successfully">修改成功</string>
+    <string name="online">在线</string>
+    <string name="offline">离线</string>
 </resources>

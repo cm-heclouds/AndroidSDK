@@ -227,7 +227,7 @@ public class EditDeviceActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(int errno, String error, String data) {
                     if (0 == errno) {
-                        Toast.makeText(getApplicationContext(), "修改成功", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.modified_successfully, Toast.LENGTH_SHORT).show();
                         LocalBroadcastManager.getInstance(EditDeviceActivity.this).sendBroadcast(new Intent(IntentActions.ACTION_UPDATE_DEVICE));
                         LocalBroadcastManager.getInstance(EditDeviceActivity.this).sendBroadcast(new Intent(IntentActions.ACTION_UPDATE_DEVICE_LIST));
                         finish();
