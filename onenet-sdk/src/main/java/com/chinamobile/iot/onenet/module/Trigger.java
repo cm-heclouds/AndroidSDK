@@ -1,7 +1,5 @@
 package com.chinamobile.iot.onenet.module;
 
-import android.text.TextUtils;
-
 import com.chinamobile.iot.onenet.http.Urls;
 
 import okhttp3.HttpUrl;
@@ -25,7 +23,7 @@ public class Trigger {
 
     public static String urlForfuzzyQuerying(String name, int page, int perPage) {
         HttpUrl.Builder builder = new HttpUrl.Builder().scheme(Urls.SCHEME).host(Urls.sHost).addPathSegment("triggers");
-        if (!TextUtils.isEmpty(name)) {
+        if (name != null && name.length() > 0) {
             builder.addEncodedQueryParameter("title", name);
         }
         if (page > 0) {

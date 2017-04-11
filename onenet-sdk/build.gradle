@@ -9,8 +9,6 @@ android {
     defaultConfig {
         minSdkVersion 4
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
     }
     lintOptions {
         abortOnError false
@@ -20,8 +18,8 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.squareup.okhttp3:okhttp:latest.integration'
-    compile 'com.squareup.okhttp3:logging-interceptor:latest.integration'
+    compile 'com.squareup.okhttp3:okhttp:+'
+    compile 'com.squareup.okhttp3:logging-interceptor:+'
 }
 
 version = "2.0.0"

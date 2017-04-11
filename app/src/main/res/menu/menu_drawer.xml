@@ -23,4 +23,13 @@
 
     </group>
 
+    <group android:id="@+id/group2">
+
+        <item
+            android:id="@+id/edit_apikey"
+            android:icon="@drawable/ic_edit"
+            android:title="@string/edit_apikey"/>
+
+    </group>
+
 </menu>

@@ -1,7 +1,6 @@
 package com.chinamobile.iot.onenet;
 
 import android.app.Application;
-import android.content.pm.PackageManager;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
@@ -24,7 +23,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-import okhttp3.FormBody;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -45,7 +43,7 @@ public class OneNetApi {
         try {
             sAppKey = Meta.readAppKey(application);
             Urls.sHost = Meta.readHost(application);
-        } catch (PackageManager.NameNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         sDebug = debug;

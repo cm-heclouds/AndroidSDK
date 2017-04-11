@@ -1,78 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <android.support.design.widget.AppBarLayout
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:title="@string/add_device"/>
+    </android.support.design.widget.AppBarLayout>
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:title="@string/add_device"/>
-        </android.support.design.widget.AppBarLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            app:hintAnimationEnabled="true"
-            app:hintEnabled="true">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/add_device_title_hint"
-                android:textColor="@color/textColorPrimary"
-                android:textColorHint="@color/textColorHint"
-                android:textSize="14sp"/>
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/auth_info_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            app:hintAnimationEnabled="true"
-            app:hintEnabled="true">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/auth_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/add_device_auth_info_hint"
-                android:textColor="@color/textColorPrimary"
-                android:textColorHint="@color/textColorHint"
-                android:textSize="14sp"/>
-
-        </android.support.design.widget.TextInputLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/modbus_auth_info"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/dtu_number_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
@@ -82,10 +38,10 @@
                 app:hintEnabled="true">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/dtu_number"
+                    android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/add_device_dtu_number_hint"
+                    android:hint="@string/add_device_title_hint"
                     android:textColor="@color/textColorPrimary"
                     android:textColorHint="@color/textColorHint"
                     android:textSize="14sp"/>
@@ -93,7 +49,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/dtu_password_layout"
+                android:id="@+id/auth_info_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
@@ -103,109 +59,160 @@
                 app:hintEnabled="true">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/dtu_password"
+                    android:id="@+id/auth_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/add_device_dtu_password_hint"
+                    android:hint="@string/add_device_auth_info_hint"
                     android:textColor="@color/textColorPrimary"
                     android:textColorHint="@color/textColorHint"
                     android:textSize="14sp"/>
 
             </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:id="@+id/modbus_auth_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/dtu_number_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp"
+                    app:hintAnimationEnabled="true"
+                    app:hintEnabled="true">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/dtu_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/add_device_dtu_number_hint"
+                        android:textColor="@color/textColorPrimary"
+                        android:textColorHint="@color/textColorHint"
+                        android:textSize="14sp"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/dtu_password_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp"
+                    app:hintAnimationEnabled="true"
+                    app:hintEnabled="true">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/dtu_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/add_device_dtu_password_hint"
+                        android:textColor="@color/textColorPrimary"
+                        android:textColorHint="@color/textColorHint"
+                        android:textSize="14sp"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/jtext_auth_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/model_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp"
+                    app:hintAnimationEnabled="true"
+                    app:hintEnabled="true">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/model"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/add_device_model_hint"
+                        android:textColor="@color/textColorPrimary"
+                        android:textColorHint="@color/textColorHint"
+                        android:textSize="14sp"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/id_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp"
+                    app:hintAnimationEnabled="true"
+                    app:hintEnabled="true">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/id"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/add_device_id_hint"
+                        android:textColor="@color/textColorPrimary"
+                        android:textColorHint="@color/textColorHint"
+                        android:textSize="14sp"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/data_confidentiality"
+                android:textColor="@color/textColorSecondary"
+                android:textSize="14sp"/>
+
+            <RadioGroup
+                android:id="@+id/radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:checkedButton="@+id/radio_private"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/radio_private"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radio_private"
+                    android:textColor="@color/textColorSecondary"
+                    android:textSize="14sp"
+                    app:buttonTint="@color/colorAccent"/>
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/radio_public"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radio_public"
+                    android:textColor="@color/textColorSecondary"
+                    android:textSize="14sp"
+                    app:buttonTint="@color/colorAccent"/>
+
+            </RadioGroup>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/jtext_auth_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
+    </ScrollView>
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/model_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="16dp"
-                app:hintAnimationEnabled="true"
-                app:hintEnabled="true">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/model"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/add_device_model_hint"
-                    android:textColor="@color/textColorPrimary"
-                    android:textColorHint="@color/textColorHint"
-                    android:textSize="14sp"/>
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/id_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="16dp"
-                app:hintAnimationEnabled="true"
-                app:hintEnabled="true">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/id"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/add_device_id_hint"
-                    android:textColor="@color/textColorPrimary"
-                    android:textColorHint="@color/textColorHint"
-                    android:textSize="14sp"/>
-
-            </android.support.design.widget.TextInputLayout>
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/data_confidentiality"
-            android:textColor="@color/textColorSecondary"
-            android:textSize="14sp"/>
-
-        <RadioGroup
-            android:id="@+id/radio_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            android:checkedButton="@+id/radio_private"
-            android:orientation="horizontal">
-
-            <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/radio_private"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/radio_private"
-                android:textColor="@color/textColorSecondary"
-                android:textSize="14sp"
-                app:buttonTint="@color/colorAccent"/>
-
-            <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/radio_public"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/radio_public"
-                android:textColor="@color/textColorSecondary"
-                android:textSize="14sp"
-                app:buttonTint="@color/colorAccent"/>
-
-        </RadioGroup>
-
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>

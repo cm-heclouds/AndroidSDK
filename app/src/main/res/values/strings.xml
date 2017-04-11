@@ -24,7 +24,7 @@
     <string name="dtu_password_empty_error">DTU password can not be empty!</string>
     <string name="device_model_empty_drror">Device model can not be empty!</string>
     <string name="device_id_empty_error">Device ID can not be empty!</string>
-    <string name="edit_apikey">Edit ApiKey</string>
+    <string name="edit_apikey">Edit AppKey</string>
     <string name="edit_device">Edit device</string>
     <string name="delete_device">Delete device</string>
     <string name="send_command">Send command</string>

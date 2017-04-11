@@ -75,22 +75,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment, DeviceListFragment.newInstance()).commit();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main_activity, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_edit_apikey:
-                startActivity(new Intent(this, EditApiKeyActivity.class));
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     NavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new NavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -103,21 +87,28 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.device:
                     fragment = DeviceListFragment.newInstance();
                     titleResId = R.string.device;
+                    ft.replace(R.id.fragment, fragment).commit();
+                    getSupportActionBar().setTitle(titleResId);
                     break;
 
                 case R.id.trigger:
                     fragment = TriggerListFragment.newInstance();
                     titleResId = R.string.trigger;
+                    ft.replace(R.id.fragment, fragment).commit();
+                    getSupportActionBar().setTitle(titleResId);
                     break;
 
                 case R.id.debug_online:
                     fragment = DebugToolsFragment.newInstance();
                     titleResId = R.string.debug_online;
+                    ft.replace(R.id.fragment, fragment).commit();
+                    getSupportActionBar().setTitle(titleResId);
+                    break;
+
+                case R.id.edit_apikey:
+                    startActivity(new Intent(MainActivity.this, EditApiKeyActivity.class));
                     break;
             }
-
-            ft.replace(R.id.fragment, fragment).commit();
-            getSupportActionBar().setTitle(titleResId);
             return true;
         }
     };

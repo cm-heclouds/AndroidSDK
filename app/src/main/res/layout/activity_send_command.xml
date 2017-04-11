@@ -1,119 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <android.support.design.widget.AppBarLayout
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:theme="@style/ToolbarStyle"
+            app:title="@string/device"/>
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:theme="@style/ToolbarStyle"
-                app:title="@string/device"/>
+    </android.support.design.widget.AppBarLayout>
 
-        </android.support.design.widget.AppBarLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            app:hintAnimationEnabled="true"
-            app:hintEnabled="true">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/command_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/command_content"
-                android:textColor="@color/textColorPrimary"
-                android:textColorHint="@color/textColorHint"
-                android:textSize="14sp"/>
-
-        </android.support.design.widget.TextInputLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/need_resp_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Qos : "
-                android:textColor="@color/textColorPrimary"
-                android:textSize="14sp"/>
-
-            <RadioGroup
-                android:id="@+id/radio_group_need_resp"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:checkedButton="@+id/radio_no_need_resp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                app:hintAnimationEnabled="true"
+                app:hintEnabled="true">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/command_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/command_content"
+                    android:textColor="@color/textColorPrimary"
+                    android:textColorHint="@color/textColorHint"
+                    android:textSize="14sp"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:id="@+id/need_resp_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <android.support.v7.widget.AppCompatRadioButton
-                    android:id="@+id/radio_no_need_resp"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/no_need_resp"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="14sp"
-                    app:buttonTint="@color/colorAccent"/>
+                    android:text="Qos : "
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="14sp"/>
 
-                <android.support.v7.widget.AppCompatRadioButton
-                    android:id="@+id/radio_need_resp"
-                    android:layout_width="wrap_content"
+                <RadioGroup
+                    android:id="@+id/radio_group_need_resp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/need_resp"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="14sp"
-                    app:buttonTint="@color/colorAccent"/>
+                    android:checkedButton="@+id/radio_no_need_resp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-            </RadioGroup>
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/radio_no_need_resp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/no_need_resp"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="14sp"
+                        app:buttonTint="@color/colorAccent"/>
+
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/radio_need_resp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/need_resp"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="14sp"
+                        app:buttonTint="@color/colorAccent"/>
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/valid_time_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                app:hintAnimationEnabled="true"
+                app:hintEnabled="true">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/valid_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/valid_period"
+                    android:inputType="number"
+                    android:lines="1"
+                    android:textColor="@color/textColorPrimary"
+                    android:textColorHint="@color/textColorHint"
+                    android:textSize="14sp"/>
+
+            </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/valid_time_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            app:hintAnimationEnabled="true"
-            app:hintEnabled="true">
+    </ScrollView>
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/valid_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/valid_period"
-                android:inputType="number"
-                android:lines="1"
-                android:textColor="@color/textColorPrimary"
-                android:textColorHint="@color/textColorHint"
-                android:textSize="14sp"/>
-
-        </android.support.design.widget.TextInputLayout>
-
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>
