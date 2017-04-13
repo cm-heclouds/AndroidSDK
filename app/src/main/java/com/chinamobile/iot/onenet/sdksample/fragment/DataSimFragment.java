@@ -3,7 +3,7 @@ package com.chinamobile.iot.onenet.sdksample.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -27,11 +27,11 @@ import java.util.TimerTask;
 
 public class DataSimFragment extends Fragment implements View.OnClickListener {
 
-    private TextInputEditText mDeviceIdEditText;
-    private TextInputEditText mDataStreamEditText;
-    private TextInputEditText mMinValueEditText;
-    private TextInputEditText mMaxValueEditText;
-    private TextInputEditText mPeriodEditText;
+    private TextInputLayout mDeviceIdLayout;
+    private TextInputLayout mDataStreamLayout;
+    private TextInputLayout mMinValueLayout;
+    private TextInputLayout mMaxValueLayout;
+    private TextInputLayout mPeriodLayout;
     private Button mSendOneceButton;
     private Button mSendContinuousButton;
     private TextView mResponseLogTextView;
@@ -48,11 +48,11 @@ public class DataSimFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_data_sim, container, false);
-        mDeviceIdEditText = (TextInputEditText) v.findViewById(R.id.device_id);
-        mDataStreamEditText = (TextInputEditText) v.findViewById(R.id.datastream);
-        mMinValueEditText = (TextInputEditText) v.findViewById(R.id.min_value);
-        mMaxValueEditText = (TextInputEditText) v.findViewById(R.id.max_value);
-        mPeriodEditText = (TextInputEditText) v.findViewById(R.id.period);
+        mDeviceIdLayout = (TextInputLayout) v.findViewById(R.id.device_id);
+        mDataStreamLayout = (TextInputLayout) v.findViewById(R.id.datastream);
+        mMinValueLayout = (TextInputLayout) v.findViewById(R.id.min_value);
+        mMaxValueLayout = (TextInputLayout) v.findViewById(R.id.max_value);
+        mPeriodLayout = (TextInputLayout) v.findViewById(R.id.period);
         mSendOneceButton = (Button) v.findViewById(R.id.send_onece);
         mSendContinuousButton = (Button) v.findViewById(R.id.send_continuous);
         mResponseLogTextView = (TextView) v.findViewById(R.id.response_log);
@@ -64,29 +64,29 @@ public class DataSimFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        String deviceId = mDeviceIdEditText.getText().toString();
-        String datastream = mDataStreamEditText.getText().toString();
-        String minValueString = mMinValueEditText.getText().toString();
-        String maxValueString = mMaxValueEditText.getText().toString();
-        String periodString = mPeriodEditText.getText().toString();
+        String deviceId = mDeviceIdLayout.getEditText().getText().toString();
+        String datastream = mDataStreamLayout.getEditText().getText().toString();
+        String minValueString = mMinValueLayout.getEditText().getText().toString();
+        String maxValueString = mMaxValueLayout.getEditText().getText().toString();
+        String periodString = mPeriodLayout.getEditText().getText().toString();
         if (TextUtils.isEmpty(deviceId)) {
-            mDeviceIdEditText.setError(getResources().getString(R.string.device_id));
-            mDeviceIdEditText.requestFocus();
+            mDeviceIdLayout.setError(getResources().getString(R.string.device_id));
+            mDeviceIdLayout.requestFocus();
             return;
         }
         if (TextUtils.isEmpty(datastream)) {
-            mDataStreamEditText.setError(getResources().getString(R.string.datastream));
-            mDataStreamEditText.requestFocus();
+            mDataStreamLayout.setError(getResources().getString(R.string.datastream));
+            mDataStreamLayout.requestFocus();
             return;
         }
         if (TextUtils.isEmpty(minValueString)) {
-            mMinValueEditText.setError(getResources().getString(R.string.min_value));
-            mMinValueEditText.requestFocus();
+            mMinValueLayout.setError(getResources().getString(R.string.min_value));
+            mMinValueLayout.requestFocus();
             return;
         }
         if (TextUtils.isEmpty(maxValueString)) {
-            mMaxValueEditText.setError(getResources().getString(R.string.max_value));
-            mMaxValueEditText.requestFocus();
+            mMaxValueLayout.setError(getResources().getString(R.string.max_value));
+            mMaxValueLayout.requestFocus();
             return;
         }
 
@@ -101,18 +101,18 @@ public class DataSimFragment extends Fragment implements View.OnClickListener {
             case R.id.send_continuous:
                 if (!mSending) {
                     if (TextUtils.isEmpty(periodString)) {
-                        mPeriodEditText.setError(getResources().getString(R.string.time_interval));
-                        mPeriodEditText.requestFocus();
+                        mPeriodLayout.setError(getResources().getString(R.string.time_interval));
+                        mPeriodLayout.requestFocus();
                         return;
                     }
                     int period = Integer.parseInt(periodString);
                     sendContinuous(deviceId, datastream, minValue, maxValue, period);
                 } else {
-                    mDeviceIdEditText.setEnabled(true);
-                    mDataStreamEditText.setEnabled(true);
-                    mMinValueEditText.setEnabled(true);
-                    mMaxValueEditText.setEnabled(true);
-                    mPeriodEditText.setEnabled(true);
+                    mDeviceIdLayout.setEnabled(true);
+                    mDataStreamLayout.setEnabled(true);
+                    mMinValueLayout.setEnabled(true);
+                    mMaxValueLayout.setEnabled(true);
+                    mPeriodLayout.setEnabled(true);
                     mSendOneceButton.setEnabled(true);
                     mSendContinuousButton.setText(R.string.send_continuous);
                     if (mSendDataTimer != null) {
@@ -160,11 +160,11 @@ public class DataSimFragment extends Fragment implements View.OnClickListener {
         mSendDataTimer = new Timer(true);
         mSendDataTimer.schedule(task, 0, period * 1000);
         mSendContinuousButton.setText(R.string.stop_sending);
-        mDeviceIdEditText.setEnabled(false);
-        mDataStreamEditText.setEnabled(false);
-        mMinValueEditText.setEnabled(false);
-        mMaxValueEditText.setEnabled(false);
-        mPeriodEditText.setEnabled(false);
+        mDeviceIdLayout.setEnabled(false);
+        mDataStreamLayout.setEnabled(false);
+        mMinValueLayout.setEnabled(false);
+        mMaxValueLayout.setEnabled(false);
+        mPeriodLayout.setEnabled(false);
         mSendOneceButton.setEnabled(false);
         mSending = true;
     }

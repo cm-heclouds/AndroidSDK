@@ -73,4 +73,7 @@
     <string name="modified_successfully">修改成功</string>
     <string name="online">在线</string>
     <string name="offline">离线</string>
+    <string name="param_name_empty_error">参数名不能为空</string>
+    <string name="param_value_empty_error">参数值不能为空</string>
+    <string name="invalid_url">不是合法的URL</string>
 </resources>

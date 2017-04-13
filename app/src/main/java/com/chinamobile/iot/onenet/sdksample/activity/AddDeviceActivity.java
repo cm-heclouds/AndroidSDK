@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -31,17 +29,16 @@ public class AddDeviceActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
 
-    private TextInputEditText mDeviceTitleEditText;
+    private TextInputLayout mDeviceTitleEditText;
 
     private TextInputLayout mAuthInfoLayout;
     private View mModbusAuthInfoLayout;
     private View mJTextAuthInfoLayout;
 
-    private TextInputEditText mAuthInfoEditText;
-    private TextInputEditText mDtuNumberEditText;
-    private TextInputEditText mDtuPasswordEditText;
-    private TextInputEditText mDeviceModelEditText;
-    private TextInputEditText mDeviceIdEditText;
+    private TextInputLayout mDtuNumberLayout;
+    private TextInputLayout mDtuPasswordLayout;
+    private TextInputLayout mDeviceModelLayout;
+    private TextInputLayout mDeviceIdLayout;
     private AppCompatSpinner mProtocolSpinner;
     private RadioGroup mRadioGroup;
     private boolean mPrivate;
@@ -62,15 +59,14 @@ public class AddDeviceActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_action_close);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mDeviceTitleEditText = (TextInputEditText) findViewById(R.id.title);
+        mDeviceTitleEditText = (TextInputLayout) findViewById(R.id.title);
         mAuthInfoLayout = (TextInputLayout) findViewById(R.id.auth_info_layout);
         mModbusAuthInfoLayout = findViewById(R.id.modbus_auth_info);
         mJTextAuthInfoLayout = findViewById(R.id.jtext_auth_info);
-        mAuthInfoEditText = (TextInputEditText) findViewById(R.id.auth_info);
-        mDtuNumberEditText = (TextInputEditText) findViewById(R.id.dtu_number);
-        mDtuPasswordEditText = (TextInputEditText) findViewById(R.id.dtu_password);
-        mDeviceModelEditText = (TextInputEditText) findViewById(R.id.model);
-        mDeviceIdEditText = (TextInputEditText) findViewById(R.id.id);
+        mDtuNumberLayout = (TextInputLayout) findViewById(R.id.dtu_number_layout);
+        mDtuPasswordLayout = (TextInputLayout) findViewById(R.id.dtu_password_layout);
+        mDeviceModelLayout = (TextInputLayout) findViewById(R.id.model_layout);
+        mDeviceIdLayout = (TextInputLayout) findViewById(R.id.id_layout);
         mProtocolSpinner = (AppCompatSpinner) findViewById(R.id.protocol_spinner);
         mRadioGroup = (RadioGroup) findViewById(R.id.radio_group);
 
@@ -126,27 +122,27 @@ public class AddDeviceActivity extends AppCompatActivity {
         boolean valid = checkInput(mDeviceTitleEditText, R.string.device_title_empty_error);
         if (valid) {
             if (mProtocolSpinner.getSelectedItemPosition() < 3) {
-                valid = checkInput(mAuthInfoEditText, R.string.auth_info_empty_error);
+                valid = checkInput(mAuthInfoLayout, R.string.auth_info_empty_error);
             } else if (mProtocolSpinner.getSelectedItemPosition() == 3) {
-                valid = checkInput(mDtuNumberEditText, R.string.dtu_serial_number_empty_error);
+                valid = checkInput(mDtuNumberLayout, R.string.dtu_serial_number_empty_error);
                 if (valid) {
-                    valid = checkInput(mDtuPasswordEditText, R.string.dtu_password_empty_error);
+                    valid = checkInput(mDtuPasswordLayout, R.string.dtu_password_empty_error);
                 }
             } else if (mProtocolSpinner.getSelectedItemPosition() == 4) {
-                valid = checkInput(mDeviceModelEditText, R.string.device_model_empty_drror);
+                valid = checkInput(mDeviceModelLayout, R.string.device_model_empty_drror);
                 if (valid) {
-                    valid = checkInput(mDeviceIdEditText, R.string.device_id_empty_error);
+                    valid = checkInput(mDeviceIdLayout, R.string.device_id_empty_error);
                 }
             }
         }
         return valid;
     }
 
-    private boolean checkInput(EditText editText, int errorResId) {
-        String text = editText.getText().toString();
+    private boolean checkInput(TextInputLayout textInputLayout, int errorResId) {
+        String text = textInputLayout.getEditText().getText().toString();
         if (TextUtils.isEmpty(text)) {
-            editText.setError(getResources().getString(errorResId));
-            editText.requestFocus();
+            textInputLayout.setError(getResources().getString(errorResId));
+            textInputLayout.requestFocus();
             return false;
         }
         return true;
@@ -155,19 +151,19 @@ public class AddDeviceActivity extends AppCompatActivity {
     private void addDevice() {
         JSONObject requestContent = new JSONObject();
         try {
-            requestContent.putOpt("title", mDeviceTitleEditText.getText().toString());
+            requestContent.putOpt("title", mDeviceTitleEditText.getEditText().getText().toString());
             requestContent.putOpt("protocol", mProtocol);
             requestContent.putOpt("private", mPrivate);
             if (mProtocolSpinner.getSelectedItemPosition() < 3) {
-                requestContent.putOpt("auth_info", mAuthInfoEditText.getText().toString());
+                requestContent.putOpt("auth_info", mAuthInfoLayout.getEditText().getText().toString());
             } else if (mProtocolSpinner.getSelectedItemPosition() == 3) {
                 JSONObject authInfo = new JSONObject();
-                authInfo.putOpt(mDtuNumberEditText.getText().toString(), mDtuPasswordEditText.getText().toString());
+                authInfo.putOpt(mDtuNumberLayout.getEditText().getText().toString(), mDtuPasswordLayout.getEditText().getText().toString());
                 requestContent.putOpt("auth_info", authInfo);
             } else if (mProtocolSpinner.getSelectedItemPosition() == 4) {
                 JSONObject activateCode = new JSONObject();
-                activateCode.putOpt("mt", mDeviceModelEditText.getText().toString());
-                activateCode.putOpt("mid", mDeviceIdEditText.getText().toString());
+                activateCode.putOpt("mt", mDeviceModelLayout.getEditText().getText().toString());
+                activateCode.putOpt("mid", mDeviceIdLayout.getEditText().getText().toString());
                 requestContent.putOpt("activate_code", activateCode);
             }
             OneNetApi.addDevice(requestContent.toString(), new OneNetApiCallback() {

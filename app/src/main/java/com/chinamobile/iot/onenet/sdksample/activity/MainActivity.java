@@ -5,21 +5,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import com.chinamobile.iot.onenet.OneNetApi;
 import com.chinamobile.iot.onenet.sdksample.R;
@@ -27,9 +22,6 @@ import com.chinamobile.iot.onenet.sdksample.fragment.DebugToolsFragment;
 import com.chinamobile.iot.onenet.sdksample.fragment.DeviceListFragment;
 import com.chinamobile.iot.onenet.sdksample.fragment.TriggerListFragment;
 import com.chinamobile.iot.onenet.sdksample.utils.Preferences;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,10 +37,11 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
 
         String apikey = OneNetApi.getAppKey();
-        if (TextUtils.isEmpty(apikey)) {
+        if (TextUtils.isEmpty(apikey) || apikey.contains(" ")) {
             apikey = Preferences.getInstance(this).getString(Preferences.API_KEY, null);
         }
-        if (TextUtils.isEmpty(apikey)) {
+        if (TextUtils.isEmpty(apikey) || apikey.contains(" ")) {
+            OneNetApi.setAppKey("");
             startActivity(new Intent(this, EditApiKeyActivity.class));
         } else {
             OneNetApi.setAppKey(apikey);
@@ -60,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
             }
+
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);

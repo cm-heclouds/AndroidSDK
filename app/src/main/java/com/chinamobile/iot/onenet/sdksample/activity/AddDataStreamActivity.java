@@ -4,14 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.chinamobile.iot.onenet.OneNetApi;
@@ -28,9 +27,9 @@ public class AddDataStreamActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
 
-    private TextInputEditText mDsIdEditText;
-    private TextInputEditText mDsUnitNameEditText;
-    private TextInputEditText mDsUnitSymbolEditText;
+    private TextInputLayout mDsIdLayout;
+    private TextInputLayout mDsUnitNameLayout;
+    private TextInputLayout mDsUnitSymbolLayout;
 
     private String mDeviceId;
 
@@ -54,9 +53,9 @@ public class AddDataStreamActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_action_close);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mDsIdEditText = (TextInputEditText) findViewById(R.id.ds_id);
-        mDsUnitNameEditText = (TextInputEditText) findViewById(R.id.ds_unit_name);
-        mDsUnitSymbolEditText = (TextInputEditText) findViewById(R.id.ds_unit_symbol);
+        mDsIdLayout = (TextInputLayout) findViewById(R.id.ds_id);
+        mDsUnitNameLayout = (TextInputLayout) findViewById(R.id.ds_unit_name);
+        mDsUnitSymbolLayout = (TextInputLayout) findViewById(R.id.ds_unit_symbol);
     }
 
     @Override
@@ -73,7 +72,7 @@ public class AddDataStreamActivity extends AppCompatActivity {
                 break;
 
             case R.id.menu_done:
-                if (checkInput(mDsIdEditText, R.string.ds_id)) {
+                if (checkInput(mDsIdLayout, R.string.ds_id)) {
                     addDataStream();
                 }
                 break;
@@ -81,20 +80,20 @@ public class AddDataStreamActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private boolean checkInput(EditText editText, int errorResId) {
-        String text = editText.getText().toString();
+    private boolean checkInput(TextInputLayout textInputLayout, int errorResId) {
+        String text = textInputLayout.getEditText().getText().toString();
         if (TextUtils.isEmpty(text)) {
-            editText.setError(getResources().getString(errorResId));
-            editText.requestFocus();
+            textInputLayout.setError(getResources().getString(errorResId));
+            textInputLayout.requestFocus();
             return false;
         }
         return true;
     }
 
     private void addDataStream() {
-        String dsId = mDsIdEditText.getText().toString();
-        String unitName = mDsUnitNameEditText.getText().toString();
-        String unitSymbol = mDsUnitSymbolEditText.getText().toString();
+        String dsId = mDsIdLayout.getEditText().getText().toString();
+        String unitName = mDsUnitNameLayout.getEditText().getText().toString();
+        String unitSymbol = mDsUnitSymbolLayout.getEditText().getText().toString();
 
         JSONObject requestObject = new JSONObject();
         try {

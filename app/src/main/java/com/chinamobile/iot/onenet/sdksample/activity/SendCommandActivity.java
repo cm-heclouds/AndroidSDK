@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -25,8 +25,8 @@ public class SendCommandActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private DeviceItem mDeviceItem;
 
-    private TextInputEditText mCommandContentEditText;
-    private TextInputEditText mValidPeriodEditText;
+    private TextInputLayout mCommandContentLayout;
+    private TextInputLayout mValidPeriodLayout;
     private RadioGroup mNeedRespGroup;
 
     public static void actionSendCommand(Context context, DeviceItem deviceItem) {
@@ -71,8 +71,8 @@ public class SendCommandActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(android.support.v7.appcompat.R.drawable.abc_ic_ab_back_material);
 
-        mCommandContentEditText = (TextInputEditText) findViewById(R.id.command_content);
-        mValidPeriodEditText = (TextInputEditText) findViewById(R.id.valid_time);
+        mCommandContentLayout = (TextInputLayout) findViewById(R.id.command_content);
+        mValidPeriodLayout = (TextInputLayout) findViewById(R.id.valid_time_layout);
         mNeedRespGroup = (RadioGroup) findViewById(R.id.radio_group_need_resp);
 
         if (!"EDP".equalsIgnoreCase(mDeviceItem.getProtocol())) {
@@ -83,22 +83,22 @@ public class SendCommandActivity extends AppCompatActivity {
 
     private void sendCommand() {
         if ("EDP".equalsIgnoreCase(mDeviceItem.getProtocol())) {
-            if (mCommandContentEditText.getText().toString().trim().length() == 0) {
-                mCommandContentEditText.setError(getResources().getString(R.string.command_content));
-                mCommandContentEditText.requestFocus();
+            if (mCommandContentLayout.getEditText().getText().toString().trim().length() == 0) {
+                ((TextInputLayout) mCommandContentLayout.getParent()).setError(getResources().getString(R.string.command_content));
+                mCommandContentLayout.requestFocus();
                 return;
             }
-            if (mValidPeriodEditText.getText().toString().trim().length() == 0) {
-                mValidPeriodEditText.setError(getResources().getString(R.string.valid_period));
-                mValidPeriodEditText.requestFocus();
+            if (mValidPeriodLayout.getEditText().getText().toString().trim().length() == 0) {
+                ((TextInputLayout) mValidPeriodLayout.getParent()).setError(getResources().getString(R.string.valid_period));
+                mValidPeriodLayout.requestFocus();
                 return;
             }
             OneNetApi.sendCmdToDevice(
                     mDeviceItem.getId(),
                     mNeedRespGroup.getCheckedRadioButtonId() == R.id.radio_group_need_resp,
-                    Integer.parseInt(mValidPeriodEditText.getText().toString()),
+                    Integer.parseInt(mValidPeriodLayout.getEditText().getText().toString()),
                     Command.CommandType.TYPE_CMD_REQ,
-                    mCommandContentEditText.getText().toString(),
+                    mCommandContentLayout.getEditText().getText().toString(),
                     new OneNetApiCallback() {
                         @Override
                         public void onSuccess(int errno, String error, String data) {
@@ -115,12 +115,12 @@ public class SendCommandActivity extends AppCompatActivity {
                         }
                     });
         } else {
-            if (mCommandContentEditText.getText().toString().trim().length() == 0) {
-                mCommandContentEditText.setError(getResources().getString(R.string.command_content));
-                mCommandContentEditText.requestFocus();
+            if (mCommandContentLayout.getEditText().getText().toString().trim().length() == 0) {
+                ((TextInputLayout) mCommandContentLayout.getParent()).setError(getResources().getString(R.string.command_content));
+                mCommandContentLayout.requestFocus();
                 return;
             }
-            OneNetApi.sendCmdToDevice(mDeviceItem.getId(), mCommandContentEditText.getText().toString(), new OneNetApiCallback() {
+            OneNetApi.sendCmdToDevice(mDeviceItem.getId(), mCommandContentLayout.getEditText().getText().toString(), new OneNetApiCallback() {
                 @Override
                 public void onSuccess(int errno, String error, String data) {
                     if (0 == errno) {

@@ -5,7 +5,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -52,8 +52,8 @@ public class MapSimFragment extends Fragment implements View.OnClickListener {
             Manifest.permission.READ_PHONE_STATE
     };
 
-    private TextInputEditText mDeviceIdEditText;
-    private TextInputEditText mDataStreamEditText;
+    private TextInputLayout mDeviceIdLayout;
+    private TextInputLayout mDataStreamLayout;
     private MapView mMapView;
     private AMap mAmap;
     private TextView mLocationTextView;
@@ -77,8 +77,8 @@ public class MapSimFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_map_sim, container, false);
 
-        mDeviceIdEditText = (TextInputEditText) v.findViewById(R.id.device_id);
-        mDataStreamEditText = (TextInputEditText) v.findViewById(R.id.datastream);
+        mDeviceIdLayout = (TextInputLayout) v.findViewById(R.id.device_id);
+        mDataStreamLayout = (TextInputLayout) v.findViewById(R.id.datastream);
         mMapView = (MapView) v.findViewById(R.id.map_view);
         mLocationTextView = (TextView) v.findViewById(R.id.location);
         mSendButton = (Button) v.findViewById(R.id.send);
@@ -167,6 +167,7 @@ public class MapSimFragment extends Fragment implements View.OnClickListener {
             mMapView.onResume();
         }
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -174,6 +175,7 @@ public class MapSimFragment extends Fragment implements View.OnClickListener {
             mMapView.onPause();
         }
     }
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -211,16 +213,16 @@ public class MapSimFragment extends Fragment implements View.OnClickListener {
     }
 
     private void sendData() {
-        String deviceId = mDeviceIdEditText.getText().toString();
-        String datastream = mDataStreamEditText.getText().toString();
+        String deviceId = mDeviceIdLayout.getEditText().getText().toString().trim();
+        String datastream = mDataStreamLayout.getEditText().getText().toString().trim();
         if (TextUtils.isEmpty(deviceId)) {
-            mDeviceIdEditText.setError(getResources().getString(R.string.device_id));
-            mDeviceIdEditText.requestFocus();
+            mDeviceIdLayout.setError(getResources().getString(R.string.device_id));
+            mDeviceIdLayout.requestFocus();
             return;
         }
         if (TextUtils.isEmpty(datastream)) {
-            mDataStreamEditText.setError(getResources().getString(R.string.datastream));
-            mDataStreamEditText.requestFocus();
+            mDataStreamLayout.setError(getResources().getString(R.string.datastream));
+            mDataStreamLayout.requestFocus();
             return;
         }
         try {

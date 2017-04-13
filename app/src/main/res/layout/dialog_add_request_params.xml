@@ -6,7 +6,7 @@
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.design.widget.TextInputLayout
+    <com.chinamobile.iot.onenet.sdksample.view.TextInputContainer
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -25,9 +25,9 @@
             android:textColorHint="@color/textColorHint"
             android:textSize="14sp"/>
 
-    </android.support.design.widget.TextInputLayout>
+    </com.chinamobile.iot.onenet.sdksample.view.TextInputContainer>
 
-    <android.support.design.widget.TextInputLayout
+    <com.chinamobile.iot.onenet.sdksample.view.TextInputContainer
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -46,6 +46,6 @@
             android:textColorHint="@color/textColorHint"
             android:textSize="14sp"/>
 
-    </android.support.design.widget.TextInputLayout>
+    </com.chinamobile.iot.onenet.sdksample.view.TextInputContainer>
 
 </LinearLayout>

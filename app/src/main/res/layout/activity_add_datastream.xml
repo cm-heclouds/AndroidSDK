@@ -29,7 +29,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <android.support.design.widget.TextInputLayout
+            <com.chinamobile.iot.onenet.sdksample.view.TextInputContainer
+                android:id="@+id/ds_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
@@ -39,7 +40,6 @@
                 app:hintEnabled="true">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/ds_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/ds_id"
@@ -47,9 +47,10 @@
                     android:textColorHint="@color/textColorHint"
                     android:textSize="14sp"/>
 
-            </android.support.design.widget.TextInputLayout>
+            </com.chinamobile.iot.onenet.sdksample.view.TextInputContainer>
 
-            <android.support.design.widget.TextInputLayout
+            <com.chinamobile.iot.onenet.sdksample.view.TextInputContainer
+                android:id="@+id/ds_unit_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
@@ -59,7 +60,6 @@
                 app:hintEnabled="true">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/ds_unit_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/ds_unit_name"
@@ -67,9 +67,10 @@
                     android:textColorHint="@color/textColorHint"
                     android:textSize="14sp"/>
 
-            </android.support.design.widget.TextInputLayout>
+            </com.chinamobile.iot.onenet.sdksample.view.TextInputContainer>
 
-            <android.support.design.widget.TextInputLayout
+            <com.chinamobile.iot.onenet.sdksample.view.TextInputContainer
+                android:id="@+id/ds_unit_symbol"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
@@ -79,7 +80,6 @@
                 app:hintEnabled="true">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/ds_unit_symbol"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/ds_unit_symbol"
@@ -87,7 +87,7 @@
                     android:textColorHint="@color/textColorHint"
                     android:textSize="14sp"/>
 
-            </android.support.design.widget.TextInputLayout>
+            </com.chinamobile.iot.onenet.sdksample.view.TextInputContainer>
 
         </LinearLayout>
 

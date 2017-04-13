@@ -73,4 +73,7 @@
     <string name="modified_successfully">Modified successfully</string>
     <string name="online">Online</string>
     <string name="offline">Offline</string>
+    <string name="param_name_empty_error">Parameter name cannot be empty</string>
+    <string name="param_value_empty_error">Parameter value cannot be empty</string>
+    <string name="invalid_url">Invalid URL</string>
 </resources>

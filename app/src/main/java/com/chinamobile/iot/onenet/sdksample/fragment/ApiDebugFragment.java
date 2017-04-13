@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatSpinner;
@@ -42,12 +43,12 @@ import okhttp3.logging.HttpLoggingInterceptor;
 
 public class ApiDebugFragment extends Fragment implements View.OnClickListener {
 
-    private TextInputEditText mApiUrlEditText;
+    private TextInputLayout mApiUrlLayout;
     private AppCompatSpinner mRequestMethodSpinner;
     private TextView mRequestParamsTextView;
     private Button mAddParamsButton;
     private Button mClearParamsButton;
-    private TextInputEditText mRequestContentEditText;
+    private TextInputLayout mRequestContentLayout;
     private Button mSendRequestButton;
     private TextView mResponseLogTextView;
     private AlertDialog mAddParamsDialog;
@@ -64,12 +65,12 @@ public class ApiDebugFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mLayoutInflater = inflater;
         View v = inflater.inflate(R.layout.fragment_api_debug, container, false);
-        mApiUrlEditText = (TextInputEditText) v.findViewById(R.id.api_url);
+        mApiUrlLayout = (TextInputLayout) v.findViewById(R.id.api_url);
         mRequestMethodSpinner = (AppCompatSpinner) v.findViewById(R.id.request_method_spinner);
         mRequestParamsTextView = (TextView) v.findViewById(R.id.request_params);
         mAddParamsButton = (Button) v.findViewById(R.id.add);
         mClearParamsButton = (Button) v.findViewById(R.id.clear);
-        mRequestContentEditText = (TextInputEditText) v.findViewById(R.id.request_content);
+        mRequestContentLayout = (TextInputLayout) v.findViewById(R.id.request_content);
         mSendRequestButton = (Button) v.findViewById(R.id.send);
         mResponseLogTextView = (TextView) v.findViewById(R.id.response_log);
 
@@ -111,11 +112,11 @@ public class ApiDebugFragment extends Fragment implements View.OnClickListener {
                         String name = nameEditText.getText().toString();
                         String value = valueEditText.getText().toString();
                         if (TextUtils.isEmpty(name)) {
-                            Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), R.string.param_name_empty_error, Toast.LENGTH_SHORT).show();
                             return;
                         }
                         if (TextUtils.isEmpty(value)) {
-                            Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), R.string.param_value_empty_error, Toast.LENGTH_SHORT).show();
                             return;
                         }
                         mFormData.put(name, value);
@@ -142,14 +143,19 @@ public class ApiDebugFragment extends Fragment implements View.OnClickListener {
     }
 
     private void sendRequest() {
-        String url = mApiUrlEditText.getText().toString();
-        String requestString = mRequestContentEditText.getText().toString();
+        String url = mApiUrlLayout.getEditText().getText().toString();
+        String requestString = mRequestContentLayout.getEditText().getText().toString();
         if (TextUtils.isEmpty(url)) {
-            mApiUrlEditText.setError(getResources().getString(R.string.api_url));
-            mApiUrlEditText.requestFocus();
+            mApiUrlLayout.setError(getResources().getString(R.string.api_url));
+            mApiUrlLayout.requestFocus();
             return;
         }
         HttpUrl httpUrl = HttpUrl.parse(url);
+        if (null == httpUrl) {
+            mApiUrlLayout.setError(getResources().getString(R.string.invalid_url));
+            mApiUrlLayout.requestFocus();
+            return;
+        }
         HttpUrl.Builder builder = httpUrl.newBuilder(url);
         for (Map.Entry<String, String> entry : mFormData.entrySet()) {
             builder.addEncodedQueryParameter(entry.getKey(), entry.getValue());

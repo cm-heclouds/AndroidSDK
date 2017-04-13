@@ -28,7 +28,8 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <android.support.design.widget.TextInputLayout
+            <com.chinamobile.iot.onenet.sdksample.view.TextInputContainer
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
@@ -38,7 +39,6 @@
                 app:hintEnabled="true">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/add_device_title_hint"
@@ -46,9 +46,9 @@
                     android:textColorHint="@color/textColorHint"
                     android:textSize="14sp"/>
 
-            </android.support.design.widget.TextInputLayout>
+            </com.chinamobile.iot.onenet.sdksample.view.TextInputContainer>
 
-            <android.support.design.widget.TextInputLayout
+            <com.chinamobile.iot.onenet.sdksample.view.TextInputContainer
                 android:id="@+id/auth_info_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
                     android:textColorHint="@color/textColorHint"
                     android:textSize="14sp"/>
 
-            </android.support.design.widget.TextInputLayout>
+            </com.chinamobile.iot.onenet.sdksample.view.TextInputContainer>
 
             <LinearLayout
                 android:id="@+id/modbus_auth_info"
@@ -76,7 +76,7 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <android.support.design.widget.TextInputLayout
+                <com.chinamobile.iot.onenet.sdksample.view.TextInputContainer
                     android:id="@+id/dtu_number_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -95,9 +95,9 @@
                         android:textColorHint="@color/textColorHint"
                         android:textSize="14sp"/>
 
-                </android.support.design.widget.TextInputLayout>
+                </com.chinamobile.iot.onenet.sdksample.view.TextInputContainer>
 
-                <android.support.design.widget.TextInputLayout
+                <com.chinamobile.iot.onenet.sdksample.view.TextInputContainer
                     android:id="@+id/dtu_password_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -116,7 +116,7 @@
                         android:textColorHint="@color/textColorHint"
                         android:textSize="14sp"/>
 
-                </android.support.design.widget.TextInputLayout>
+                </com.chinamobile.iot.onenet.sdksample.view.TextInputContainer>
 
             </LinearLayout>
 
@@ -127,7 +127,7 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <android.support.design.widget.TextInputLayout
+                <com.chinamobile.iot.onenet.sdksample.view.TextInputContainer
                     android:id="@+id/model_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -146,9 +146,9 @@
                         android:textColorHint="@color/textColorHint"
                         android:textSize="14sp"/>
 
-                </android.support.design.widget.TextInputLayout>
+                </com.chinamobile.iot.onenet.sdksample.view.TextInputContainer>
 
-                <android.support.design.widget.TextInputLayout
+                <com.chinamobile.iot.onenet.sdksample.view.TextInputContainer
                     android:id="@+id/id_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -167,7 +167,7 @@
                         android:textColorHint="@color/textColorHint"
                         android:textSize="14sp"/>
 
-                </android.support.design.widget.TextInputLayout>
+                </com.chinamobile.iot.onenet.sdksample.view.TextInputContainer>
 
             </LinearLayout>
 

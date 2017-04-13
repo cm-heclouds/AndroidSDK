@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <android.support.design.widget.TextInputLayout
+        <com.chinamobile.iot.onenet.sdksample.view.TextInputContainer
+            android:id="@+id/api_url"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -21,7 +22,6 @@
             app:hintEnabled="true">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/api_url"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/api_url"
@@ -29,7 +29,7 @@
                 android:textColorHint="@color/textColorHint"
                 android:textSize="14sp"/>
 
-        </android.support.design.widget.TextInputLayout>
+        </com.chinamobile.iot.onenet.sdksample.view.TextInputContainer>
 
         <TextView
             android:layout_width="match_parent"
@@ -104,7 +104,8 @@
 
         </LinearLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.chinamobile.iot.onenet.sdksample.view.TextInputContainer
+            android:id="@+id/request_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -114,7 +115,6 @@
             app:hintEnabled="true">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/request_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/request_content"
@@ -122,7 +122,7 @@
                 android:textColorHint="@color/textColorHint"
                 android:textSize="14sp"/>
 
-        </android.support.design.widget.TextInputLayout>
+        </com.chinamobile.iot.onenet.sdksample.view.TextInputContainer>
 
         <Button
             android:id="@+id/send"
