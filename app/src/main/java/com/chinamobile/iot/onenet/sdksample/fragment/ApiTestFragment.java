@@ -233,7 +233,7 @@ public class ApiTestFragment extends Fragment implements View.OnClickListener {
     }
 
     private void addDatastream(String deviceId) {
-        
+
     }
 
     private void updateDatastream(String deviceId, String datastreamId) {

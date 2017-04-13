@@ -23,6 +23,7 @@
 
         <item
             android:id="@+id/api_test"
+            android:icon="@drawable/ic_api_test"
             android:title="@string/api_test"/>
 
     </group>
