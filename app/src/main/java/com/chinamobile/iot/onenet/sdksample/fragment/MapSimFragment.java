@@ -40,6 +40,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * 地图数据模拟器
+ */
 public class MapSimFragment extends Fragment implements View.OnClickListener {
 
     private static final int REQUEST_CODE_PERMISSIONS = 1;

@@ -18,6 +18,7 @@ import android.view.View;
 
 import com.chinamobile.iot.onenet.OneNetApi;
 import com.chinamobile.iot.onenet.sdksample.R;
+import com.chinamobile.iot.onenet.sdksample.fragment.ApiTestFragment;
 import com.chinamobile.iot.onenet.sdksample.fragment.DebugToolsFragment;
 import com.chinamobile.iot.onenet.sdksample.fragment.DeviceListFragment;
 import com.chinamobile.iot.onenet.sdksample.fragment.TriggerListFragment;
@@ -72,11 +73,13 @@ public class MainActivity extends AppCompatActivity {
     NavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new NavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
             mDrawerLayout.closeDrawer(GravityCompat.START);
 
-            Fragment fragment = null;
-            int titleResId = R.string.device;
+            Fragment fragment;
+            int titleResId;
             final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
             switch (item.getItemId()) {
                 case R.id.device:
                     fragment = DeviceListFragment.newInstance();
@@ -95,6 +98,13 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.debug_online:
                     fragment = DebugToolsFragment.newInstance();
                     titleResId = R.string.debug_online;
+                    ft.replace(R.id.fragment, fragment).commit();
+                    getSupportActionBar().setTitle(titleResId);
+                    break;
+
+                case R.id.api_test:
+                    fragment = ApiTestFragment.newInstance();
+                    titleResId = R.string.api_test;
                     ft.replace(R.id.fragment, fragment).commit();
                     getSupportActionBar().setTitle(titleResId);
                     break;

@@ -86,6 +86,10 @@ public class OneNetApi {
         return Looper.getMainLooper().getThread() == Thread.currentThread();
     }
 
+    private static boolean isUrlConfigured() {
+        return !TextUtils.isEmpty(Urls.sHost) && !Urls.sHost.contains(" ");
+    }
+
     private static void assertInitialized() {
         Assertions.assertCondition(isInitialized(), "You should call OneNetApi.init() in your Application!");
     }
@@ -94,15 +98,21 @@ public class OneNetApi {
         Assertions.assertCondition(isOnUIThread(), "Expected to run on UI thread!");
     }
 
+    private static void assertUrlConfigured() {
+        Assertions.assertCondition(isUrlConfigured(), "HOST must be configured in AndroidManifest.xml!");
+    }
+
     private static void get(String url, OneNetApiCallback callback) {
         assertInitialized();
         assertUIThread();
+        assertUrlConfigured();
         sHttpExecutor.get(url, new OneNetApiCallbackAdapter(callback));
     }
 
     private static void post(String url, String requestBodyString, OneNetApiCallback callback) {
         assertInitialized();
         assertUIThread();
+        assertUrlConfigured();
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), requestBodyString);
         sHttpExecutor.post(url, requestBody, new OneNetApiCallbackAdapter(callback));
     }
@@ -110,6 +120,7 @@ public class OneNetApi {
     private static void post(String url, File file, OneNetApiCallback callback) {
         assertInitialized();
         assertUIThread();
+        assertUrlConfigured();
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/octet-stream"), file);
         sHttpExecutor.post(url, requestBody, new OneNetApiCallbackAdapter(callback));
     }
@@ -117,6 +128,7 @@ public class OneNetApi {
     private static void post(String url, byte[] content, OneNetApiCallback callback) {
         assertInitialized();
         assertUIThread();
+        assertUrlConfigured();
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/octet-stream"), content);
         sHttpExecutor.post(url, requestBody, new OneNetApiCallbackAdapter(callback));
     }
@@ -124,6 +136,7 @@ public class OneNetApi {
     private static void put(String url, String requestBodyString, OneNetApiCallback callback) {
         assertInitialized();
         assertUIThread();
+        assertUrlConfigured();
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), requestBodyString);
         sHttpExecutor.put(url, requestBody, new OneNetApiCallbackAdapter(callback));
     }
@@ -131,6 +144,7 @@ public class OneNetApi {
     private static void delete(String url, OneNetApiCallback callback) {
         assertInitialized();
         assertUIThread();
+        assertUrlConfigured();
         sHttpExecutor.delete(url, new OneNetApiCallbackAdapter(callback));
     }
 

@@ -21,6 +21,10 @@
             android:icon="@drawable/ic_debug_tools"
             android:title="@string/debug_online"/>
 
+        <item
+            android:id="@+id/api_test"
+            android:title="@string/api_test"/>
+
     </group>
 
     <group android:id="@+id/group2">

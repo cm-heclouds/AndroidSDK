@@ -25,6 +25,9 @@ import org.json.JSONObject;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * 数据模拟器
+ */
 public class DataSimFragment extends Fragment implements View.OnClickListener {
 
     private TextInputLayout mDeviceIdLayout;

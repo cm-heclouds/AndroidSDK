@@ -20,7 +20,8 @@ public class DeviceItemDeserializer implements JsonDeserializer<DeviceItem> {
         deviceItem.setTitle(jsonObject.get("title").getAsString());
         JsonElement desc = jsonObject.get("desc");
         deviceItem.setDesc(desc != null ? desc.getAsString() : "");
-        deviceItem.setPrivate(jsonObject.get("private").getAsBoolean());
+        JsonElement isPrivate = jsonObject.get("private");
+        deviceItem.setPrivate(isPrivate != null ? isPrivate.getAsBoolean() : true);
         JsonElement protocol = jsonObject.get("protocol");
         deviceItem.setProtocol(protocol != null ? protocol.getAsString() : "HTTP");
         deviceItem.setOnline(jsonObject.get("online").getAsBoolean());

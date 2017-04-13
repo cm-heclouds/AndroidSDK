@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="api_test_button_margin_horizontal">24dp</dimen>
+    <dimen name="api_test_button_margin_vertical">16dp</dimen>
+</resources>

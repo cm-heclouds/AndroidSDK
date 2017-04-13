@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/add_device"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginRight="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginTop="@dimen/api_test_button_margin_vertical"
+            android:text="@string/add_device"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/update_device"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginRight="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginTop="@dimen/api_test_button_margin_vertical"
+            android:text="@string/edit_device"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/query_single_device"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginRight="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginTop="@dimen/api_test_button_margin_vertical"
+            android:text="@string/query_single_device"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/fuzzy_query_devices"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginRight="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginTop="@dimen/api_test_button_margin_vertical"
+            android:text="@string/fuzzy_query_devices"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/delete_device"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginRight="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginTop="@dimen/api_test_button_margin_vertical"
+            android:text="@string/delete_device"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/add_datastream"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginRight="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginTop="@dimen/api_test_button_margin_vertical"
+            android:text="@string/add_datastream"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/update_datastream"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginRight="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginTop="@dimen/api_test_button_margin_vertical"
+            android:text="@string/update_datastream"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/query_single_datastream"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginRight="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginTop="@dimen/api_test_button_margin_vertical"
+            android:text="@string/query_single_datastream"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/query_multi_datastreams"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginRight="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginTop="@dimen/api_test_button_margin_vertical"
+            android:text="@string/query_multi_datastreams"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/delete_datastream"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginRight="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginTop="@dimen/api_test_button_margin_vertical"
+            android:text="@string/delete_datastream"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/add_datapoint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginRight="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginTop="@dimen/api_test_button_margin_vertical"
+            android:text="@string/add_datapoint"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/query_datapoints"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginRight="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginTop="@dimen/api_test_button_margin_vertical"
+            android:text="@string/query_datapoints"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/add_trigger"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginRight="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginTop="@dimen/api_test_button_margin_vertical"
+            android:text="@string/add_trigger"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/update_trigger"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginRight="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginTop="@dimen/api_test_button_margin_vertical"
+            android:text="@string/update_trigger"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/query_single_trigger"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginRight="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginTop="@dimen/api_test_button_margin_vertical"
+            android:text="@string/query_single_trigger"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/fuzzy_query_triggers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginRight="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginTop="@dimen/api_test_button_margin_vertical"
+            android:text="@string/fuzzy_query_triggers"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/delete_trigger"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginRight="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginTop="@dimen/api_test_button_margin_vertical"
+            android:text="@string/delete_trigger"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/add_binary_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginRight="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginTop="@dimen/api_test_button_margin_vertical"
+            android:text="@string/add_binary_data"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/query_binary_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginRight="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginTop="@dimen/api_test_button_margin_vertical"
+            android:text="@string/query_binary_data"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/send_cmd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginRight="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginTop="@dimen/api_test_button_margin_vertical"
+            android:text="@string/send_command"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/query_cmd_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginRight="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginTop="@dimen/api_test_button_margin_vertical"
+            android:text="@string/query_cmd_status"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/query_cmd_resp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginRight="@dimen/api_test_button_margin_horizontal"
+            android:layout_marginTop="@dimen/api_test_button_margin_vertical"
+            android:text="@string/query_cmd_resp"
+            android:textAllCaps="false"/>
+
+    </LinearLayout>
+
+</ScrollView>

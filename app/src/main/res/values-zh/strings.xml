@@ -76,4 +76,23 @@
     <string name="param_name_empty_error">参数名不能为空</string>
     <string name="param_value_empty_error">参数值不能为空</string>
     <string name="invalid_url">不是合法的URL</string>
+    <string name="query_single_device">查询单个设备</string>
+    <string name="fuzzy_query_devices">模糊查询设备</string>
+    <string name="update_datastream">更新数据流</string>
+    <string name="query_single_datastream">查询单个数据流</string>
+    <string name="query_multi_datastreams">查询多个数据流</string>
+    <string name="delete_datastream">删除数据流</string>
+    <string name="add_datapoint">新增数据点</string>
+    <string name="query_datapoints">查询数据点</string>
+    <string name="add_trigger">新增触发器</string>
+    <string name="update_trigger">更新触发器</string>
+    <string name="query_single_trigger">查询单个触发器</string>
+    <string name="fuzzy_query_triggers">模糊查询触发器</string>
+    <string name="delete_trigger">删除触发器</string>
+    <string name="add_binary_data">新增二进制数据</string>
+    <string name="query_binary_data">查询二进制数据</string>
+    <string name="query_cmd_status">查询命令状态</string>
+    <string name="query_cmd_resp">查询命令响应</string>
+    <string name="api_resp_log">Api响应日志</string>
+    <string name="api_test">Api测试</string>
 </resources>

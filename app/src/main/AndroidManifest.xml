@@ -72,6 +72,10 @@
             android:name=".activity.AddDataStreamActivity"
             android:screenOrientation="portrait"/>
 
+        <activity
+            android:name=".activity.DisplayApiRespActivity"
+            android:screenOrientation="portrait"/>
+
         <service android:name="com.amap.api.location.APSService"></service>
 
     </application>

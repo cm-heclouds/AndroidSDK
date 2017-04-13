@@ -76,4 +76,23 @@
     <string name="param_name_empty_error">Parameter name cannot be empty</string>
     <string name="param_value_empty_error">Parameter value cannot be empty</string>
     <string name="invalid_url">Invalid URL</string>
+    <string name="query_single_device">Query single device</string>
+    <string name="fuzzy_query_devices">Fuzzy query devices</string>
+    <string name="update_datastream">Update datastream</string>
+    <string name="query_single_datastream">Query single datastream</string>
+    <string name="query_multi_datastreams">Query multi datastream</string>
+    <string name="delete_datastream">Delete datastream</string>
+    <string name="add_datapoint">Add datapoint</string>
+    <string name="query_datapoints">Query datapoint</string>
+    <string name="add_trigger">Add trigger</string>
+    <string name="update_trigger">Update trigger</string>
+    <string name="query_single_trigger">Query single trigger</string>
+    <string name="fuzzy_query_triggers">Fuzzy query triggers</string>
+    <string name="delete_trigger">Delete trigger</string>
+    <string name="add_binary_data">Add binary data</string>
+    <string name="query_binary_data">Query binary data</string>
+    <string name="query_cmd_status">Query command status</string>
+    <string name="query_cmd_resp">Query command response</string>
+    <string name="api_resp_log">Api response log</string>
+    <string name="api_test">Api test</string>
 </resources>

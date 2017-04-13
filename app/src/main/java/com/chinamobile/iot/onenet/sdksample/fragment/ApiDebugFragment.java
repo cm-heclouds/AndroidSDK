@@ -41,6 +41,9 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 
+/**
+ * API调试工具
+ */
 public class ApiDebugFragment extends Fragment implements View.OnClickListener {
 
     private TextInputLayout mApiUrlLayout;
