@@ -25,17 +25,15 @@ import com.chinamobile.iot.onenet.sdksample.R;
 import com.chinamobile.iot.onenet.sdksample.activity.AddDeviceActivity;
 import com.chinamobile.iot.onenet.sdksample.activity.DeviceActivity;
 import com.chinamobile.iot.onenet.sdksample.model.DeviceItem;
-import com.chinamobile.iot.onenet.sdksample.utils.IntentActions;
 import com.chinamobile.iot.onenet.sdksample.utils.DeviceItemDeserializer;
+import com.chinamobile.iot.onenet.sdksample.utils.IntentActions;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -140,11 +138,14 @@ public class DeviceListFragment extends Fragment implements SwipeRefreshLayout.O
         urlParams.put("per_page", "10");
         OneNetApi.fuzzyQueryDevices(urlParams, new OneNetApiCallback() {
             @Override
-            public void onSuccess(int errno, String error, String data) {
+            public void onSuccess(String response) {
                 mSwipeRefreshLayout.setRefreshing(false);
+                JsonObject resp = new JsonParser().parse(response).getAsJsonObject();
+                int errno = resp.get("errno").getAsInt();
                 if (0 == errno) {
-                    parseData(data, loadMore);
+                    parseData(resp.get("data").getAsJsonObject(), loadMore);
                 } else {
+                    String error = resp.get("error").getAsString();
                     Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
                 }
             }
@@ -157,29 +158,24 @@ public class DeviceListFragment extends Fragment implements SwipeRefreshLayout.O
         });
     }
 
-    private void parseData(String data, boolean loadMore) {
+    private void parseData(JsonObject data, boolean loadMore) {
         if (null == data) {
             return;
         }
-        try {
-            JSONObject dataObj = new JSONObject(data);
-            mTotalCount = dataObj.optInt("total_count");
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            gsonBuilder.registerTypeAdapter(DeviceItem.class, new DeviceItemDeserializer());
-            Gson gson = gsonBuilder.create();
-            JsonArray jsonArray = new JsonParser().parse(dataObj.optString("devices")).getAsJsonArray();
-            List<DeviceItem> devices = new ArrayList<>();
-            for (JsonElement element : jsonArray) {
-                devices.add(gson.fromJson(element, DeviceItem.class));
-            }
-            if (!loadMore) {
-                mDeviceItems.clear();
-            }
-            mDeviceItems.addAll(devices);
-            mAdapter.setNewData(mDeviceItems);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        mTotalCount = data.get("total_count").getAsInt();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(DeviceItem.class, new DeviceItemDeserializer());
+        Gson gson = gsonBuilder.create();
+        JsonArray jsonArray = data.get("devices").getAsJsonArray();
+        List<DeviceItem> devices = new ArrayList<>();
+        for (JsonElement element : jsonArray) {
+            devices.add(gson.fromJson(element, DeviceItem.class));
         }
+        if (!loadMore) {
+            mDeviceItems.clear();
+        }
+        mDeviceItems.addAll(devices);
+        mAdapter.setNewData(mDeviceItems);
     }
 
     class Data {

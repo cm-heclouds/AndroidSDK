@@ -23,9 +23,18 @@ public class DataStream {
                 .addEncodedPathSegment(dataStreamId).toString();
     }
 
-    public static String urlForQueryingMulti(String deviceId) {
-        return new HttpUrl.Builder().scheme(Urls.SCHEME).host(Urls.sHost).addPathSegment("devices")
-                .addPathSegment(deviceId).addPathSegment("datastreams").toString();
+    public static String urlForQueryingMulti(String deviceId, String[] dataStreamIds) {
+        HttpUrl.Builder builder = new HttpUrl.Builder().scheme(Urls.SCHEME).host(Urls.sHost).addPathSegment("devices")
+                .addPathSegment(deviceId).addPathSegment("datastreams");
+        if (dataStreamIds != null && dataStreamIds.length > 0) {
+            StringBuilder sb = new StringBuilder(dataStreamIds[0]);
+            for (int i = 1; i < dataStreamIds.length; i++) {
+                sb.append(",");
+                sb.append(dataStreamIds[i]);
+            }
+            builder.addEncodedQueryParameter("datastream_ids", sb.toString());
+        }
+        return builder.toString();
     }
 
     public static String urlForDeleting(String deviceId, String dataStreamId) {

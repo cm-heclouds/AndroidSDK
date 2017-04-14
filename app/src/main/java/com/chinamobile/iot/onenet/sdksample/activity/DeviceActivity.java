@@ -34,6 +34,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
@@ -166,11 +167,23 @@ public class DeviceActivity extends AppCompatActivity implements SwipeRefreshLay
     private void getDataStreams() {
         OneNetApi.queryMultiDataStreams(mDeviceItem.getId(), new OneNetApiCallback() {
             @Override
-            public void onSuccess(int errno, String error, String data) {
+            public void onSuccess(String response) {
                 mSwipeRefreshLayout.setRefreshing(false);
+                JsonObject resp = new JsonParser().parse(response).getAsJsonObject();
+                int errno = resp.get("errno").getAsInt();
                 if (0 == errno) {
-                    parseData(data);
+                    JsonElement dataElement = resp.get("data");
+                    if (dataElement != null) {
+                        JsonArray jsonArray = dataElement.getAsJsonArray();
+                        ArrayList<DSItem> dsItems = new ArrayList<>();
+                        Gson gson = new Gson();
+                        for (JsonElement element : jsonArray) {
+                            dsItems.add(gson.fromJson(element, DSItem.class));
+                        }
+                        mAdapter.setNewData(dsItems);
+                    }
                 } else {
+                    String error = resp.get("error").getAsString();
                     Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
                 }
             }
@@ -181,19 +194,6 @@ public class DeviceActivity extends AppCompatActivity implements SwipeRefreshLay
                 e.printStackTrace();
             }
         });
-    }
-
-    private void parseData(String data) {
-        if (null == data) {
-            return;
-        }
-        JsonArray jsonArray = new JsonParser().parse(data).getAsJsonArray();
-        ArrayList<DSItem> dsItems = new ArrayList<>();
-        Gson gson = new Gson();
-        for (JsonElement element : jsonArray) {
-            dsItems.add(gson.fromJson(element, DSItem.class));
-        }
-        mAdapter.setNewData(dsItems);
     }
 
     private void showDeleteDeviceDialog() {
@@ -213,11 +213,14 @@ public class DeviceActivity extends AppCompatActivity implements SwipeRefreshLay
     private void deleteDevice() {
         OneNetApi.deleteDevice(mDeviceItem.getId(), new OneNetApiCallback() {
             @Override
-            public void onSuccess(int errno, String error, String data) {
+            public void onSuccess(String response) {
+                JsonObject resp = new JsonParser().parse(response).getAsJsonObject();
+                int errno = resp.get("errno").getAsInt();
                 if (0 == errno) {
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(new Intent(IntentActions.ACTION_UPDATE_DEVICE_LIST));
                     finish();
                 } else {
+                    String error = resp.get("error").getAsString();
                     Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
                 }
             }
@@ -234,14 +237,17 @@ public class DeviceActivity extends AppCompatActivity implements SwipeRefreshLay
         public void onReceive(Context context, Intent intent) {
             OneNetApi.querySingleDevice(mDeviceItem.getId(), new OneNetApiCallback() {
                 @Override
-                public void onSuccess(int errno, String error, String data) {
+                public void onSuccess(String response) {
+                    JsonObject resp = new JsonParser().parse(response).getAsJsonObject();
+                    int errno = resp.get("errno").getAsInt();
                     if (0 == errno) {
                         GsonBuilder gsonBuilder = new GsonBuilder();
                         gsonBuilder.registerTypeAdapter(DeviceItem.class, new DeviceItemDeserializer());
                         Gson gson = gsonBuilder.create();
-                        mDeviceItem = gson.fromJson(data, DeviceItem.class);
+                        mDeviceItem = gson.fromJson(resp.get("data"), DeviceItem.class);
                         getSupportActionBar().setTitle(mDeviceItem.getTitle());
                     } else {
+                        String error = resp.get("error").getAsString();
                         Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
                     }
                 }

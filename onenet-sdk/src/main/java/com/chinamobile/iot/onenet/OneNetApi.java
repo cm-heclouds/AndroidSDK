@@ -263,7 +263,18 @@ public class OneNetApi {
      * @param callback 回调接口对象
      */
     public static void queryMultiDataStreams(String deviceId, OneNetApiCallback callback) {
-        get(DataStream.urlForQueryingMulti(deviceId), callback);
+        get(DataStream.urlForQueryingMulti(deviceId, null), callback);
+    }
+
+    /**
+     * 查询多个数据流
+     *
+     * @param deviceId      设备ID
+     * @param dataStreamIds 数据流ID数组
+     * @param callback      回调接口对象
+     */
+    public static void queryMultiDataStreams(String deviceId, String[] dataStreamIds, OneNetApiCallback callback) {
+        get(DataStream.urlForQueryingMulti(deviceId, dataStreamIds), callback);
     }
 
     /**

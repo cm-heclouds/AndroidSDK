@@ -18,6 +18,8 @@ import com.chinamobile.iot.onenet.OneNetApiCallback;
 import com.chinamobile.iot.onenet.module.Command;
 import com.chinamobile.iot.onenet.sdksample.R;
 import com.chinamobile.iot.onenet.sdksample.model.DeviceItem;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class SendCommandActivity extends AppCompatActivity {
 
@@ -101,10 +103,13 @@ public class SendCommandActivity extends AppCompatActivity {
                     mCommandContentLayout.getEditText().getText().toString(),
                     new OneNetApiCallback() {
                         @Override
-                        public void onSuccess(int errno, String error, String data) {
+                        public void onSuccess(String response) {
+                            JsonObject resp = new JsonParser().parse(response).getAsJsonObject();
+                            int errno = resp.get("errno").getAsInt();
                             if (0 == errno) {
                                 Toast.makeText(getApplicationContext(), R.string.send_cmd_succ, Toast.LENGTH_SHORT).show();
                             } else {
+                                String error = resp.get("error").getAsString();
                                 Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -122,10 +127,13 @@ public class SendCommandActivity extends AppCompatActivity {
             }
             OneNetApi.sendCmdToDevice(mDeviceItem.getId(), mCommandContentLayout.getEditText().getText().toString(), new OneNetApiCallback() {
                 @Override
-                public void onSuccess(int errno, String error, String data) {
+                public void onSuccess(String response) {
+                    JsonObject resp = new JsonParser().parse(response).getAsJsonObject();
+                    int errno = resp.get("errno").getAsInt();
                     if (0 == errno) {
                         Toast.makeText(getApplicationContext(), R.string.send_cmd_succ, Toast.LENGTH_SHORT).show();
                     } else {
+                        String error = resp.get("error").getAsString();
                         Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
                     }
                 }

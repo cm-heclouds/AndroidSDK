@@ -14,7 +14,7 @@ public class Binary {
 
     public static String urlForQuerying(String index) {
         return new HttpUrl.Builder().scheme(Urls.SCHEME).host(Urls.sHost).addPathSegment("bindata")
-                .addPathSegment(index).toString();
+                .addEncodedPathSegment(index).toString();
     }
 
 }

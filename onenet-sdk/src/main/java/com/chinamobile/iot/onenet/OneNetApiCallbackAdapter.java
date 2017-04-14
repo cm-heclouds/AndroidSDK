@@ -5,9 +5,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -29,10 +26,8 @@ class OneNetApiCallbackAdapter implements Callback {
                 case MSG_SUCCESS:
                     if (mOneNetApiCallback != null) {
                         Bundle b = msg.getData();
-                        int errno = b.getInt("errno");
-                        String error = b.getString("error");
-                        String data = b.getString("data");
-                        mOneNetApiCallback.onSuccess(errno, error, data);
+                        String response = b.getString("response");
+                        mOneNetApiCallback.onSuccess(response);
                     }
                     break;
 
@@ -62,16 +57,7 @@ class OneNetApiCallbackAdapter implements Callback {
         if (response.isSuccessful()) {
             ResponseBody responseBody = response.body();
             String responseString = responseBody.string();
-            try {
-                JSONObject jsonObject = new JSONObject(responseString);
-                final int errno = jsonObject.optInt("errno");
-                final String error = jsonObject.optString("error");
-                String data = jsonObject.optString("data");
-                sendSuccessMessage(errno, error, data);
-            } catch (final JSONException e) {
-                e.printStackTrace();
-                sendFailedMessage(e);
-            }
+            sendSuccessMessage(responseString);
         } else {
             if (OneNetApi.sDebug) {
                 Log.e(OneNetApi.LOG_TAG, response.toString());
@@ -80,12 +66,10 @@ class OneNetApiCallbackAdapter implements Callback {
         }
     }
 
-    private void sendSuccessMessage(int errno, String error, String data) {
+    private void sendSuccessMessage(String response) {
         Message msg = mHandler.obtainMessage(MSG_SUCCESS);
         Bundle b = new Bundle();
-        b.putInt("errno", errno);
-        b.putString("error", error);
-        b.putString("data", data);
+        b.putString("response", response);
         msg.setData(b);
         mHandler.sendMessage(msg);
     }

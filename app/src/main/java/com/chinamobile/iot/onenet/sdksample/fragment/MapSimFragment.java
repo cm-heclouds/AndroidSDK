@@ -34,7 +34,7 @@ import com.chinamobile.iot.onenet.sdksample.utils.PermissionUtil;
 import com.chinamobile.iot.onenet.sdksample.view.MapContainer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -250,8 +250,8 @@ public class MapSimFragment extends Fragment implements View.OnClickListener {
 
             OneNetApi.addDataPoints(deviceId, request.toString(), new OneNetApiCallback() {
                 @Override
-                public void onSuccess(int errno, String error, String data) {
-                    displayLog(errno, error, data);
+                public void onSuccess(String response) {
+                    displayLog(response);
                 }
 
                 @Override
@@ -264,14 +264,12 @@ public class MapSimFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void displayLog(int errno, String error, String data) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        JsonObject log = new JsonObject();
-        log.addProperty("errno", errno);
-        log.addProperty("error", error);
-        if (!TextUtils.isEmpty(data)) {
-            log.addProperty("data", data);
+    private void displayLog(String response) {
+        if ((response.startsWith("{") && response.endsWith("}")) || (response.startsWith("[") && response.endsWith("]"))) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            JsonParser jsonParser = new JsonParser();
+            response = gson.toJson(jsonParser.parse(response));
         }
-        mResponseLogTextView.setText(gson.toJson(log));
+        mResponseLogTextView.setText(response);
     }
 }

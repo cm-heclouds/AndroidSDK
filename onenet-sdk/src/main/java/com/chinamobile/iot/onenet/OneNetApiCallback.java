@@ -5,7 +5,7 @@ public interface OneNetApiCallback {
     /**
      * Called when the HTTP response code was 2xx.
      */
-    void onSuccess(int errno, String error, String data);
+    void onSuccess(String response);
 
     /**
      * Called when the request could not be executed due to cancellation, a connectivity problem,

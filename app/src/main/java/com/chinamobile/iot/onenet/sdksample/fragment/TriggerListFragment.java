@@ -24,9 +24,9 @@ import com.chinamobile.iot.onenet.sdksample.R;
 import com.chinamobile.iot.onenet.sdksample.model.TriggerItem;
 import com.chinamobile.iot.onenet.sdksample.utils.IntentActions;
 import com.google.gson.Gson;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,11 +98,17 @@ public class TriggerListFragment extends Fragment implements SwipeRefreshLayout.
         }
         OneNetApi.fuzzyQueryTriggers(null, mCurrentPage, 10, new OneNetApiCallback() {
             @Override
-            public void onSuccess(int errno, String error, String data) {
+            public void onSuccess(String response) {
                 mSwipeRefreshLayout.setRefreshing(false);
+                JsonObject resp = new JsonParser().parse(response).getAsJsonObject();
+                int errno = resp.get("errno").getAsInt();
                 if (0 == errno) {
-                    parseData(data, loadMore);
+                    JsonElement data = resp.get("data");
+                    if (data != null) {
+                        parseData(data.getAsJsonObject(), loadMore);
+                    }
                 } else {
+                    String error = resp.get("error").getAsString();
                     Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
                 }
             }
@@ -115,23 +121,15 @@ public class TriggerListFragment extends Fragment implements SwipeRefreshLayout.
         });
     }
 
-    private void parseData(String data, boolean loadMore) {
-        if (null == data) {
-            return;
+    private void parseData(JsonObject data, boolean loadMore) {
+        mTotalCount = data.get("total_count").getAsInt();
+        Gson gson = new Gson();
+        List<TriggerItem> triggers = gson.fromJson(data, TriggerListFragment.Data.class).getTriggers();
+        if (!loadMore) {
+            mTriggerItems.clear();
         }
-        try {
-            JSONObject dataObj = new JSONObject(data);
-            mTotalCount = dataObj.optInt("total_count");
-            Gson gson = new Gson();
-            List<TriggerItem> triggers = gson.fromJson(data, TriggerListFragment.Data.class).getTriggers();
-            if (!loadMore) {
-                mTriggerItems.clear();
-            }
-            mTriggerItems.addAll(triggers);
-            mAdapter.setNewData(mTriggerItems);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        mTriggerItems.addAll(triggers);
+        mAdapter.setNewData(mTriggerItems);
     }
 
     class Data {

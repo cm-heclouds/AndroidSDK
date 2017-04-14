@@ -95,4 +95,7 @@
     <string name="query_cmd_resp">查询命令响应</string>
     <string name="api_resp_log">Api响应日志</string>
     <string name="api_test">Api测试</string>
+    <string name="trigger_id">触发器ID</string>
+    <string name="binary_data_index">二进制数据索引号</string>
+    <string name="cmd_uuid">命令ID</string>
 </resources>

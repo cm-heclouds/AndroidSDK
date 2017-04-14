@@ -95,4 +95,7 @@
     <string name="query_cmd_resp">Query command response</string>
     <string name="api_resp_log">Api response log</string>
     <string name="api_test">Api test</string>
+    <string name="trigger_id">Trigger ID</string>
+    <string name="binary_data_index">Binary data index</string>
+    <string name="cmd_uuid">Command UUID</string>
 </resources>

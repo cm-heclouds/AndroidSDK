@@ -109,13 +109,20 @@ public class AddDataStreamActivity extends AppCompatActivity {
         }
         OneNetApi.addDataStream(mDeviceId, requestObject.toString(), new OneNetApiCallback() {
             @Override
-            public void onSuccess(int errno, String error, String data) {
-                if (0 == errno) {
-                    Toast.makeText(getApplicationContext(), R.string.added_successfully, Toast.LENGTH_SHORT).show();
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(new Intent(IntentActions.ACTION_UPDATE_DS_LIST));
-                    finish();
-                } else {
-                    Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+            public void onSuccess(String response) {
+                try {
+                    JSONObject resp = new JSONObject(response);
+                    int errno = resp.optInt("errno");
+                    String error = resp.optString("error");
+                    if (0 == errno) {
+                        Toast.makeText(getApplicationContext(), R.string.added_successfully, Toast.LENGTH_SHORT).show();
+                        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(new Intent(IntentActions.ACTION_UPDATE_DS_LIST));
+                        finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
 

@@ -21,6 +21,8 @@ import com.chinamobile.iot.onenet.OneNetApi;
 import com.chinamobile.iot.onenet.OneNetApiCallback;
 import com.chinamobile.iot.onenet.sdksample.R;
 import com.chinamobile.iot.onenet.sdksample.utils.IntentActions;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -168,12 +170,15 @@ public class AddDeviceActivity extends AppCompatActivity {
             }
             OneNetApi.addDevice(requestContent.toString(), new OneNetApiCallback() {
                 @Override
-                public void onSuccess(int errno, String error, String data) {
+                public void onSuccess(String response) {
+                    JsonObject resp = new JsonParser().parse(response).getAsJsonObject();
+                    int errno = resp.get("errno").getAsInt();
                     if (0 == errno) {
                         Toast.makeText(getApplicationContext(), R.string.added_successfully, Toast.LENGTH_SHORT).show();
                         LocalBroadcastManager.getInstance(AddDeviceActivity.this).sendBroadcast(new Intent(IntentActions.ACTION_UPDATE_DEVICE_LIST));
                         finish();
                     } else {
+                        String error = resp.get("error").getAsString();
                         Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
                     }
                 }
