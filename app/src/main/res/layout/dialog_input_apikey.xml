@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="API key"
-            android:inputType="number"
+            android:inputType="text"
             android:lines="1"
             android:textColor="@color/textColorPrimary"
             android:textColorHint="@color/textColorHint"
