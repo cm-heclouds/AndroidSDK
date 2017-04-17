@@ -11,6 +11,10 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.chinamobile.iot.onenet.OneNetApi;
 import com.chinamobile.iot.onenet.OneNetApiCallback;
@@ -18,13 +22,21 @@ import com.chinamobile.iot.onenet.sdksample.R;
 import com.chinamobile.iot.onenet.sdksample.activity.DisplayApiRespActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-public class ApiTestFragment extends Fragment implements View.OnClickListener {
+import java.util.ArrayList;
+import java.util.List;
+
+public class ApiTestFragment extends Fragment implements ExpandableListView.OnChildClickListener {
 
     private ProgressDialog mProgressDialog;
     private LayoutInflater mInflater;
+    private ExpandableListView mExpandableListView;
+
+    private List<String> mGroupTitleList = new ArrayList<>();
+    private List<List<String>> mChildTitleList = new ArrayList<>();
 
     public static ApiTestFragment newInstance() {
         return new ApiTestFragment();
@@ -38,124 +50,333 @@ public class ApiTestFragment extends Fragment implements View.OnClickListener {
         mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setMessage("Sending request...");
 
-        v.findViewById(R.id.add_device).setOnClickListener(this);
-        v.findViewById(R.id.update_device).setOnClickListener(this);
-        v.findViewById(R.id.query_single_device).setOnClickListener(this);
-        v.findViewById(R.id.fuzzy_query_devices).setOnClickListener(this);
-        v.findViewById(R.id.delete_device).setOnClickListener(this);
-        v.findViewById(R.id.add_datastream).setOnClickListener(this);
-        v.findViewById(R.id.update_datastream).setOnClickListener(this);
-        v.findViewById(R.id.query_single_datastream).setOnClickListener(this);
-        v.findViewById(R.id.query_multi_datastreams).setOnClickListener(this);
-        v.findViewById(R.id.delete_datastream).setOnClickListener(this);
-        v.findViewById(R.id.add_datapoint).setOnClickListener(this);
-        v.findViewById(R.id.query_datapoints).setOnClickListener(this);
-        v.findViewById(R.id.add_trigger).setOnClickListener(this);
-        v.findViewById(R.id.update_trigger).setOnClickListener(this);
-        v.findViewById(R.id.query_single_trigger).setOnClickListener(this);
-        v.findViewById(R.id.fuzzy_query_triggers).setOnClickListener(this);
-        v.findViewById(R.id.delete_trigger).setOnClickListener(this);
-        v.findViewById(R.id.add_binary_data).setOnClickListener(this);
-        v.findViewById(R.id.query_binary_data).setOnClickListener(this);
-        v.findViewById(R.id.send_cmd).setOnClickListener(this);
-        v.findViewById(R.id.query_cmd_status).setOnClickListener(this);
-        v.findViewById(R.id.query_cmd_resp).setOnClickListener(this);
-
+        mExpandableListView = (ExpandableListView) v.findViewById(R.id.expandable_list_view);
+        mExpandableListView.setGroupIndicator(null);
+        initData();
+        mExpandableListView.setOnChildClickListener(this);
         return v;
     }
 
+    private void initData() {
+        mGroupTitleList.add(getResources().getString(R.string.device));
+        mGroupTitleList.add(getResources().getString(R.string.datastream));
+        mGroupTitleList.add(getResources().getString(R.string.datapoint));
+        mGroupTitleList.add(getResources().getString(R.string.trigger));
+        mGroupTitleList.add(getResources().getString(R.string.binary_data));
+        mGroupTitleList.add(getResources().getString(R.string.command));
+        mGroupTitleList.add("MQTT");
+        mGroupTitleList.add("API key");
+
+        List<String> childDataDevice = new ArrayList<>();
+        childDataDevice.add(getResources().getString(R.string.add_device));
+        childDataDevice.add(getResources().getString(R.string.edit_device));
+        childDataDevice.add(getResources().getString(R.string.query_single_device));
+        childDataDevice.add(getResources().getString(R.string.fuzzy_query_devices));
+        childDataDevice.add(getResources().getString(R.string.delete_device));
+        mChildTitleList.add(childDataDevice);
+
+        List<String> childDataDataStream = new ArrayList<>();
+        childDataDataStream.add(getResources().getString(R.string.add_datastream));
+        childDataDataStream.add(getResources().getString(R.string.update_datastream));
+        childDataDataStream.add(getResources().getString(R.string.query_single_datastream));
+        childDataDataStream.add(getResources().getString(R.string.query_multi_datastreams));
+        childDataDataStream.add(getResources().getString(R.string.delete_datastream));
+        mChildTitleList.add(childDataDataStream);
+
+        List<String> childDataDataPoint = new ArrayList<>();
+        childDataDataPoint.add(getResources().getString(R.string.add_datapoint));
+        childDataDataPoint.add(getResources().getString(R.string.query_datapoints));
+        mChildTitleList.add(childDataDataPoint);
+
+        List<String> childDataTrigger = new ArrayList<>();
+        childDataTrigger.add(getResources().getString(R.string.add_trigger));
+        childDataTrigger.add(getResources().getString(R.string.update_trigger));
+        childDataTrigger.add(getResources().getString(R.string.query_single_trigger));
+        childDataTrigger.add(getResources().getString(R.string.fuzzy_query_triggers));
+        childDataTrigger.add(getResources().getString(R.string.delete_trigger));
+        mChildTitleList.add(childDataTrigger);
+
+        List<String> childDataBinaryData = new ArrayList<>();
+        childDataBinaryData.add(getResources().getString(R.string.add_binary_data));
+        childDataBinaryData.add(getResources().getString(R.string.query_binary_data));
+        mChildTitleList.add(childDataBinaryData);
+
+        List<String> childDataCommand = new ArrayList<>();
+        childDataCommand.add(getResources().getString(R.string.send_command));
+        childDataCommand.add(getResources().getString(R.string.query_cmd_status));
+        childDataCommand.add(getResources().getString(R.string.query_cmd_resp));
+        mChildTitleList.add(childDataCommand);
+
+        List<String> childDataMqtt = new ArrayList<>();
+        childDataMqtt.add(getResources().getString(R.string.send_cmd_by_topic));
+        childDataMqtt.add(getResources().getString(R.string.query_devices_by_topic));
+        childDataMqtt.add(getResources().getString(R.string.query_device_topics));
+        childDataMqtt.add(getResources().getString(R.string.add_product_topic));
+        childDataMqtt.add(getResources().getString(R.string.delete_product_topic));
+        childDataMqtt.add(getResources().getString(R.string.query_product_topics));
+        mChildTitleList.add(childDataMqtt);
+
+        List<String> childDataApiKey = new ArrayList<>();
+        childDataApiKey.add(getResources().getString(R.string.add_api_key));
+        childDataApiKey.add(getResources().getString(R.string.update_api_key));
+        childDataApiKey.add(getResources().getString(R.string.query_api_keys));
+        childDataApiKey.add(getResources().getString(R.string.delete_api_key));
+        mChildTitleList.add(childDataApiKey);
+
+        mExpandableListView.setAdapter(new ExpandableListAdapter());
+    }
+
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.add_device:
+    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+        switch (groupPosition) {
+            case 0:
+                onDeviceChildClick(childPosition);
+                break;
+            case 1:
+                onDataStreamChildClick(childPosition);
+                break;
+            case 2:
+                onDataPointChildClick(childPosition);
+                break;
+            case 3:
+                onTriggerChildClick(childPosition);
+                break;
+            case 4:
+                onBinaryDataChildClick(childPosition);
+                break;
+            case 5:
+                onCommandChildClick(childPosition);
+                break;
+            case 6:
+                onMqttChildClick(childPosition);
+                break;
+            case 7:
+                onApiKeyChildClick(childPosition);
+                break;
+        }
+        return false;
+    }
+
+    private void onDeviceChildClick(int childPosition) {
+        switch (childPosition) {
+            case 0:
                 mAddDeviceFunction.apply();
                 break;
-
-            case R.id.update_device:
+            case 1:
                 showInputDeviceIdDialog(mUpdateDeviceFunction);
                 break;
-
-            case R.id.query_single_device:
+            case 2:
                 showInputDeviceIdDialog(mQuerySingleDeviceFunction);
                 break;
-
-            case R.id.fuzzy_query_devices:
+            case 3:
                 mFuzzyQueryDevicesFunction.apply();
                 break;
-
-            case R.id.delete_device:
+            case 4:
                 showInputDeviceIdDialog(mDeleteDeviceFunction);
                 break;
+        }
+    }
 
-            case R.id.add_datastream:
+    private void onDataStreamChildClick(int childPosition) {
+        switch (childPosition) {
+            case 0:
                 showInputDataStreamIdDialog(mAddDataStreamFunction);
                 break;
-
-            case R.id.update_datastream:
+            case 1:
                 showInputDataStreamIdDialog(mUpdateDataStreamFunction);
                 break;
-
-            case R.id.query_single_datastream:
+            case 2:
                 showInputDataStreamIdDialog(mQuerySingleDatastreamFunction);
                 break;
-
-            case R.id.query_multi_datastreams:
+            case 3:
                 showInputDeviceIdDialog(mQueryMultiDataStreamFunction);
                 break;
-
-            case R.id.delete_datastream:
+            case 4:
                 showInputDataStreamIdDialog(mDeleteDataStreamFunction);
                 break;
+        }
+    }
 
-            case R.id.add_datapoint:
+    private void onDataPointChildClick(int childPosition) {
+        switch (childPosition) {
+            case 0:
                 showInputDeviceIdDialog(mAddDataPointFunction);
                 break;
-
-            case R.id.query_datapoints:
+            case 1:
                 showInputDeviceIdDialog(mQueryDataPointsFunction);
                 break;
+        }
+    }
 
-            case R.id.add_trigger:
+    private void onTriggerChildClick(int childPosition) {
+        switch (childPosition) {
+            case 0:
                 mAddTriggerFunction.apply();
                 break;
-
-            case R.id.update_trigger:
+            case 1:
                 showInputTriggerIdDialog(mUpdateTriggerFunction);
                 break;
-
-            case R.id.query_single_trigger:
+            case 2:
                 showInputTriggerIdDialog(mQuerySingleTriggerFunction);
                 break;
-
-            case R.id.fuzzy_query_triggers:
+            case 3:
                 mFuzzyQueryTriggersFunction.apply();
                 break;
-
-            case R.id.delete_trigger:
+            case 4:
                 showInputTriggerIdDialog(mDeleteTriggerFunction);
                 break;
+        }
+    }
 
-            case R.id.add_binary_data:
+    private void onBinaryDataChildClick(int childPosition) {
+        switch (childPosition) {
+            case 0:
                 showInputDataStreamIdDialog(mAddBinDataFunction);
                 break;
-
-            case R.id.query_binary_data:
+            case 1:
                 showInputBinaryIndexDialog(mQueryBinDataFunction);
                 break;
+        }
+    }
 
-            case R.id.send_cmd:
+    private void onCommandChildClick(int childPosition) {
+        switch (childPosition) {
+            case 0:
                 showInputDeviceIdDialog(mSendCmdFunction);
                 break;
-
-            case R.id.query_cmd_status:
+            case 1:
                 showInputCmdUUIDDialog(mQueryCmdStatusFunction);
                 break;
-
-            case R.id.query_cmd_resp:
+            case 2:
                 showInputCmdUUIDDialog(mQueryCmdRespFunction);
                 break;
-
         }
+    }
+
+    private void onMqttChildClick(int childPosition) {
+        switch (childPosition) {
+            case 0:
+                showInputTopicDialog(mSendCmdByTopicFunction);
+                break;
+            case 1:
+                showInputTopicDialog(mQueryDevicesByTopicFunction);
+                break;
+            case 2:
+                showInputDeviceIdDialog(mQueryDeviceTopicsFunction);
+                break;
+            case 3:
+                mAddProductTopicFunction.apply();
+                break;
+            case 4:
+                showInputTopicDialog(mDeleteProductTopicFunction);
+                break;
+            case 5:
+                mQueryProductTopicsFunction.apply();
+                break;
+        }
+    }
+
+    private void onApiKeyChildClick(int childPosition) {
+        switch (childPosition) {
+            case 0:
+                showInputDeviceIdDialog(mAddApiKeyFunction);
+                break;
+            case 1:
+                showInputDeviceIdAndApiKeyDialog(mUpdateApiKeyFunction);
+                break;
+            case 2:
+                showInputDeviceIdDialog(mQueryApiKeyFunction);
+                break;
+            case 3:
+                showInputApiKeyDialog(mDeleteApiKeyFunction);
+                break;
+        }
+    }
+
+    private class ExpandableListAdapter extends BaseExpandableListAdapter {
+
+        @Override
+        public int getGroupCount() {
+            return mGroupTitleList.size();
+        }
+
+        @Override
+        public int getChildrenCount(int groupPosition) {
+            return mChildTitleList.get(groupPosition).size();
+        }
+
+        @Override
+        public Object getGroup(int groupPosition) {
+            return mGroupTitleList.get(groupPosition);
+        }
+
+        @Override
+        public Object getChild(int groupPosition, int childPosition) {
+            return mChildTitleList.get(groupPosition).get(childPosition);
+        }
+
+        @Override
+        public long getGroupId(int groupPosition) {
+            return groupPosition;
+        }
+
+        @Override
+        public long getChildId(int groupPosition, int childPosition) {
+            return groupPosition * 10 + childPosition;
+        }
+
+        @Override
+        public boolean hasStableIds() {
+            return true;
+        }
+
+        @Override
+        public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+            ViewHolderGroup holder;
+            if (null == convertView) {
+                convertView = mInflater.inflate(R.layout.api_test_list_group, parent, false);
+                holder = new ViewHolderGroup();
+                holder.groupTitleView = (TextView) convertView.findViewById(R.id.group_title);
+                holder.expandMoreArrow = (ImageView) convertView.findViewById(R.id.expand_more_arrow);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolderGroup) convertView.getTag();
+            }
+            String title = mGroupTitleList.get(groupPosition);
+            holder.groupTitleView.setText(title);
+            holder.expandMoreArrow.setImageResource(isExpanded ? R.drawable.ic_expand_less : R.drawable.ic_navigate_next);
+            return convertView;
+        }
+
+        @Override
+        public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+            ViewHolderChild holder;
+            if (null == convertView) {
+                convertView = mInflater.inflate(R.layout.api_test_list_child, parent, false);
+                holder = new ViewHolderChild();
+                holder.childTitleView = (TextView) convertView.findViewById(R.id.child_title);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolderChild) convertView.getTag();
+            }
+            String title = mChildTitleList.get(groupPosition).get(childPosition);
+            holder.childTitleView.setText(title);
+            return convertView;
+        }
+
+        @Override
+        public boolean isChildSelectable(int groupPosition, int childPosition) {
+            return true;
+        }
+    }
+
+    class ViewHolderGroup {
+        TextView groupTitleView;
+        ImageView expandMoreArrow;
+    }
+
+    class ViewHolderChild {
+        TextView childTitleView;
     }
 
     private void displayLog(String response) {
@@ -270,6 +491,65 @@ public class ApiTestFragment extends Fragment implements View.OnClickListener {
                         String cmdUUID = binaryIndexEditText.getText().toString().trim();
                         if (!TextUtils.isEmpty(cmdUUID)) {
                             function.apply(cmdUUID);
+                            mProgressDialog.show();
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.action_cancel, null)
+                .show();
+    }
+
+    private void showInputTopicDialog(final Function1<String> function) {
+        final View contentView = mInflater.inflate(R.layout.dialog_input_topic, null);
+        final TextInputEditText topicEditText = (TextInputEditText) contentView.findViewById(R.id.topic);
+        new AlertDialog.Builder(getContext())
+                .setView(contentView)
+                .setPositiveButton(R.string.action_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String topic = topicEditText.getText().toString().trim();
+                        if (!TextUtils.isEmpty(topic)) {
+                            function.apply(topic);
+                            mProgressDialog.show();
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.action_cancel, null)
+                .show();
+    }
+
+    private void showInputDeviceIdAndApiKeyDialog(final Function2<String> function) {
+        final View contentView = mInflater.inflate(R.layout.dialog_input_device_id_and_apikey, null);
+        final TextInputEditText deviceIdEditText = (TextInputEditText) contentView.findViewById(R.id.device_id);
+        final TextInputEditText apiKeyEditText = (TextInputEditText) contentView.findViewById(R.id.apikey);
+        new AlertDialog.Builder(getContext())
+                .setView(contentView)
+                .setPositiveButton(R.string.action_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String deviceId = deviceIdEditText.getText().toString().trim();
+                        String apikey = apiKeyEditText.getText().toString().trim();
+                        if (!TextUtils.isEmpty(deviceId) && !TextUtils.isEmpty(apikey)) {
+                            function.apply(deviceId, apikey);
+                            mProgressDialog.show();
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.action_cancel, null)
+                .show();
+    }
+
+    private void showInputApiKeyDialog(final Function1<String> function) {
+        final View contentView = mInflater.inflate(R.layout.dialog_input_apikey, null);
+        final TextInputEditText apiKeyEditText = (TextInputEditText) contentView.findViewById(R.id.apikey);
+        new AlertDialog.Builder(getContext())
+                .setView(contentView)
+                .setPositiveButton(R.string.action_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String apikey = apiKeyEditText.getText().toString().trim();
+                        if (!TextUtils.isEmpty(apikey)) {
+                            function.apply(apikey);
                             mProgressDialog.show();
                         }
                     }
@@ -471,4 +751,121 @@ public class ApiTestFragment extends Fragment implements View.OnClickListener {
             OneNetApi.queryCmdResponse(cmdUUID, new Callback());
         }
     };
+
+    private Function1<String> mSendCmdByTopicFunction = new Function1<String>() {
+        @Override
+        public void apply(String topic) {
+            OneNetApi.sendCmdByTopic(topic, "TestCommand", new Callback());
+        }
+    };
+
+    private Function1<String> mQueryDevicesByTopicFunction = new Function1<String>() {
+        @Override
+        public void apply(String topic) {
+            OneNetApi.queryDevicesByTopic(topic, 1, 10, new Callback());
+        }
+    };
+
+    private Function1<String> mQueryDeviceTopicsFunction = new Function1<String>() {
+        @Override
+        public void apply(String deviceId) {
+            OneNetApi.queryDeviceTopics(deviceId, new Callback());
+        }
+    };
+
+    private Function mAddProductTopicFunction = new Function() {
+        @Override
+        public void apply() {
+            JsonObject object = new JsonObject();
+            object.addProperty("name", "TestAddTopic");
+            OneNetApi.addTopic(object.toString(), new Callback());
+            mProgressDialog.show();
+        }
+    };
+
+    private Function1<String> mDeleteProductTopicFunction = new Function1<String>() {
+        @Override
+        public void apply(String topic) {
+            OneNetApi.deleteTopic(topic, new Callback());
+        }
+    };
+
+    private Function mQueryProductTopicsFunction = new Function() {
+        @Override
+        public void apply() {
+            OneNetApi.queryTopics(new Callback());
+            mProgressDialog.show();
+        }
+    };
+
+    private Function1<String> mAddApiKeyFunction = new Function1<String>() {
+        @Override
+        public void apply(String deviceId) {
+            JsonObject resource = new JsonObject();
+            resource.addProperty("dev_id", deviceId);
+
+            JsonArray resources = new JsonArray();
+            resources.add(resource);
+
+            JsonArray accessMethods = new JsonArray();
+            accessMethods.add("get");
+            accessMethods.add("post");
+
+            JsonObject permission = new JsonObject();
+            permission.add("resources", resources);
+            permission.add("access_methods", accessMethods);
+
+            JsonArray permisstions = new JsonArray();
+            permisstions.add(permission);
+
+            JsonObject object = new JsonObject();
+            object.addProperty("title", "TestApiKey");
+            object.add("permissions", permisstions);
+
+            OneNetApi.addApiKey(object.toString(), new Callback());
+        }
+    };
+
+    private Function2<String> mUpdateApiKeyFunction = new Function2<String>() {
+        @Override
+        public void apply(String deviceId, String apikey) {
+            JsonObject resource = new JsonObject();
+            resource.addProperty("dev_id", deviceId);
+
+            JsonArray resources = new JsonArray();
+            resources.add(resource);
+
+            JsonArray accessMethods = new JsonArray();
+            accessMethods.add("get");
+            accessMethods.add("post");
+
+            JsonObject permission = new JsonObject();
+            permission.add("resources", resources);
+            permission.add("access_methods", accessMethods);
+
+            JsonArray permisstions = new JsonArray();
+            permisstions.add(permission);
+
+            JsonObject object = new JsonObject();
+            object.addProperty("title", "TestUpdateApiKey");
+            object.add("permissions", permisstions);
+
+            OneNetApi.updateApiKey(apikey, object.toString(), new Callback());
+        }
+    };
+
+    private Function1<String> mQueryApiKeyFunction = new Function1<String>() {
+        @Override
+        public void apply(String deviceId) {
+            OneNetApi.queryApiKey(null, 1, 10, deviceId, new Callback());
+        }
+    };
+
+    private Function1<String> mDeleteApiKeyFunction = new Function1<String>() {
+        @Override
+        public void apply(String apikey) {
+            OneNetApi.deleteApiKey(apikey, new Callback());
+        }
+    };
+
 }

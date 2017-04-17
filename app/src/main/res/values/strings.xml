@@ -98,4 +98,17 @@
     <string name="trigger_id">Trigger ID</string>
     <string name="binary_data_index">Binary data index</string>
     <string name="cmd_uuid">Command UUID</string>
+    <string name="datapoint">Data point</string>
+    <string name="binary_data">Binary data</string>
+    <string name="command">Command</string>
+    <string name="send_cmd_by_topic">Send command by topic</string>
+    <string name="query_devices_by_topic">Query devices by topic</string>
+    <string name="query_device_topics">Query device topics</string>
+    <string name="add_product_topic">Add product topic</string>
+    <string name="delete_product_topic">Delete product topic</string>
+    <string name="query_product_topics">Query product topics</string>
+    <string name="add_api_key">Add api key</string>
+    <string name="update_api_key">Update api key</string>
+    <string name="query_api_keys">Query api keys</string>
+    <string name="delete_api_key">Delete api key</string>
 </resources>

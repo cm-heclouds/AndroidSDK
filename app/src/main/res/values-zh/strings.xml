@@ -98,4 +98,17 @@
     <string name="trigger_id">触发器ID</string>
     <string name="binary_data_index">二进制数据索引号</string>
     <string name="cmd_uuid">命令ID</string>
+    <string name="datapoint">数据点</string>
+    <string name="binary_data">二进制数据</string>
+    <string name="command">命令</string>
+    <string name="send_cmd_by_topic">按Topic发送命令</string>
+    <string name="query_devices_by_topic">查询订阅指定Topic设备的列表</string>
+    <string name="query_device_topics">查询设备订阅的Topic列表</string>
+    <string name="add_product_topic">创建产品的Topic</string>
+    <string name="delete_product_topic">删除产品的Topic</string>
+    <string name="query_product_topics">查询产品Topic</string>
+    <string name="add_api_key">新增api key</string>
+    <string name="update_api_key">更新api key</string>
+    <string name="query_api_keys">查询api keys</string>
+    <string name="delete_api_key">删除api key</string>
 </resources>
