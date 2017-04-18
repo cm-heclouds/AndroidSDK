@@ -29,6 +29,9 @@ import com.google.gson.JsonParser;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * API测试用例
+ */
 public class ApiTestFragment extends Fragment implements ExpandableListView.OnChildClickListener {
 
     private ProgressDialog mProgressDialog;
