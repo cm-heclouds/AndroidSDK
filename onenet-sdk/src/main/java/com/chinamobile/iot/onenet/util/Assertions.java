@@ -14,7 +14,7 @@ public class Assertions {
 
     public static <T> T assertNotNull(T instance) {
         if (instance == null) {
-            throw new RuntimeException("Expected object to not be null!");
+            throw new RuntimeException("Expected object can not be null!");
         }
         return instance;
     }

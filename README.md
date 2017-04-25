@@ -26,6 +26,8 @@ dependencies {
 
 v2.0版本提供了更加美观和丰富的示例App供开发者参考，遵循Google Material Design风格，完全开源，开发者可以Clone项目源码查看详细内容。
 
+也可以在此**[下载安装包](OneNET_SDK-Sample.apk)**
+
 ![](screenshots/1.png) ![](screenshots/2.png)
 ![](screenshots/3.png) ![](screenshots/4.png)
 ![](screenshots/5.png) ![](screenshots/6.png)
