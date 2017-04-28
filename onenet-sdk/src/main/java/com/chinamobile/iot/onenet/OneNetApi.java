@@ -102,14 +102,14 @@ public class OneNetApi {
         Assertions.assertCondition(isUrlConfigured(), "HOST must be configured in AndroidManifest.xml!");
     }
 
-    private static void get(String url, OneNetApiCallback callback) {
+    public static void get(String url, OneNetApiCallback callback) {
         assertInitialized();
         assertUIThread();
         assertUrlConfigured();
         sHttpExecutor.get(url, new OneNetApiCallbackAdapter(callback));
     }
 
-    private static void post(String url, String requestBodyString, OneNetApiCallback callback) {
+    public static void post(String url, String requestBodyString, OneNetApiCallback callback) {
         assertInitialized();
         assertUIThread();
         assertUrlConfigured();
@@ -117,7 +117,7 @@ public class OneNetApi {
         sHttpExecutor.post(url, requestBody, new OneNetApiCallbackAdapter(callback));
     }
 
-    private static void post(String url, File file, OneNetApiCallback callback) {
+    public static void post(String url, File file, OneNetApiCallback callback) {
         assertInitialized();
         assertUIThread();
         assertUrlConfigured();
@@ -125,7 +125,7 @@ public class OneNetApi {
         sHttpExecutor.post(url, requestBody, new OneNetApiCallbackAdapter(callback));
     }
 
-    private static void post(String url, byte[] content, OneNetApiCallback callback) {
+    public static void post(String url, byte[] content, OneNetApiCallback callback) {
         assertInitialized();
         assertUIThread();
         assertUrlConfigured();
@@ -133,7 +133,7 @@ public class OneNetApi {
         sHttpExecutor.post(url, requestBody, new OneNetApiCallbackAdapter(callback));
     }
 
-    private static void put(String url, String requestBodyString, OneNetApiCallback callback) {
+    public static void put(String url, String requestBodyString, OneNetApiCallback callback) {
         assertInitialized();
         assertUIThread();
         assertUrlConfigured();
@@ -141,7 +141,7 @@ public class OneNetApi {
         sHttpExecutor.put(url, requestBody, new OneNetApiCallbackAdapter(callback));
     }
 
-    private static void delete(String url, OneNetApiCallback callback) {
+    public static void delete(String url, OneNetApiCallback callback) {
         assertInitialized();
         assertUIThread();
         assertUrlConfigured();

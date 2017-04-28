@@ -75,7 +75,7 @@ class OneNetApiCallbackAdapter implements Callback {
     }
 
     private void sendFailedMessage(Exception e) {
-        Message msg = mHandler.obtainMessage(MSG_SUCCESS);
+        Message msg = mHandler.obtainMessage(MSG_FAILED);
         Bundle b = new Bundle();
         b.putSerializable("exception", e);
         msg.setData(b);

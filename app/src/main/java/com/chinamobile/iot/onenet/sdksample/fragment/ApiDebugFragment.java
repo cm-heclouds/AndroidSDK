@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatSpinner;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,27 +18,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chinamobile.iot.onenet.OneNetApi;
-import com.chinamobile.iot.onenet.http.HttpExecutor;
+import com.chinamobile.iot.onenet.OneNetApiCallback;
 import com.chinamobile.iot.onenet.sdksample.R;
-import com.chinamobile.iot.onenet.util.OneNetLogger;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.HttpUrl;
-import okhttp3.Interceptor;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
  * API调试工具
@@ -165,66 +153,49 @@ public class ApiDebugFragment extends Fragment implements View.OnClickListener {
         }
         url = builder.toString();
 
-        OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder();
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new OneNetLogger());
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        okHttpClientBuilder.addNetworkInterceptor(loggingInterceptor);
-        okHttpClientBuilder.addInterceptor(sApiKeyInterceptor);
-        HttpExecutor httpExecutor = new HttpExecutor(okHttpClientBuilder.build());
-
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), requestString);
-
         switch (mRequestMethodSpinner.getSelectedItemPosition()) {
             case 0:
-                httpExecutor.get(url, mCallback);
+                OneNetApi.get(url, mCallback);
                 break;
 
             case 1:
-                httpExecutor.post(url, requestBody, mCallback);
+                OneNetApi.post(url, requestString, mCallback);
                 break;
 
             case 2:
-                httpExecutor.put(url, requestBody, mCallback);
+                OneNetApi.put(url, requestString, mCallback);
                 break;
 
             case 3:
-                httpExecutor.delete(url, mCallback);
+                OneNetApi.delete(url, mCallback);
                 break;
         }
     }
 
-    private static Interceptor sApiKeyInterceptor = new Interceptor() {
-
+    private OneNetApiCallback mCallback = new OneNetApiCallback() {
         @Override
-        public Response intercept(Chain chain) throws IOException {
-            Request.Builder builder = chain.request().newBuilder();
-            builder.addHeader("api-key", OneNetApi.getAppKey());
-            if (TextUtils.isEmpty(OneNetApi.getAppKey())) {
-                Log.e(OneNetApi.LOG_TAG, "APP-KEY is messing, please config in the meta-data or call setAppKey()");
-            }
-            return chain.proceed(builder.build());
-        }
-    };
-
-    private Callback mCallback = new Callback() {
-        @Override
-        public void onFailure(Call call, IOException e) {
-            e.printStackTrace();
-        }
-
-        @Override
-        public void onResponse(Call call, Response response) throws IOException {
-            final String responseString = response.body().string();
+        public void onSuccess(final String response) {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         Gson gson = new GsonBuilder().setPrettyPrinting().create();
                         JsonParser jsonParser = new JsonParser();
-                        mResponseLogTextView.setText(gson.toJson(jsonParser.parse(responseString)));
+                        mResponseLogTextView.setText(gson.toJson(jsonParser.parse(response)));
                     } catch (Exception e) {
-                        mResponseLogTextView.setText(responseString);
+                        mResponseLogTextView.setText(response);
                     }
+                }
+            });
+        }
+
+        @Override
+        public void onFailed(final Exception e) {
+            e.printStackTrace();
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    mResponseLogTextView.setText(e.toString());
                 }
             });
         }
