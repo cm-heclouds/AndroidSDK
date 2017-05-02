@@ -36,9 +36,17 @@ public class OneNetApi {
     public static final String LOG_TAG = "OneNetApi";
 
     private static String sAppKey;
+
     static boolean sDebug;
+
     private static HttpExecutor sHttpExecutor;
 
+    /**
+     * 初始化SDK
+     *
+     * @param application
+     * @param debug       是否开启调试模式（打印HTTP请求和响应日志）
+     */
     public static void init(Application application, boolean debug) {
         try {
             sAppKey = Meta.readAppKey(application);
@@ -70,10 +78,20 @@ public class OneNetApi {
         }
     };
 
+    /**
+     * 设置产品ApiKey
+     *
+     * @param apiKey
+     */
     public static void setAppKey(String apiKey) {
         sAppKey = apiKey;
     }
 
+    /**
+     * 获取产品ApiKey
+     *
+     * @return
+     */
     public static String getAppKey() {
         return sAppKey;
     }
@@ -102,6 +120,12 @@ public class OneNetApi {
         Assertions.assertCondition(isUrlConfigured(), "HOST must be configured in AndroidManifest.xml!");
     }
 
+    /**
+     * HTTP GET method
+     *
+     * @param url
+     * @param callback
+     */
     public static void get(String url, OneNetApiCallback callback) {
         assertInitialized();
         assertUIThread();
@@ -109,6 +133,13 @@ public class OneNetApi {
         sHttpExecutor.get(url, new OneNetApiCallbackAdapter(callback));
     }
 
+    /**
+     * HTTP POST method
+     *
+     * @param url
+     * @param requestBodyString
+     * @param callback
+     */
     public static void post(String url, String requestBodyString, OneNetApiCallback callback) {
         assertInitialized();
         assertUIThread();
@@ -117,6 +148,13 @@ public class OneNetApi {
         sHttpExecutor.post(url, requestBody, new OneNetApiCallbackAdapter(callback));
     }
 
+    /**
+     * HTTP POST method
+     *
+     * @param url
+     * @param file
+     * @param callback
+     */
     public static void post(String url, File file, OneNetApiCallback callback) {
         assertInitialized();
         assertUIThread();
@@ -125,6 +163,13 @@ public class OneNetApi {
         sHttpExecutor.post(url, requestBody, new OneNetApiCallbackAdapter(callback));
     }
 
+    /**
+     * HTTP POST method
+     *
+     * @param url
+     * @param content
+     * @param callback
+     */
     public static void post(String url, byte[] content, OneNetApiCallback callback) {
         assertInitialized();
         assertUIThread();
@@ -133,6 +178,13 @@ public class OneNetApi {
         sHttpExecutor.post(url, requestBody, new OneNetApiCallbackAdapter(callback));
     }
 
+    /**
+     * HTTP PUT method
+     *
+     * @param url
+     * @param requestBodyString
+     * @param callback
+     */
     public static void put(String url, String requestBodyString, OneNetApiCallback callback) {
         assertInitialized();
         assertUIThread();
@@ -141,6 +193,12 @@ public class OneNetApi {
         sHttpExecutor.put(url, requestBody, new OneNetApiCallbackAdapter(callback));
     }
 
+    /**
+     * HTTP DELETE method
+     *
+     * @param url
+     * @param callback
+     */
     public static void delete(String url, OneNetApiCallback callback) {
         assertInitialized();
         assertUIThread();
