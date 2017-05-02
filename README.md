@@ -16,7 +16,7 @@
 
 ```gradle
 dependencies {
-    compile 'com.chinamobile.iot.onenet:onenet-sdk:2.0.1'
+    compile 'com.chinamobile.iot.onenet:onenet-sdk:2.0.2'
 }
 ```
 
