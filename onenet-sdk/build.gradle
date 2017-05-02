@@ -22,7 +22,7 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:+'
 }
 
-version = "2.0.1"
+version = "2.0.2"
 def siteUrl = 'https://github.com/cm-heclouds/AndroidSDK'
 def gitUrl = 'https://github.com/cm-heclouds/AndroidSDK.git'
 group = "com.chinamobile.iot.onenet"
