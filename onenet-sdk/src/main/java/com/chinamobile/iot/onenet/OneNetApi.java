@@ -21,7 +21,24 @@ import com.chinamobile.iot.onenet.util.OneNetLogger;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
+
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
 
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
@@ -30,6 +47,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
+import okio.Buffer;
 
 public class OneNetApi {
 
@@ -44,24 +62,86 @@ public class OneNetApi {
     /**
      * 初始化SDK
      *
-     * @param application
+     * @param application Application实例
      * @param debug       是否开启调试模式（打印HTTP请求和响应日志）
      */
     public static void init(Application application, boolean debug) {
+        init(application, debug, null);
+    }
+
+    /**
+     * 初始化SDK（for HTTPS）
+     *
+     * @param application Application实例
+     * @param debug       是否开启调试模式（打印HTTP请求和响应日志）
+     * @param cerString   证书rfc样式输出的字符串
+     */
+    public static void init(Application application, boolean debug, String cerString) {
         try {
             sAppKey = Meta.readAppKey(application);
             Urls.sHost = Meta.readHost(application);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         sDebug = debug;
+
         OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder();
+
         if (sDebug) {
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new OneNetLogger());
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             okHttpClientBuilder.addNetworkInterceptor(loggingInterceptor);
         }
         okHttpClientBuilder.addInterceptor(sApiKeyInterceptor);
+
+        if (!TextUtils.isEmpty(cerString)) {
+            try {
+                CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
+                Collection<? extends Certificate> certificates = certificateFactory.generateCertificates(new Buffer().writeUtf8(cerString).inputStream());
+                if (null == certificates || certificates.isEmpty()) {
+                    throw new IllegalArgumentException("expected non-empty set of trusted certificates");
+                }
+
+                char[] password = "password".toCharArray();
+                KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                keyStore.load(null, password);
+
+                int index = 0;
+                for (Certificate certificate : certificates) {
+                    String certificateAlias = Integer.toString(index++);
+                    keyStore.setCertificateEntry(certificateAlias, certificate);
+                }
+
+                KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+                keyManagerFactory.init(keyStore, password);
+                TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+                trustManagerFactory.init(keyStore);
+                TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
+                if (trustManagers.length != 1 || !(trustManagers[0] instanceof X509TrustManager)) {
+                    throw new IllegalStateException("Unexpected default trust managers:" + Arrays.toString(trustManagers));
+                }
+
+                SSLContext sslContext = SSLContext.getInstance("TLS");
+                sslContext.init(null, trustManagers, null);
+                SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+
+                okHttpClientBuilder.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustManagers[0]);
+            } catch (CertificateException e) {
+                e.printStackTrace();
+            } catch (KeyStoreException e) {
+                e.printStackTrace();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (UnrecoverableKeyException e) {
+                e.printStackTrace();
+            } catch (KeyManagementException e) {
+                e.printStackTrace();
+            }
+        }
+
         sHttpExecutor = new HttpExecutor(okHttpClientBuilder.build());
     }
 
