@@ -98,7 +98,7 @@ public class DataSimFragment extends Fragment implements View.OnClickListener {
 
         switch (v.getId()) {
             case R.id.send_onece:
-                sendOnece(deviceId, datastream, minValue, maxValue);
+                sendOnce(deviceId, datastream, minValue, maxValue);
                 break;
 
             case R.id.send_continuous:
@@ -127,7 +127,7 @@ public class DataSimFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void sendOnece(String deviceId, String datastream, float minValue, float maxValue) {
+    private void sendOnce(String deviceId, String datastream, float minValue, float maxValue) {
         float value = (float) (Math.random() * (maxValue - minValue) + minValue);
         JSONObject request = new JSONObject();
         try {
@@ -155,7 +155,7 @@ public class DataSimFragment extends Fragment implements View.OnClickListener {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        sendOnece(deviceId, datastream, minValue, maxValue);
+                        sendOnce(deviceId, datastream, minValue, maxValue);
                     }
                 });
             }
