@@ -16,7 +16,7 @@
 
 ```gradle
 dependencies {
-    compile 'com.chinamobile.iot.onenet:onenet-sdk:2.0.3'
+    compile 'com.chinamobile.iot.onenet:onenet-sdk:2.1.0'
 }
 ```
 
@@ -57,7 +57,7 @@ v2.0版本提供了更加美观和丰富的示例App供开发者参考，遵循G
 - 如果开发者项目中使用了[OkHttp](https://github.com/square/okhttp)，建议在集成了SDK时使用exclude命令排除SDK中的OkHttp依赖，防止因为版本不同编译时发生冲突报错，即
 ```gradle
 dependencies {
-    compile ('com.chinamobile.iot.onenet:onenet-sdk:2.0.3') {
+    compile ('com.chinamobile.iot.onenet:onenet-sdk:+') {
         exclude group: 'com.squareup.okhttp3', module: 'okhttp'
         exclude group: 'com.squareup.okhttp3', module: 'logging-interceptor'
     }
