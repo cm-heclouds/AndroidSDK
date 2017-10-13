@@ -54,7 +54,15 @@ v2.0版本提供了更加美观和丰富的示例App供开发者参考，遵循G
 
 - v2.0版本完全重写了SDK，传输层使用[OkHttp3](https://github.com/square/okhttp)，API根据[OneNET RESTful文档](http://www.heclouds.com/doc/art262.html#68)做了相应的增减，API与v1.x不兼容，请使用了v1.x版本的开发者慎重升级。
 - 更新到v2.x的开发者，如果要查看v1.x的代码，只要`git checkout OneNETSDK-v1`即可，或[在此查看](https://github.com/cm-heclouds/AndroidSDK/tree/OneNETSDK-v1)。
-- 如果开发者项目中使用了[OkHttp](https://github.com/square/okhttp)，建议在集成了SDK后去掉项目中对OkHttp的依赖，防止编译时发生冲突报错。
+- 如果开发者项目中使用了[OkHttp](https://github.com/square/okhttp)，建议在集成了SDK时使用exclude命令排除SDK中的OkHttp依赖，防止因为版本不同编译时发生冲突报错，即
+```gradle
+dependencies {
+    compile ('com.chinamobile.iot.onenet:onenet-sdk:2.0.3') {
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
+        exclude group: 'com.squareup.okhttp3', module: 'logging-interceptor'
+    }
+}
+```
 
 ## 反馈及意见
 
