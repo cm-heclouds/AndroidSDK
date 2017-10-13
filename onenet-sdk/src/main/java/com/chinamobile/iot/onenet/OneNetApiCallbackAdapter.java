@@ -2,6 +2,7 @@ package com.chinamobile.iot.onenet;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
@@ -18,7 +19,7 @@ class OneNetApiCallbackAdapter implements Callback {
     private static final int MSG_FAILED = 1;
 
     private OneNetApiCallback mOneNetApiCallback;
-    private Handler mHandler = new Handler() {
+    private Handler mHandler = new Handler(Looper.getMainLooper()) {
 
         @Override
         public void handleMessage(Message msg) {

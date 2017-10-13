@@ -208,7 +208,6 @@ public class OneNetApi {
      */
     public static void get(String url, OneNetApiCallback callback) {
         assertInitialized();
-        assertUIThread();
         assertUrlConfigured();
         sHttpExecutor.get(url, new OneNetApiCallbackAdapter(callback));
     }
@@ -222,7 +221,6 @@ public class OneNetApi {
      */
     public static void post(String url, String requestBodyString, OneNetApiCallback callback) {
         assertInitialized();
-        assertUIThread();
         assertUrlConfigured();
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), requestBodyString);
         sHttpExecutor.post(url, requestBody, new OneNetApiCallbackAdapter(callback));
@@ -237,7 +235,6 @@ public class OneNetApi {
      */
     public static void post(String url, File file, OneNetApiCallback callback) {
         assertInitialized();
-        assertUIThread();
         assertUrlConfigured();
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/octet-stream"), file);
         sHttpExecutor.post(url, requestBody, new OneNetApiCallbackAdapter(callback));
@@ -252,7 +249,6 @@ public class OneNetApi {
      */
     public static void post(String url, byte[] content, OneNetApiCallback callback) {
         assertInitialized();
-        assertUIThread();
         assertUrlConfigured();
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/octet-stream"), content);
         sHttpExecutor.post(url, requestBody, new OneNetApiCallbackAdapter(callback));
@@ -267,7 +263,6 @@ public class OneNetApi {
      */
     public static void put(String url, String requestBodyString, OneNetApiCallback callback) {
         assertInitialized();
-        assertUIThread();
         assertUrlConfigured();
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), requestBodyString);
         sHttpExecutor.put(url, requestBody, new OneNetApiCallbackAdapter(callback));
@@ -281,7 +276,6 @@ public class OneNetApi {
      */
     public static void delete(String url, OneNetApiCallback callback) {
         assertInitialized();
-        assertUIThread();
         assertUrlConfigured();
         sHttpExecutor.delete(url, new OneNetApiCallbackAdapter(callback));
     }
