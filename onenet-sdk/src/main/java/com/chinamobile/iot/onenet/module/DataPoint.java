@@ -20,7 +20,7 @@ public class DataPoint {
 
     public static String urlForQuerying(String deviceId, Map<String, String> params) {
         HttpUrl.Builder builder = new HttpUrl.Builder().scheme(Urls.SCHEME).host(Urls.sHost)
-                .addPathSegment("devices").addPathSegment(deviceId);
+                .addPathSegment("devices").addPathSegment(deviceId).addPathSegment("datapoints");
         if (params != null) {
             Iterator iterator = params.entrySet().iterator();
             while (iterator.hasNext()) {
