@@ -65,7 +65,7 @@ SDK 使用过程中遇到的任何问题，都可以通过 Issues 来反馈，�
 
 The MIT License (MIT)
 
-    Copyright (c) 2015-2017 China Mobile IOT
+    Copyright (c) 2015-2018 China Mobile IOT
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
