@@ -86,12 +86,12 @@ public class SendCommandActivity extends AppCompatActivity {
     private void sendCommand() {
         if ("EDP".equalsIgnoreCase(mDeviceItem.getProtocol())) {
             if (mCommandContentLayout.getEditText().getText().toString().trim().length() == 0) {
-                ((TextInputLayout) mCommandContentLayout.getParent()).setError(getResources().getString(R.string.command_content));
+                mCommandContentLayout.setError(getResources().getString(R.string.command_content));
                 mCommandContentLayout.requestFocus();
                 return;
             }
             if (mValidPeriodLayout.getEditText().getText().toString().trim().length() == 0) {
-                ((TextInputLayout) mValidPeriodLayout.getParent()).setError(getResources().getString(R.string.valid_period));
+                mValidPeriodLayout.setError(getResources().getString(R.string.valid_period));
                 mValidPeriodLayout.requestFocus();
                 return;
             }

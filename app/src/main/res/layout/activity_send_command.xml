@@ -107,7 +107,6 @@
                 app:hintEnabled="true">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/valid_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/valid_period"

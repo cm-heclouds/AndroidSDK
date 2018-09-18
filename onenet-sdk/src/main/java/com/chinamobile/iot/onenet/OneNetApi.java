@@ -79,6 +79,7 @@ public class OneNetApi {
     public static void init(Application application, boolean debug, String cerString) {
         try {
             sAppKey = Meta.readAppKey(application);
+            Urls.sScheme = Meta.readScheme(application);
             Urls.sHost = Meta.readHost(application);
         } catch (Exception e) {
             e.printStackTrace();

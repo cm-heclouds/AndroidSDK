@@ -7,22 +7,22 @@ import okhttp3.HttpUrl;
 public class Trigger {
 
     public static String urlForAdding() {
-        return new HttpUrl.Builder().scheme(Urls.SCHEME).host(Urls.sHost).addPathSegment("triggers")
+        return new HttpUrl.Builder().scheme(Urls.sScheme).host(Urls.sHost).addPathSegment("triggers")
                 .toString();
     }
 
     public static String urlForUpdating(String triggerId) {
-        return new HttpUrl.Builder().scheme(Urls.SCHEME).host(Urls.sHost).addPathSegment("triggers")
+        return new HttpUrl.Builder().scheme(Urls.sScheme).host(Urls.sHost).addPathSegment("triggers")
                 .addPathSegment(triggerId).toString();
     }
 
     public static String urlForQueryingSingle(String triggerId) {
-        return new HttpUrl.Builder().scheme(Urls.SCHEME).host(Urls.sHost).addPathSegment("triggers")
+        return new HttpUrl.Builder().scheme(Urls.sScheme).host(Urls.sHost).addPathSegment("triggers")
                 .addPathSegment(triggerId).toString();
     }
 
     public static String urlForfuzzyQuerying(String name, int page, int perPage) {
-        HttpUrl.Builder builder = new HttpUrl.Builder().scheme(Urls.SCHEME).host(Urls.sHost).addPathSegment("triggers");
+        HttpUrl.Builder builder = new HttpUrl.Builder().scheme(Urls.sScheme).host(Urls.sHost).addPathSegment("triggers");
         if (name != null && name.length() > 0) {
             builder.addEncodedQueryParameter("title", name);
         }
@@ -36,7 +36,7 @@ public class Trigger {
     }
 
     public static String urlForDeleting(String triggerId) {
-        return new HttpUrl.Builder().scheme(Urls.SCHEME).host(Urls.sHost).addPathSegment("triggers")
+        return new HttpUrl.Builder().scheme(Urls.sScheme).host(Urls.sHost).addPathSegment("triggers")
                 .addPathSegment(triggerId).toString();
     }
 

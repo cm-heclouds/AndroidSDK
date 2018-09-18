@@ -7,17 +7,17 @@ import okhttp3.HttpUrl;
 public class ApiKey {
 
     public static String urlForAdding() {
-        return new HttpUrl.Builder().scheme(Urls.SCHEME).host(Urls.sHost).addPathSegment("keys").toString();
+        return new HttpUrl.Builder().scheme(Urls.sScheme).host(Urls.sHost).addPathSegment("keys").toString();
     }
 
     public static String urlForUpdating(String key) {
-        return new HttpUrl.Builder().scheme(Urls.SCHEME).host(Urls.sHost).addPathSegment("keys")
+        return new HttpUrl.Builder().scheme(Urls.sScheme).host(Urls.sHost).addPathSegment("keys")
                 .addPathSegment(key).toString();
     }
 
     public static String urlForQuerying(String key, int page, int perPage, String deviceId) {
         HttpUrl.Builder builder = new HttpUrl.Builder();
-        builder.scheme(Urls.SCHEME).host(Urls.sHost).addPathSegment("keys");
+        builder.scheme(Urls.sScheme).host(Urls.sHost).addPathSegment("keys");
         if (key != null) {
             builder.addQueryParameter("key", key);
         }
@@ -34,7 +34,7 @@ public class ApiKey {
     }
 
     public static String urlForDeleting(String key) {
-        return new HttpUrl.Builder().scheme(Urls.SCHEME).host(Urls.sHost).addPathSegment("keys")
+        return new HttpUrl.Builder().scheme(Urls.sScheme).host(Urls.sHost).addPathSegment("keys")
                 .addPathSegment(key).toString();
     }
 

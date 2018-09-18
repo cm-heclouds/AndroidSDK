@@ -5,7 +5,7 @@
 
 ![](app/src/main/res/mipmap-xxxhdpi/ic_launcher.png)
 
-本项目是 **中移物联网公司** 为方便Android开发者接入 **OneNET** 平台而开发的客户端SDK。关于设备云请进入[**OneNET主站**](http://open.iot.10086.cn)了解详情。
+本项目是 **中移物联网公司** 为方便Android开发者接入 **OneNET** 平台而开发的客户端SDK。关于设备云请进入 [**OneNET主站**](http://open.iot.10086.cn) 了解详情。
 
 ## 系统要求
 
@@ -16,17 +16,17 @@
 
 ```gradle
 dependencies {
-    compile 'com.chinamobile.iot.onenet:onenet-sdk:2.1.1'
+    compile 'com.chinamobile.iot.onenet:onenet-sdk:2.1.2'
 }
 ```
 
-详细说明**请参考[wiki文档](https://github.com/cm-heclouds/AndroidSDK/wiki)**
+详细说明**请参考 [wiki 文档](https://github.com/cm-heclouds/AndroidSDK/wiki)**
 
 ## 示例
 
 v2.0版本提供了更加美观和丰富的示例App供开发者参考，遵循Google Material Design风格，完全开源，开发者可以Clone项目源码查看详细内容。
 
-也可以在此[**下载安装包**](OneNET_SDK-Sample.apk)
+也可以在此 [**下载安装包**](OneNET_SDK-Sample.apk)
 
 ![](screenshots/1.png) ![](screenshots/2.png)
 ![](screenshots/3.png) ![](screenshots/4.png)
@@ -52,14 +52,14 @@ v2.0版本提供了更加美观和丰富的示例App供开发者参考，遵循G
 
 ## 说明
 
-- v2.0版本完全重写了SDK，传输层使用[OkHttp3](https://github.com/square/okhttp)，API根据[OneNET RESTful文档](http://www.heclouds.com/doc/art262.html#68)做了相应的增减，API与v1.x不兼容，请使用了v1.x版本的开发者慎重升级。
-- 更新到v2.x的开发者，如果要查看v1.x的代码，只要`git checkout OneNETSDK-v1`即可，或[在此查看](https://github.com/cm-heclouds/AndroidSDK/tree/OneNETSDK-v1)。
+- v2.0 版本完全重写了 SDK，传输层使用 [OkHttp3](https://github.com/square/okhttp)，API根据 [OneNET RESTful 文档](http://www.heclouds.com/doc/art262.html#68) 做了相应的增减，API 与 v1.x 不兼容，请使用了 v1.x 版本的开发者慎重升级。
+- 更新到 v2.x 的开发者，如果要查看 v1.x 的代码，只要 `git checkout OneNETSDK-v1` 即可，或 [在此查看](https://github.com/cm-heclouds/AndroidSDK/tree/OneNETSDK-v1)。
 
 ## 反馈及意见
 
-SDK使用过程中遇到的任何问题，都可以通过Issues来反馈，请尽可能的描述清楚遇到的问题，如果有错误信息也一同附带，并且在 Labels 中指明类型为 bug 或者其他，我们会以最快的速度给予解决。
+SDK 使用过程中遇到的任何问题，都可以通过 Issues 来反馈，请尽可能的描述清楚遇到的问题，如果有错误信息也一同附带，并且在 Labels 中指明类型为 bug 或者其他，我们会以最快的速度给予解决。
 
-[通过这里查看已有的 issues 和提交 Bug](https://github.com/cm-heclouds/AndroidSDK/issues)
+[通过这里查看已有的 Issues 和提交 Bug](https://github.com/cm-heclouds/AndroidSDK/issues)
 
 ## License
 

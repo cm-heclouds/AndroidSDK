@@ -10,7 +10,7 @@ import okhttp3.HttpUrl;
 public class DataPoint {
 
     public static String urlForAdding(String deviceId, String type) {
-        HttpUrl.Builder builder = new HttpUrl.Builder().scheme(Urls.SCHEME).host(Urls.sHost)
+        HttpUrl.Builder builder = new HttpUrl.Builder().scheme(Urls.sScheme).host(Urls.sHost)
                 .addPathSegment("devices").addPathSegment(deviceId).addPathSegment("datapoints");
         if (type != null) {
             builder.addQueryParameter("type", type);
@@ -19,7 +19,7 @@ public class DataPoint {
     }
 
     public static String urlForQuerying(String deviceId, Map<String, String> params) {
-        HttpUrl.Builder builder = new HttpUrl.Builder().scheme(Urls.SCHEME).host(Urls.sHost)
+        HttpUrl.Builder builder = new HttpUrl.Builder().scheme(Urls.sScheme).host(Urls.sHost)
                 .addPathSegment("devices").addPathSegment(deviceId).addPathSegment("datapoints");
         if (params != null) {
             Iterator iterator = params.entrySet().iterator();
