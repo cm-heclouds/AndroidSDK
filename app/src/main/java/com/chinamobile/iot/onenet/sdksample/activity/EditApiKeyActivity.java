@@ -50,14 +50,10 @@ public class EditApiKeyActivity extends AppCompatActivity {
 
             case R.id.menu_done:
                 String apiKey = mTextInputLayout.getEditText().getText().toString();
-                if (apiKey.trim().length() > 0) {
-                    OneNetApi.setAppKey(apiKey);
-                    mPreferences.putString(Preferences.API_KEY, apiKey);
-                    LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(IntentActions.ACTION_UPDATE_APIKEY));
-                    finish();
-                } else {
-                    mTextInputLayout.setError(getResources().getString(R.string.apikey_edit_text_error));
-                }
+                OneNetApi.setAppKey(apiKey.trim());
+                mPreferences.putString(Preferences.API_KEY, apiKey);
+                LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(IntentActions.ACTION_UPDATE_APIKEY));
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);

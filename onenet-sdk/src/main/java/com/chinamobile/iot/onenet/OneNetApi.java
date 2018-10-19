@@ -5,7 +5,9 @@ import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.chinamobile.iot.onenet.http.Config;
 import com.chinamobile.iot.onenet.http.HttpExecutor;
+import com.chinamobile.iot.onenet.http.RetryInterceptor;
 import com.chinamobile.iot.onenet.http.Urls;
 import com.chinamobile.iot.onenet.module.ApiKey;
 import com.chinamobile.iot.onenet.module.Binary;
@@ -21,24 +23,8 @@ import com.chinamobile.iot.onenet.util.OneNetLogger;
 
 import java.io.File;
 import java.io.IOException;
-import java.security.KeyManagementException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Map;
-
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
-import javax.net.ssl.X509TrustManager;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
@@ -47,7 +33,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
-import okio.Buffer;
 
 public class OneNetApi {
 
@@ -63,24 +48,30 @@ public class OneNetApi {
      * 初始化SDK
      *
      * @param application Application实例
-     * @param debug       是否开启调试模式（打印HTTP请求和响应日志）
+     * @param debug       是否开启调试模式（打印 HTTP 请求和响应日志）
      */
     public static void init(Application application, boolean debug) {
         init(application, debug, null);
     }
 
     /**
-     * 初始化SDK（for HTTPS）
+     * 初始化SDK
      *
      * @param application Application实例
-     * @param debug       是否开启调试模式（打印HTTP请求和响应日志）
-     * @param cerString   证书rfc样式输出的字符串
+     * @param debug       是否开启调试模式（打印 HTTP 请求和响应日志）
+     * @param config      HTTP 相关配置（超时时间，重试次数等）
      */
-    public static void init(Application application, boolean debug, String cerString) {
+    public static void init(Application application, boolean debug, Config config) {
         try {
             sAppKey = Meta.readAppKey(application);
-            Urls.sScheme = Meta.readScheme(application);
-            Urls.sHost = Meta.readHost(application);
+            String scheme = Meta.readScheme(application);
+            if (!TextUtils.isEmpty(scheme) && !scheme.contains(" ")) {
+                Urls.sScheme = scheme;
+            }
+            String host = Meta.readHost(application);
+            if (!TextUtils.isEmpty(host) && !host.contains(" ")) {
+                Urls.sHost = host;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -96,54 +87,23 @@ public class OneNetApi {
         }
         okHttpClientBuilder.addInterceptor(sApiKeyInterceptor);
 
-        if (!TextUtils.isEmpty(cerString)) {
-            try {
-                CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
-                Collection<? extends Certificate> certificates = certificateFactory.generateCertificates(new Buffer().writeUtf8(cerString).inputStream());
-                if (null == certificates || certificates.isEmpty()) {
-                    throw new IllegalArgumentException("expected non-empty set of trusted certificates");
-                }
-
-                char[] password = "password".toCharArray();
-                KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
-                keyStore.load(null, password);
-
-                int index = 0;
-                for (Certificate certificate : certificates) {
-                    String certificateAlias = Integer.toString(index++);
-                    keyStore.setCertificateEntry(certificateAlias, certificate);
-                }
-
-                KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-                keyManagerFactory.init(keyStore, password);
-                TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-                trustManagerFactory.init(keyStore);
-                TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
-                if (trustManagers.length != 1 || !(trustManagers[0] instanceof X509TrustManager)) {
-                    throw new IllegalStateException("Unexpected default trust managers:" + Arrays.toString(trustManagers));
-                }
-
-                SSLContext sslContext = SSLContext.getInstance("TLS");
-                sslContext.init(null, trustManagers, null);
-                SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-
-                okHttpClientBuilder.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustManagers[0]);
-            } catch (CertificateException e) {
-                e.printStackTrace();
-            } catch (KeyStoreException e) {
-                e.printStackTrace();
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (UnrecoverableKeyException e) {
-                e.printStackTrace();
-            } catch (KeyManagementException e) {
-                e.printStackTrace();
+        if (config != null) {
+            if (config.connectTimeout() > 0) {
+                okHttpClientBuilder.connectTimeout(config.connectTimeout(), TimeUnit.MILLISECONDS);
+            }
+            if (config.readTimeout() > 0) {
+                okHttpClientBuilder.readTimeout(config.readTimeout(), TimeUnit.MILLISECONDS);
+            }
+            if (config.writeTimeout() > 0) {
+                okHttpClientBuilder.writeTimeout(config.writeTimeout(), TimeUnit.MILLISECONDS);
+            }
+            if (config.retryCount() > 0) {
+                okHttpClientBuilder.addInterceptor(new RetryInterceptor(config.retryCount()));
             }
         }
 
-        sHttpExecutor = new HttpExecutor(okHttpClientBuilder.build());
+        OkHttpClient client = okHttpClientBuilder.build();
+        sHttpExecutor = new HttpExecutor(client);
     }
 
     private static Interceptor sApiKeyInterceptor = new Interceptor() {
@@ -185,6 +145,10 @@ public class OneNetApi {
         return Looper.getMainLooper().getThread() == Thread.currentThread();
     }
 
+    private static boolean isSchemeConfigured() {
+        return !TextUtils.isEmpty(Urls.sScheme) && !Urls.sScheme.contains(" ");
+    }
+
     private static boolean isUrlConfigured() {
         return !TextUtils.isEmpty(Urls.sHost) && !Urls.sHost.contains(" ");
     }
@@ -195,6 +159,10 @@ public class OneNetApi {
 
     private static void assertUIThread() {
         Assertions.assertCondition(isOnUIThread(), "Expected to run on UI thread!");
+    }
+
+    private static void assertSchemeConfigured() {
+        Assertions.assertCondition(isSchemeConfigured(), "Api scheme must be configured in AndroidManifest.xml!");
     }
 
     private static void assertUrlConfigured() {
@@ -209,6 +177,7 @@ public class OneNetApi {
      */
     public static void get(String url, OneNetApiCallback callback) {
         assertInitialized();
+        assertSchemeConfigured();
         assertUrlConfigured();
         sHttpExecutor.get(url, new OneNetApiCallbackAdapter(callback));
     }
@@ -222,6 +191,7 @@ public class OneNetApi {
      */
     public static void post(String url, String requestBodyString, OneNetApiCallback callback) {
         assertInitialized();
+        assertSchemeConfigured();
         assertUrlConfigured();
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), requestBodyString);
         sHttpExecutor.post(url, requestBody, new OneNetApiCallbackAdapter(callback));
@@ -236,6 +206,7 @@ public class OneNetApi {
      */
     public static void post(String url, File file, OneNetApiCallback callback) {
         assertInitialized();
+        assertSchemeConfigured();
         assertUrlConfigured();
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/octet-stream"), file);
         sHttpExecutor.post(url, requestBody, new OneNetApiCallbackAdapter(callback));
@@ -250,6 +221,7 @@ public class OneNetApi {
      */
     public static void post(String url, byte[] content, OneNetApiCallback callback) {
         assertInitialized();
+        assertSchemeConfigured();
         assertUrlConfigured();
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/octet-stream"), content);
         sHttpExecutor.post(url, requestBody, new OneNetApiCallbackAdapter(callback));
@@ -264,6 +236,7 @@ public class OneNetApi {
      */
     public static void put(String url, String requestBodyString, OneNetApiCallback callback) {
         assertInitialized();
+        assertSchemeConfigured();
         assertUrlConfigured();
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), requestBodyString);
         sHttpExecutor.put(url, requestBody, new OneNetApiCallbackAdapter(callback));
@@ -277,6 +250,7 @@ public class OneNetApi {
      */
     public static void delete(String url, OneNetApiCallback callback) {
         assertInitialized();
+        assertSchemeConfigured();
         assertUrlConfigured();
         sHttpExecutor.delete(url, new OneNetApiCallbackAdapter(callback));
     }
